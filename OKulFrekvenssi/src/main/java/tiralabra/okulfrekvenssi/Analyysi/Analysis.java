@@ -11,10 +11,18 @@ package tiralabra.okulfrekvenssi.Analyysi;
  */
 public class Analysis {
 
+    /**
+     * suomalaiset aakkoset
+     */
     public final static char[] ALPHABET = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
         'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
-    //http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+    
+
+    /**
+     * Englanninkielisen korpuksen merkkien määrät, lähteenä
+     * http://pi.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+     */
     public final static int[] ENGLISH_FREQUENCY
             = new int[]{14810, 2715, 4943, 7874, 21912,
                 4200, 3693, 10795, 13318, 188,
@@ -24,6 +32,9 @@ public class Analysis {
                 128, 0, 0, 0
             };
 
+    /**
+     * ero aritmeettisesta keskiarvosta keskihajonnan kertoimena
+     */
     public final static double[] ENGLISH_NORMALIZED_FREQUENCY
             = new double[]{
                 1.4229115, -0.5961806, -0.2242470, 0.2650427, 2.6084917, 
@@ -36,8 +47,8 @@ public class Analysis {
 
     /**
      *
-     * @param crypted
-     * @return
+     * @param crypted salattu teksti
+     * @return frekvenssit
      */
     public static int[] calcFrequencies(String crypted) {
         int[] freq = new int[29];
@@ -58,8 +69,9 @@ public class Analysis {
     //varmaan menee turhan monimutkaiseksi, mutta saattaa olla hyödyllinen
     /**
      *
-     * @param ciphertext
-     * @return
+     * @param ciphertext salattu teksti
+     * @return frekvenssien ero aritmeettisesta keskiarvosta keskihajonnan 
+     * kertoimena
      */
     public static double[] normalizedFrequencies(String ciphertext) {
         int[] freq = calcFrequencies(ciphertext);

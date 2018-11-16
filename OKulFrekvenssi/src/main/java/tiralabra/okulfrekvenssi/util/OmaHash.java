@@ -17,7 +17,7 @@ public class OmaHash<K, V> {
     private V[] table;
 
     /**
-     *
+     * luo 256-paikkaisen taulun, riittää [a-z]
      */
     public OmaHash() {
         //nykytarkoituksiin riittävä, muistivaatimus ei optimi mutta
@@ -25,11 +25,21 @@ public class OmaHash<K, V> {
         this.table = (V[]) new Object[256];
     }
     
+    /**
+     *
+     * @param size määrää taulun koon
+     */
     public OmaHash(int size) {
         this.table = (V[]) new Object[size];
     }
     
     //sama algoritmi kuin normi hashmapin hash-funktio
+
+    /**
+     *
+     * @param key avain
+     * @return hash
+     */
     
     public static final int hash(Object key) {
         if(key == null) {

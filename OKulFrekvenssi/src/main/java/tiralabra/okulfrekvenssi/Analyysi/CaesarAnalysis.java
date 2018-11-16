@@ -5,7 +5,6 @@
  */
 package tiralabra.okulfrekvenssi.Analyysi;
 
-import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Ciphers.Caesar;
 
 /**

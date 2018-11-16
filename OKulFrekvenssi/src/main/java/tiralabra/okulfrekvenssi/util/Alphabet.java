@@ -13,15 +13,38 @@ import tiralabra.okulfrekvenssi.util.OmaHash;
  */
 public class Alphabet {
 
+    /**
+     * Suomalaiset aakkoset
+     */
     public final static char[] SUOMI = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
         'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
+
+    /**
+     * Englantilaiset aakkoset
+     */
     public final static char[] ENGLISH = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
         'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
         'w', 'x', 'y', 'z'};
+
+    /**
+     * hash jossa avaimina suomalaiset aakkoset, arvoina järjestysluvut
+     */
     public final static OmaHash<Character, Integer> SUOMI_CHAR_INT = new OmaHash<>();
+
+    /**
+     * hash jossa avaimina järjestysluvut, arvoina suomalaiset aakkoset
+     */
     public final static OmaHash<Integer, Character> SUOMI_INT_CHAR = new OmaHash<>();
+
+    /**
+     *  hash jossa avaimina englantilaiset aakkoset, arvoina järjestysluvut
+     */
     public final static OmaHash<Character, Integer> ENGLISH_CHAR_INT = new OmaHash<>();
+
+    /**
+     * hash jossa avaimina järjestysluvut, arvoina englantilaiset aakkoset
+     */
     public final static OmaHash<Integer, Character> ENGLISH_INT_CHAR = new OmaHash<>();
 
     static {
