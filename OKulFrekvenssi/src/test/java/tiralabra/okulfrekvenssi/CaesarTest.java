@@ -5,6 +5,7 @@
  */
 package tiralabra.okulfrekvenssi;
 
+import tiralabra.okulfrekvenssi.Ciphers.Caesar;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

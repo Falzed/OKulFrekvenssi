@@ -1,7 +1,9 @@
-package tiralabra.okulfrekvenssi;
+package tiralabra.okulfrekvenssi.Ciphers;
 
 import java.util.Arrays;
 import java.util.stream.IntStream;
+import tiralabra.okulfrekvenssi.util.Alphabet;
+import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
  *
@@ -11,7 +13,8 @@ public class Vigenere {
 
     private final char[][] keytable;
     private final char[] alphabet;
-//    private final String alphabet;
+    private final OmaHash<Integer, Character> hash = Alphabet.SUOMI_INT_CHAR;
+    private final OmaHash<Character, Integer> hash2 = Alphabet.SUOMI_CHAR_INT;
 
     /**
      *
@@ -86,8 +89,17 @@ public class Vigenere {
         char[] mess = message.toCharArray();
         char[] ciphertext = new char[mess.length];
         for (int i = 0; i < mess.length; i++) {
-            int messCharIndex = indexOf(mess[i], this.alphabet);
-            int row = indexOf(pass.charAt(i), this.alphabet);
+            int messCharIndex = this.hash2.get(mess[i]);
+//            int messCharIndex = indexOf(mess[i], this.alphabet);
+//            System.out.println(mess[i]);
+//            System.out.println(this.hash2.get(mess[i]));
+//            System.out.println(indexOf(mess[i], this.alphabet));
+//            System.out.println(this.hash2.get(mess[i])==indexOf(mess[i], this.alphabet));
+            int row = this.hash2.get(pass.charAt(i));
+//            System.out.println(this.hash2.get(pass.charAt(i)));
+//            System.out.println(indexOf(pass.charAt(i), this.alphabet));
+//            System.out.println(this.hash2.get(pass.charAt(i))==indexOf(pass.charAt(i), this.alphabet));
+//            int row = indexOf(pass.charAt(i), this.alphabet);
 //            System.out.println(row+", "+messCharIndex);
             ciphertext[i] = this.keytable[row][messCharIndex];
         }
@@ -107,14 +119,18 @@ public class Vigenere {
         while (pass.length() + passphrase.length() < crypted.length()) {
             pass = pass + passphrase;
         }
+        System.out.println(crypted);
+        System.out.println(pass);
         pass = pass + passphrase.substring(0, crypted.length() - pass.length());
 
         char[] crypt = crypted.toCharArray();
         char[] plaintext = new char[crypt.length];
 
         for (int i = 0; i < crypt.length; i++) {
-            int row = indexOf(pass.charAt(i), this.alphabet);
-            int indeksi = indexOf(crypt[i], this.keytable[row]);
+//            int row = indexOf(pass.charAt(i), this.alphabet);
+            int row = hash2.get(pass.charAt(i));
+//            int indeksi = indexOf(crypt[i], this.keytable[row]);
+            int indeksi = (hash2.get(crypt[i])-row+29)%alphabet.length;
             char plain = alphabet[indeksi];
             plaintext[i] = plain;
         }

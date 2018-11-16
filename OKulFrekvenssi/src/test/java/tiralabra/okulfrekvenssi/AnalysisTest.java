@@ -5,6 +5,7 @@
  */
 package tiralabra.okulfrekvenssi;
 
+import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
