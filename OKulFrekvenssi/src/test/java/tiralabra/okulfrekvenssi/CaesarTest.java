@@ -33,13 +33,21 @@ public class CaesarTest {
 
     @Test
     public void testEncrypt() {
+        long start = System.nanoTime();
         String encrypted = caesar.encrypt("testmessage", 5);
+        long end = System.nanoTime();
+        System.out.println("aika \"testmessage\"-viestin salaukseen: "+
+                (end-start)+" ns");
         assertEquals(encrypted, "yjxyrjxxflj");
     }
     
     @Test
     public void testDecrypt() {
+        long start = System.nanoTime();
         String decrypted = caesar.decrypt("yjxyrjxxflj", 5);
+        long end = System.nanoTime();
+        System.out.println("aika \"yjxyrjxxflj\"-viestin dekryptaukseen: "+
+                (end-start)+" ns");
         assertEquals(decrypted, "testmessage");
     }
     

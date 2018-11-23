@@ -4,7 +4,7 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
- *
+ * Lisätietoa: http://rumkin.com/tools/cipher/caesar.php
  * @author Oskari
  */
 public class Caesar {
@@ -26,7 +26,7 @@ public class Caesar {
      */
     public String encrypt(String plain, int offset) {
         plain = plain.toLowerCase();
-        plain = plain.replaceAll("[^a-z]", "");
+        plain = plain.replaceAll("[^a-zåäö]", "");
         String crypted = "";
         for (char c : plain.toCharArray()) {
 //            System.out.println(hash.get((hash2.get(c)+offset)%29));
@@ -43,7 +43,7 @@ public class Caesar {
      */
     public String decrypt(String crypted, int offset) {
         crypted = crypted.toLowerCase();
-        crypted = crypted.replaceAll("[^a-z]", "");
+        crypted = crypted.replaceAll("[^a-zåäö]", "");
         String plain = "";
         for (char c : crypted.toCharArray()) {
 //            System.out.println(c);

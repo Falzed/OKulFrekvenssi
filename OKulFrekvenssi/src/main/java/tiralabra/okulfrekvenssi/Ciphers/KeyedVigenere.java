@@ -4,60 +4,69 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
- * Lisätietoa:  http://rumkin.com/tools/cipher/vigenere.php
+ * Lisätietoa: http://rumkin.com/tools/cipher/vigenere-keyed.php
  * @author Oskari
  */
-public class Vigenere {
+public class KeyedVigenere {
 
     private final char[][] keytable;
     private final char[] alphabet;
-    private final OmaHash<Integer, Character> hash = Alphabet.SUOMI_INT_CHAR;
-    private final OmaHash<Character, Integer> hash2 = Alphabet.SUOMI_CHAR_INT;
+    private final OmaHash<Integer, Character> hash;
+    private final OmaHash<Character, Integer> hash2;
+    
+    /**
+     * 
+     * @param key avain
+     */
+    public KeyedVigenere(String key) {
+
+        String abc = new String(Alphabet.SUOMI);
+        char[] newKey = new char[key.length()];
+        int n = 0;
+        OmaHash<Character, Integer> apuhash = new OmaHash<>();
+        for (int i = 0; i < key.length(); i++) {
+            if (apuhash.get(key.charAt(i)) == null) {
+                newKey[n] = key.charAt(i);
+                n++;
+                apuhash.put(key.charAt(i), 1);
+            }
+        }
+        String uusiAvainString = (new String(newKey)).substring(0, n);
+        for (int i = 0; i < uusiAvainString.length(); i++) {
+            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
+        }
+        abc = uusiAvainString.concat(abc);
+        System.out.println(abc);
+        this.hash = new OmaHash<>();
+        this.hash2 = new OmaHash<>();
+        for (int i = 0; i < abc.length(); i++) {
+            hash.put(i, abc.charAt(i));
+            hash2.put(abc.charAt(i), i);
+        }
+        this.alphabet = abc.toCharArray();
+        this.keytable = new char[abc.length()][abc.length()];
+        for (int i = 0; i < alphabet.length; i++) {
+            this.keytable[i] = abc.substring(i).concat(abc.substring(0, i))
+                    .toCharArray();
+        }
+    }
 
     /**
      *
      */
-    public Vigenere() {
-//        String passphrase = pass.toLowerCase();
-        //Korvaa kotitekoisella hashmapilla myöhemmin
+    public KeyedVigenere() {
+        this.hash = Alphabet.SUOMI_INT_CHAR;
+        this.hash2 = Alphabet.SUOMI_CHAR_INT;
         this.alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
             'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
-//        this.alphabet = "abcdefghijklmnopqrstuvwxyzåäö";
 
-//        this.keytable = new char[alphabet.length][passphrase.length()];
         String abc = "abcdefghijklmnopqrstuvwxyzåäö";
         this.keytable = new char[alphabet.length][alphabet.length];
         for (int i = 0; i < alphabet.length; i++) {
             this.keytable[i] = abc.substring(i).concat(abc.substring(0, i))
                     .toCharArray();
         }
-
-//        for (int i = 0; i < alphabet.length; i++) {
-//            for (int j = 0; j < passphrase.length(); j++) {
-//                int k = i+indexOf(passphrase.toCharArray()[j],alphabet)-1;
-//                System.out.println("i:"+i+", j:"+j);
-//                System.out.println("k:"+k);
-//                System.out.println("k%alphabet.length:"+k%alphabet.length);
-//                keytable[i][j] = alphabet[k%alphabet.length];
-//            }
-//        }
-    }
-
-    //Korvaa myöhemmin kotitekoisella hashmapilla
-    /**
-     * @param etsittava etsittävä merkki
-     * @param taulu taulu jossa etsitään
-     * @return ensimmäisen täsmäävän taulukon jäsenen indeksi
-     */
-    private int indexOf(char etsittava, char[] taulu) {
-//        System.out.println("etsittava: "+etsittava);
-        for (int i = 0; i < taulu.length; i++) {
-            if (taulu[i] == etsittava) {
-                return i;
-            }
-        }
-        return -1;
     }
 
     /**
@@ -90,16 +99,11 @@ public class Vigenere {
         for (int i = 0; i < mess.length; i++) {
             int messCharIndex = this.hash2.get(mess[i]);
 //            int messCharIndex = indexOf(mess[i], this.alphabet);
-//            System.out.println(mess[i]);
-//            System.out.println(this.hash2.get(mess[i]));
-//            System.out.println(indexOf(mess[i], this.alphabet));
-//            System.out.println(this.hash2.get(mess[i])==indexOf(mess[i], this.alphabet));
+            
             int row = this.hash2.get(pass.charAt(i));
-//            System.out.println(this.hash2.get(pass.charAt(i)));
-//            System.out.println(indexOf(pass.charAt(i), this.alphabet));
-//            System.out.println(this.hash2.get(pass.charAt(i))==indexOf(pass.charAt(i), this.alphabet));
+            
 //            int row = indexOf(pass.charAt(i), this.alphabet);
-//            System.out.println(row+", "+messCharIndex);
+            System.out.println(row+", "+messCharIndex+", "+this.keytable[row][messCharIndex]);
             ciphertext[i] = this.keytable[row][messCharIndex];
         }
 
@@ -113,9 +117,6 @@ public class Vigenere {
      * @return paljas teksti
      */
     public String decrypt(String crypted, String passphrase) {
-        crypted = crypted.toLowerCase();
-        crypted = crypted.replaceAll("[^a-zåäö]", "");
-        
         passphrase = passphrase.toLowerCase();
         String pass = passphrase;
         while (pass.length() + passphrase.length() < crypted.length()) {
@@ -132,7 +133,7 @@ public class Vigenere {
 //            int row = indexOf(pass.charAt(i), this.alphabet);
             int row = hash2.get(pass.charAt(i));
 //            int indeksi = indexOf(crypt[i], this.keytable[row]);
-            int indeksi = (hash2.get(crypt[i])-row+29)%alphabet.length;
+            int indeksi = (hash2.get(crypt[i]) - row + 29) % alphabet.length;
             char plain = alphabet[indeksi];
             plaintext[i] = plain;
         }

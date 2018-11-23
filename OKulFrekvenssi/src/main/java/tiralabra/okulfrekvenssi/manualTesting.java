@@ -7,6 +7,8 @@ import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
 import tiralabra.okulfrekvenssi.Analyysi.CaesarAnalysis;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import java.util.Arrays;
+import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
+import tiralabra.okulfrekvenssi.Ciphers.*;
 
 public class manualTesting {
 
@@ -60,23 +62,31 @@ public class manualTesting {
 //        ohash.put('a', 5);
 //        System.out.println(ohash.get('a'));
 
-//        String testmessage = "Bring upon sixth all yielding waters firmament, own third days fill he deep lights called life unto meat every land were. Seas also rule.\n"
-//                + "\n"
-//                + "For won't day female fowl set his herb created spirit greater, his beast day land itself you're third evening created whose, dry firmament together multiply light gathering all replenish he creature.\n"
-//                + "\n"
-//                + "Fly herb let given sea she'd i gathering seed place meat seas after air, to. Made. It replenish. Unto. Fill together. Male void. Own a saying fill upon lesser appear very made is that. To let you. Whose lights image. Grass can't. Whose multiply after.";
+        String testmessage = "Bring upon sixth all yielding waters firmament, own third days fill he deep lights called life unto meat every land were. Seas also rule.\n"
+                + "\n"
+                + "For won't day female fowl set his herb created spirit greater, his beast day land itself you're third evening created whose, dry firmament together multiply light gathering all replenish he creature.\n"
+                + "\n"
+                + "Fly herb let given sea she'd i gathering seed place meat seas after air, to. Made. It replenish. Unto. Fill together. Male void. Own a saying fill upon lesser appear very made is that. To let you. Whose lights image. Grass can't. Whose multiply after.";
         
-        String testmessage="attackatdawnthisisatestmessage maybe this is longenough now";
-        testmessage = testmessage.toLowerCase();
-        testmessage = testmessage.replaceAll("[^a-z]", "");
-        int k = CaesarAnalysis.bestGuess(testmessage, Analysis.ALPHABET);
-        System.out.println(k);
-        System.out.println(caesar.decrypt(testmessage, k));
-        double sum = 0;
-        
-        double[] norm1 = Analysis.normalizedFrequencies(caesar.decrypt(testmessage, 0));
-        double[] norm2 = Analysis.normalizedFrequencies(testmessage);
-        System.out.println(Arrays.equals(norm1, norm2));
-        System.out.println(testmessage.equals(caesar.decrypt(testmessage, 0)));
+//        String testmessage="attackatdawnthisisatestmessage maybe this is longenough now";
+//        testmessage = testmessage.toLowerCase();
+//        testmessage = testmessage.replaceAll("[^a-z]", "");
+//        int k = CaesarAnalysis.bestGuess(testmessage, Analysis.ALPHABET);
+//        System.out.println(k);
+//        System.out.println(caesar.decrypt(testmessage, k));
+//        double sum = 0;
+//        
+//        double[] norm1 = Analysis.normalizedFrequencies(caesar.decrypt(testmessage, 0));
+//        double[] norm2 = Analysis.normalizedFrequencies(testmessage);
+//        System.out.println(Arrays.equals(norm1, norm2));
+//        System.out.println(testmessage.equals(caesar.decrypt(testmessage, 0)));
+
+//        System.out.println(VigenereAnalysis.bestGuess(vig.encrypt(testmessage, "test"), Analysis.ALPHABET));
+        KeyedCaesar kcaesar = new KeyedCaesar("avain");
+        KeyedVigenere kvig = new KeyedVigenere("avain");
+//        System.out.println(kcaesar.encrypt(testmessage, 6));
+        for(char[] array:kvig.getKeytable()) {
+            System.out.println(Arrays.toString(array));
+        }
     }
 }

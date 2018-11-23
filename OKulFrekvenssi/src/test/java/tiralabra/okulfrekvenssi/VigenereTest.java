@@ -67,11 +67,16 @@ public class VigenereTest {
         String passphrase = "test";
         Vigenere instance = new Vigenere();
         String expResult = "jihjcihitkw";
+        long start = System.nanoTime();
         String result = instance.encrypt(message, passphrase);
+        long end = System.nanoTime();
         assertEquals(expResult, result);
+        long start2 = System.nanoTime();
         String resultDecrypt = instance.decrypt(expResult, passphrase);
+        long end2 = System.nanoTime();
         assertEquals(message, resultDecrypt);
 
+        System.out.println((end-start)+", "+(end2-start2));
         String message2 = "testboundary";
         String passphrase2 = "qwefgjnioxm";
         String encryptResult2 = instance.encrypt(message2, passphrase2);
