@@ -19,7 +19,7 @@ public class Vigenere {
     private final OmaHash<Character, Integer> capsHash2 = Alphabet.SUOMI_CAPS_CHAR_INT;
 
     /**
-     *
+     * Alustaa luokan olion
      */
     public Vigenere() {
 //        String passphrase = pass.toLowerCase();
