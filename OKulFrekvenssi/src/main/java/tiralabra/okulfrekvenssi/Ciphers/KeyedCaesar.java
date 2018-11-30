@@ -10,6 +10,7 @@ import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
  * Lisätietoa: http://rumkin.com/tools/cipher/caesar-keyed.php
+ *
  * @author Oskari
  */
 public class KeyedCaesar {
@@ -19,7 +20,7 @@ public class KeyedCaesar {
     private final String aakkosto;
 
     /**
-     *
+     * Alustaa luokan olion annetulla avaimella
      * @param key avain
      */
     public KeyedCaesar(String key) {
@@ -35,22 +36,23 @@ public class KeyedCaesar {
             }
         }
         String uusiAvainString = (new String(newKey)).substring(0, n);
-        for (int i = 0; i < uusiAvainString.length(); i++) {
-            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
-        }
+        abc = Alphabet.removeAll(abc, uusiAvainString);
+//        for (int i = 0; i < uusiAvainString.length(); i++) {
+//            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
+//        }
         abc = uusiAvainString.concat(abc);
         System.out.println(abc);
         this.hashCharInt = new OmaHash<>();
         this.hashIntChar = new OmaHash<>();
         for (int i = 0; i < abc.length(); i++) {
-            hashIntChar.put(i,abc.charAt(i));
+            hashIntChar.put(i, abc.charAt(i));
             hashCharInt.put(abc.charAt(i), i);
         }
         this.aakkosto = abc;
     }
 
     /**
-     *
+     * Alustaa luokan olion avaimena tyhjä merkkijono
      */
     public KeyedCaesar() {
         this.hashIntChar = Alphabet.SUOMI_INT_CHAR;
@@ -65,13 +67,20 @@ public class KeyedCaesar {
      * @return salattu teksti
      */
     public String encrypt(String plain, int offset) {
-        plain = plain.toLowerCase();
-        plain = plain.replaceAll("[^a-zåäö]", "");
         String crypted = "";
         for (char c : plain.toCharArray()) {
-            crypted = crypted.concat(hashIntChar.get((Alphabet.SUOMI_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
+            if (Alphabet.isFinnishLetter(c)) {
+                crypted = crypted.concat(hashIntChar.get((Alphabet.SUOMI_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
+            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+                crypted = crypted.concat(Alphabet.SUOMI_CAPS_INT_CHAR.get((Alphabet.SUOMI_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
+//            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
+//            System.out.println(crypted);
+            } else {
+                crypted = crypted.concat(String.valueOf(c));
+            }
+
         }
         return crypted;
     }
@@ -83,14 +92,23 @@ public class KeyedCaesar {
      * @return salaamaton teksti
      */
     public String decrypt(String crypted, int offset) {
-        crypted = crypted.toLowerCase();
-        crypted = crypted.replaceAll("[^a-zåäö]", "");
         String plain = "";
         for (char c : crypted.toCharArray()) {
+            if (Alphabet.isFinnishLetter(c)) {
 //            System.out.println(c+", "+hashCharInt.get(c)+", "+Alphabet.SUOMI_INT_CHAR.get(hashCharInt.get(c))+", "+(hashCharInt.get(c)-offset+29)%29);
-            plain = plain.concat(
-                    Alphabet.SUOMI_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
-                            % aakkosto.length()).toString());
+                plain = plain.concat(
+                        Alphabet.SUOMI_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
+                                % aakkosto.length()).toString());
+
+            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+                //            System.out.println(c+", "+hashCharInt.get(c)+", "+Alphabet.SUOMI_INT_CHAR.get(hashCharInt.get(c))+", "+(hashCharInt.get(c)-offset+29)%29);
+                plain = plain.concat(
+                        Alphabet.SUOMI_CAPS_INT_CHAR.get((Alphabet.SUOMI_CAPS_CHAR_INT.get(c) - offset + aakkosto.length())
+                                % aakkosto.length()).toString());
+
+            } else {
+                plain = plain.concat(String.valueOf(c));
+            }
         }
         return plain;
     }

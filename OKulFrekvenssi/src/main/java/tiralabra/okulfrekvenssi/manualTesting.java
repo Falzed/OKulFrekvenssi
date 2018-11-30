@@ -1,7 +1,6 @@
 package tiralabra.okulfrekvenssi;
 
 //testausta/debugausta varten koodatessa
-
 import tiralabra.okulfrekvenssi.Ciphers.Caesar;
 import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
 import tiralabra.okulfrekvenssi.Analyysi.CaesarAnalysis;
@@ -9,8 +8,12 @@ import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import java.util.Arrays;
 import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
 import tiralabra.okulfrekvenssi.Ciphers.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
+import tiralabra.okulfrekvenssi.util.OmaHash;
 
 public class manualTesting {
+
+    private static final OmaHash<Character, Integer> capsHash2 = Alphabet.SUOMI_CHAR_INT;
 
     public static void main(String[] args) {
         Vigenere vig = new Vigenere();
@@ -67,7 +70,7 @@ public class manualTesting {
                 + "For won't day female fowl set his herb created spirit greater, his beast day land itself you're third evening created whose, dry firmament together multiply light gathering all replenish he creature.\n"
                 + "\n"
                 + "Fly herb let given sea she'd i gathering seed place meat seas after air, to. Made. It replenish. Unto. Fill together. Male void. Own a saying fill upon lesser appear very made is that. To let you. Whose lights image. Grass can't. Whose multiply after.";
-        
+
 //        String testmessage="attackatdawnthisisatestmessage maybe this is longenough now";
 //        testmessage = testmessage.toLowerCase();
 //        testmessage = testmessage.replaceAll("[^a-z]", "");
@@ -80,13 +83,20 @@ public class manualTesting {
 //        double[] norm2 = Analysis.normalizedFrequencies(testmessage);
 //        System.out.println(Arrays.equals(norm1, norm2));
 //        System.out.println(testmessage.equals(caesar.decrypt(testmessage, 0)));
-
 //        System.out.println(VigenereAnalysis.bestGuess(vig.encrypt(testmessage, "test"), Analysis.ALPHABET));
         KeyedCaesar kcaesar = new KeyedCaesar("avain");
         KeyedVigenere kvig = new KeyedVigenere("avain");
 //        System.out.println(kcaesar.encrypt(testmessage, 6));
-        for(char[] array:kvig.getKeytable()) {
-            System.out.println(Arrays.toString(array));
-        }
+//        for(char[] array:kvig.getKeytable()) {
+//            System.out.println(Arrays.toString(array));
+//        }
+
+//        System.out.println(Alphabet.SUOMI_CAPS_CHAR_INT.get('B'));
+//        OmaHash<Character, Integer> capsHashTest = Alphabet.SUOMI_CHAR_INT;
+//        System.out.println(capsHash2.get('B'));
+//        System.out.println(capsHashTest.get('B'));
+//        System.out.println(Alphabet.removeAll("abcdefghijk", "cfg"));
+        System.out.println(vig.encrypt("a a a a", "abcd"));
+        System.out.println(vig.encrypt("aaaa", "abcd"));
     }
 }

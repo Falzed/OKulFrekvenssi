@@ -12,11 +12,12 @@ import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
  *
  * @author Oskari
  */
-public class VigenereAnalysis {
+public class KeyedVigenereAnalysis {
 
     /**
-     * Jakaa salatun tekstin koseteihin, eli jos teksti on abcdefghij ja 
+     * Jakaa salatun tekstin koseteihin, eli jos teksti on abcdefghij ja
      * salasana on 4 merkkiä kosetit ovat aei, bfj, cg, dh
+     *
      * @param ciphertext salattu teksti
      * @param passLength salasanan pituus
      * @return kosetit
@@ -34,47 +35,33 @@ public class VigenereAnalysis {
     }
 
     /**
-     * Paras arvaus salaamattomalle tekstille. Jakaa salatun tekstin ensin i
-     * sivuluokkaan, sitten laskee kosettien frekvenssien poikkeaman englannin 
-     * frekvensseistä samoin kuin Caesar-analyysissä ja ottaa keskiarvon. 
-     * Valitaan sivuluokkien määrä jolla saadaan pienin keskiarvo, ja dekryptataan
-     * sillä arvauksella.
+     * (KESKEN) Paras arvaus salaamattomalle tekstille. Jakaa salatun tekstin ensin i
+     * sivuluokkaan.
+     *
      * @param ciphertext salattu teksti
      * @param alphabet aakkosto
      * @return (toivottavasti oikein) dekryptattu teksti
      */
     public static String bestGuess(String ciphertext, char[] alphabet) {
         Vigenere vig = new Vigenere();
-        String abc = new String(Alphabet.SUOMI);
-        String ABC = new String(Alphabet.SUOMI_CAPS);
-        String cipherPruned = Alphabet.removeAllBut(ciphertext, abc.concat(ABC));
-//        System.out.println(cipherPruned);
-        int maxPassLength = (cipherPruned.length() > 50) ? 50 : cipherPruned.length();
+        int maxPassLength = (ciphertext.length() > 50) ? 50 : ciphertext.length();
+        int maxKeyLength = 10;
 //        double[] normFrequencyAvgs = new double[maxPassLength];
         int[][] bestGuesses = new int[maxPassLength][maxPassLength];
         String[] passphraseGuesses = new String[maxPassLength];
         double min = Double.MAX_VALUE;
         int bestLength = -1;
         for (int i = 1; i < maxPassLength + 1; i++) {
-            String[] cosets = getCosets(cipherPruned, i);
-            passphraseGuesses[i - 1] = "";
-            double avg = 0;
-            for (int j = 0; j < i; j++) {
-                bestGuesses[i - 1][j] = CaesarAnalysis.bestGuess(cosets[j], alphabet);
-//                System.out.print((j == 0) ? bestGuesses[i - 1][j] : (", " + bestGuesses[i - 1][j]));
-                String uusi = Alphabet.SUOMI_INT_CHAR.get(bestGuesses[i - 1][j]).toString();
-                passphraseGuesses[i - 1] = passphraseGuesses[i - 1].concat(uusi);
-                avg += CaesarAnalysis.getNormalizedFrequenciesSum(cosets[j],
-                        bestGuesses[i - 1][j]);
-            }
-//            System.out.println("");
-            avg = avg / i;
-//            normFrequencyAvgs[i - 1] = avg;
-            if (avg < min) {
-                min = avg;
-                bestLength = i;
-            }
-//            System.out.println(avg);            
+            String[] cosets = getCosets(ciphertext, i);
+            for(int j=1; j<maxKeyLength; j++) {
+                String keyGuess = "";
+                double minKey = Double.MAX_VALUE;
+                char bestKey = '#';
+                for(int k=0; k<30-j; k++) {
+                    String keyGuess2 = keyGuess.concat(String.valueOf(Alphabet.SUOMI[k]));
+                    
+                }
+            }        
         }
 
 //        for(String guess:passphraseGuesses) {

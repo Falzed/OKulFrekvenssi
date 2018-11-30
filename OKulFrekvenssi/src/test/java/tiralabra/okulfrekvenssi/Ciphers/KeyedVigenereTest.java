@@ -51,7 +51,7 @@ public class KeyedVigenereTest {
     public void testEncrypt() {
               
         System.out.println("encrypt");
-        String message = "books";
+        String message = "Books";
         String passphrase = "auto";
         KeyedVigenere instance = new KeyedVigenere("key");
         
@@ -59,9 +59,34 @@ public class KeyedVigenereTest {
             System.out.println(new String(array));
         }
         
-        String expResult = "ffdov";
+        String expResult = "Ffdov";
         String result = instance.encrypt(message, passphrase);
         assertEquals(expResult, result);
+        
+        long end;
+        long start;
+        long min = Long.MAX_VALUE;
+        long max = 0;
+        int maxi = -1;
+        int mini = -1;
+        long sum = 0;
+        String crypted = "";
+        for (int i = 0; i < 1000; i++) {
+            start = System.nanoTime();
+            crypted = instance.encrypt("Testmessage", "test");
+            end = System.nanoTime();
+            sum += end - start;
+            if (min > (end - start)) {
+                min = end - start;
+                mini=i;
+            }
+            if (max < (end - start)) {
+                max = end - start;
+                maxi=i;
+            }
+        }
+//        System.out.println(crypted);
+        System.out.println("avg encrypt time: "+(sum/1000));
     }
 
     /**
@@ -76,6 +101,29 @@ public class KeyedVigenereTest {
         String expResult = "books";
         String result = instance.decrypt(crypted, passphrase);
         assertEquals(expResult, result);
+        
+        long end;
+        long start;
+        long min = Long.MAX_VALUE;
+        long max = 0;
+        int maxi = -1;
+        int mini = -1;
+        long sum = 0;
+        for (int i = 0; i < 1000; i++) {
+            start = System.nanoTime();
+            crypted = instance.decrypt("Jyhjbyhiwht", "test");
+            end = System.nanoTime();
+            sum += end - start;
+            if (min > (end - start)) {
+                min = end - start;
+                mini=i;
+            }
+            if (max < (end - start)) {
+                max = end - start;
+                maxi=i;
+            }
+        }
+        System.out.println("avg decrypt time: "+(sum/1000));
     }
     
 }

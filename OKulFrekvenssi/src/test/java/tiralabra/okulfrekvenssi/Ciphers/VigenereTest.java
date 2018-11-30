@@ -1,4 +1,4 @@
-package tiralabra.okulfrekvenssi;
+package tiralabra.okulfrekvenssi.Ciphers;
 
 import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
 import org.junit.After;
@@ -63,25 +63,65 @@ public class VigenereTest {
     @Test
     public void testEncrypt() {
         System.out.println("encrypt");
-        String message = "testmessage";
+        String message = "Testmessage";
         String passphrase = "test";
-        Vigenere instance = new Vigenere();
-        String expResult = "jihjcihitkw";
+        Vigenere vig = new Vigenere();
+        String expResult = "Jihjcihitkw";
+        
         long start = System.nanoTime();
-        String result = instance.encrypt(message, passphrase);
+        String encrypted = vig.encrypt(message, passphrase);
         long end = System.nanoTime();
-        assertEquals(expResult, result);
+        assertEquals(expResult, encrypted);
         long start2 = System.nanoTime();
-        String resultDecrypt = instance.decrypt(expResult, passphrase);
+        String resultDecrypt = vig.decrypt(expResult, passphrase);
         long end2 = System.nanoTime();
         assertEquals(message, resultDecrypt);
 
+        long min = Long.MAX_VALUE;
+        long max = 0;
+        int maxi = -1;
+        int mini = -1;
+        long sum = 0;
+        long minDec = Long.MAX_VALUE;
+        long maxDec = 0;
+        int maxiDec = -1;
+        int miniDec = -1;
+        long sumDec = 0;
+        for (int i = 0; i < 1000; i++) {
+            start = System.nanoTime();
+            encrypted = vig.encrypt("Testmessage", "test");
+            end = System.nanoTime();
+            sum += end - start;
+            if (min > (end - start)) {
+                min = end - start;
+                mini=i;
+            }
+            if (max < (end - start)) {
+                max = end - start;
+                maxi=i;
+            }
+        }
+        for (int i = 0; i < 1000; i++) {
+            start = System.nanoTime();
+            encrypted = vig.encrypt("Testmessage", "test");
+            end = System.nanoTime();
+            sumDec += end - start;
+            if (min > (end - start)) {
+                min = end - start;
+                miniDec=i;
+            }
+            if (max < (end - start)) {
+                max = end - start;
+                maxiDec=i;
+            }
+        }
+        System.out.println("avg encrypt time: "+(sum/1000)+", avg decrypt time: "+(sumDec/1000));
         System.out.println((end-start)+", "+(end2-start2));
-        String message2 = "testboundary";
+        String message2 = "test bound.ary";
         String passphrase2 = "qwefgjnioxm";
-        String encryptResult2 = instance.encrypt(message2, passphrase2);
-        assertEquals("gåwyhxevrxal", encryptResult2);
-        assertEquals(message2, instance.decrypt(encryptResult2, passphrase2));
+        String encryptResult2 = vig.encrypt(message2, passphrase2);
+        assertEquals("gåwy hxevr.xal", encryptResult2);
+        assertEquals(message2, vig.decrypt(encryptResult2, passphrase2));
     }
 
 }

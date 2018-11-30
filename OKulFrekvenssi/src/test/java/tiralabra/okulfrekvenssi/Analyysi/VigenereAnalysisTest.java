@@ -18,14 +18,14 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
  * @author Oskari
  */
 public class VigenereAnalysisTest {
-    
+
     public VigenereAnalysisTest() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -38,7 +38,7 @@ public class VigenereAnalysisTest {
         String[] result = VigenereAnalysis.getCosets(ciphertext, 4);
         assertArrayEquals(expectedResult, result);
     }
-    
+
     @Test
     public void testGuess() {
         Vigenere vig = new Vigenere();
@@ -49,8 +49,9 @@ public class VigenereAnalysisTest {
                 + "Fly herb let given sea she'd i gathering seed place meat seas after air, to. Made. It replenish. Unto. Fill together. Male void. Own a saying fill upon lesser appear very made is that. To let you. Whose lights image. Grass can't. Whose multiply after.";
         String ciphertext = vig.encrypt(plaintext, "test");
         System.out.println("expectedResult:");
-        
-        String expectedResult = plaintext.toLowerCase().replaceAll("[^a-z]", "");
+
+//        String expectedResult = plaintext.toLowerCase().replaceAll("[^a-z]", "");
+        String expectedResult = plaintext;
         System.out.println(expectedResult);
         String result = VigenereAnalysis.bestGuess(ciphertext, Alphabet.SUOMI);
         System.out.println("result:");
