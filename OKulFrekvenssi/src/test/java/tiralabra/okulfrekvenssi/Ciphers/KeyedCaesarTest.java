@@ -19,8 +19,8 @@ public class KeyedCaesarTest {
 
     @Test
     public void testEncryptCaesar() {
-        String encrypted = kcaesar.encrypt("abcdefghij", 0);
-        assertEquals("avinbcdefg", encrypted);
+        String encrypted = kcaesar.encrypt("abcdefghij", 5);
+        assertEquals("cdefghjklm", encrypted);
         encrypted = kcaesar.encrypt("testmessage", 5);
 
         long start = System.nanoTime();
@@ -53,7 +53,7 @@ public class KeyedCaesarTest {
 
     @Test
     public void testDecryptCaesar() {
-        String decrypted = kcaesar.decrypt("avinbcdefg", 0);
+        String decrypted = kcaesar.decrypt("cdefghjklm", 5);
         assertEquals("abcdefghij", decrypted);
 
         long start = System.nanoTime();

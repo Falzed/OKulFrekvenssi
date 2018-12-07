@@ -5,6 +5,7 @@ import tiralabra.okulfrekvenssi.Analyysi.CaesarAnalysis;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import java.util.Scanner;
 import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 public class Main {
 
@@ -55,7 +56,7 @@ public class Main {
                 System.out.println("enter offset");
                 int offset = Integer.parseInt(scanner.nextLine());
                 Caesar caesar = new Caesar();
-                System.out.println(caesar.encrypt(plain, offset));
+                System.out.println(caesar.encrypt(plain, offset, Alphabet.SUOMI));
                 break;
             }
             case "decrypt": {
@@ -67,7 +68,7 @@ public class Main {
                 if (offset == -1) {
                     int guess = CaesarAnalysis
                             .bestGuess(cipher, Analysis.ALPHABET);
-                    System.out.println(caesar.decrypt(cipher, guess));
+                    System.out.println(caesar.decrypt(cipher, guess, Analysis.ALPHABET));
                     System.out.println("is this correct y/n?");
                     String yn = scanner.nextLine();
                     if (yn.toLowerCase().equals("y")) {
@@ -75,14 +76,14 @@ public class Main {
                     } else {
                         System.out.println("Other possibilities:");
                         for (int i = 0; i < Analysis.ALPHABET.length; i++) {
-                            System.out.println(caesar.decrypt(cipher, i));
+                            System.out.println(caesar.decrypt(cipher, i, Analysis.ALPHABET));
                             System.out.println("----------------------------------------------------------");
                         }
                         break;
                     }
                 }
 
-                System.out.println(caesar.decrypt(cipher, offset));
+                System.out.println(caesar.decrypt(cipher, offset, Analysis.ALPHABET));
                 break;
             }
             default:

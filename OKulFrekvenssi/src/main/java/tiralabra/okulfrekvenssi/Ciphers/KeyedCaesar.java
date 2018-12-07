@@ -5,6 +5,7 @@
  */
 package tiralabra.okulfrekvenssi.Ciphers;
 
+import java.util.Arrays;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaHash;
 
@@ -41,7 +42,7 @@ public class KeyedCaesar {
 //            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
 //        }
         abc = uusiAvainString.concat(abc);
-        System.out.println(abc);
+//        System.out.println(abc);
         this.hashCharInt = new OmaHash<>();
         this.hashIntChar = new OmaHash<>();
         for (int i = 0; i < abc.length(); i++) {
@@ -49,6 +50,8 @@ public class KeyedCaesar {
             hashCharInt.put(abc.charAt(i), i);
         }
         this.aakkosto = abc;
+        System.out.println(Arrays.toString(Alphabet.SUOMI));
+        System.out.println(Arrays.toString(aakkosto.toCharArray()));
     }
 
     /**

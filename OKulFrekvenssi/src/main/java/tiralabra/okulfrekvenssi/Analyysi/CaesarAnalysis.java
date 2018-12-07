@@ -22,12 +22,10 @@ public class CaesarAnalysis {
      * frekvenssit poikkeavat vähiten englannista)
      */
     public static int bestGuess(String ciphertext, char[] alphabet) {
-        Caesar caesar = new Caesar();
-        
         double min = Double.MAX_VALUE;
         int a = -1;
         for (int i = 0; i < alphabet.length; i++) {
-            double sum = getNormalizedFrequenciesSum(ciphertext, i);
+            double sum = getNormalizedFrequenciesSum(ciphertext, i, alphabet);
             if (sum < min) {
                 min = sum;
                 a = i;
@@ -45,12 +43,12 @@ public class CaesarAnalysis {
      * @return frekvenssien normalisoitu poikkeama englannista
      */
     public static double getNormalizedFrequenciesSum(String ciphertext,
-            int offset) {
+            int offset, char[] alphabet) {
         Caesar caesar = new Caesar();
         double[] normEnglish = Analysis.ENGLISH_NORMALIZED_FREQUENCY;
 
         double[] normalized = Analysis.normalizedFrequencies(
-                caesar.decrypt(ciphertext, offset)
+                caesar.decrypt(ciphertext, offset, alphabet)
         );
 
         double sum = 0;

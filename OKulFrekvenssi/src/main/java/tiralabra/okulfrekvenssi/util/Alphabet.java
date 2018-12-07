@@ -164,10 +164,10 @@ public class Alphabet {
      */
     public static String removeAllBut(String mjono, String charactersToNotRemove) {
         String removed = "";
-        System.out.println("mjono:");
-        System.out.println(mjono);
-        System.out.println("charactersToNotRemove:");
-        System.out.println(charactersToNotRemove);
+//        System.out.println("mjono:");
+//        System.out.println(mjono);
+//        System.out.println("charactersToNotRemove:");
+//        System.out.println(charactersToNotRemove);
         for (char c : mjono.toCharArray()) {
             boolean remove = true;
             for (char d : charactersToNotRemove.toCharArray()) {
@@ -206,5 +206,18 @@ public class Alphabet {
             i++;
         }
     }
-
+    public static OmaHash<Character, Integer> createCharIntHash(char[] abc) {
+        OmaHash<Character, Integer> hash = new OmaHash<>();
+        for(int i=0; i<abc.length; i++) {
+            hash.put(abc[i], i);
+        }
+        return hash;
+    }
+    public static OmaHash<Integer, Character> createIntCharHash(char[] abc) {
+        OmaHash<Integer, Character> hash = new OmaHash<>();
+        for(int i=0; i<abc.length; i++) {
+            hash.put(i, abc[i]);
+        }
+        return hash;
+    }
 }

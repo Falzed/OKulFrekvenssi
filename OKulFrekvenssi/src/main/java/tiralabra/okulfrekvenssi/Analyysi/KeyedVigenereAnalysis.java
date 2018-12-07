@@ -34,9 +34,18 @@ public class KeyedVigenereAnalysis {
         return cosets;
     }
 
+    public static int find(char c, char[] abc) {
+        for (int i = 0; i < abc.length; i++) {
+            if (abc[i] == c) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     /**
-     * (KESKEN) Paras arvaus salaamattomalle tekstille. Jakaa salatun tekstin ensin i
-     * sivuluokkaan.
+     * (KESKEN) Paras arvaus salaamattomalle tekstille. Jakaa salatun tekstin
+     * ensin i sivuluokkaan.
      *
      * @param ciphertext salattu teksti
      * @param alphabet aakkosto
@@ -51,17 +60,43 @@ public class KeyedVigenereAnalysis {
         String[] passphraseGuesses = new String[maxPassLength];
         double min = Double.MAX_VALUE;
         int bestLength = -1;
+        char[] abc = Alphabet.SUOMI;
         for (int i = 1; i < maxPassLength + 1; i++) {
             String[] cosets = getCosets(ciphertext, i);
-            for(int j=1; j<maxKeyLength; j++) {
-                String keyGuess = "";
+            String keyGuess = "";
+            for (int j = 1; j < maxKeyLength; j++) {
                 double minKey = Double.MAX_VALUE;
                 char bestKey = '#';
-                for(int k=0; k<30-j; k++) {
-                    String keyGuess2 = keyGuess.concat(String.valueOf(Alphabet.SUOMI[k]));
-                    
+                char[] modAbc = Alphabet.SUOMI;
+                for (int k = 0; k < 29; k++) {
+                    String keyGuess2 = keyGuess.concat(String.valueOf(abc[k]));
+                    int apu = find(abc[k], modAbc);
+
+                    String temp = (new String(modAbc)).substring(apu + 1, modAbc.length);
+                    if (j == 1) {
+                        modAbc = String.valueOf(modAbc[apu]).concat((new String(modAbc)).substring(0, apu)).concat(temp).toCharArray();
+                    } else {
+                        modAbc = (new String(modAbc)).substring(0, j - 2).concat(String.valueOf(modAbc[apu])).concat((new String(modAbc)).substring(j, apu)).concat(temp).toCharArray();
+                    }
+                    String g = VigenereAnalysis.bestGuess(ciphertext, modAbc);
+
                 }
-            }        
+                keyGuess = keyGuess.concat(String.valueOf(bestKey));
+            }
+        }
+        for (int i = 1; i < maxPassLength + 1; i++) {
+            //iterating through coset length
+            String[] cosets = getCosets(ciphertext, i);
+
+            for (String coset : cosets) {
+                for (int j = 1; j < maxKeyLength; j++) {
+                    //passwords of length j
+                    for(int k=0; k<abc.length; k++) {
+                        //iterate alphabet
+                    }
+                }
+
+            }
         }
 
 //        for(String guess:passphraseGuesses) {

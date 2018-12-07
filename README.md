@@ -9,3 +9,5 @@
 [Viikko 4](./dokumentaatio/viikkoraportti4.md)
 
 [Viikko 5](./dokumentaatio/viikkoraportti5.md)
+
+[Viikko 6](./dokumentaatio/viikkoraportti6.md)

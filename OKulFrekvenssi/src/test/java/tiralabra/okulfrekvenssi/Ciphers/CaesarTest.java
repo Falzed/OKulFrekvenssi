@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 /**
  *
@@ -34,7 +35,7 @@ public class CaesarTest {
         Caesar caesar = new Caesar();
         long sum = 0;
         long start = System.nanoTime();
-        String encrypted = caesar.encrypt("Yjxyrjxxflj", 5);
+        String encrypted = caesar.encrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
         long end = System.nanoTime();
         System.out.println("Ensimmäinen enkryptaus: " + (end - start) + " ns");
         long min = Long.MAX_VALUE;
@@ -43,22 +44,21 @@ public class CaesarTest {
         int mini = -1;
         for (int i = 0; i < 1000; i++) {
             start = System.nanoTime();
-            encrypted = caesar.encrypt("Testmessage", 5);
+            encrypted = caesar.encrypt("Testmessage", 5, Alphabet.SUOMI);
             end = System.nanoTime();
             sum += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                mini=i;
+                mini = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxi=i;
+                maxi = i;
             }
         }
-        
-        
+
         System.out.println("aika \"Testmessage\"-viestin salaukseen keskimäärin: "
-                + (sum)/1000 + " ns");
+                + (sum) / 1000 + " ns");
         assertEquals(encrypted, "Yjxyrjxxflj");
     }
 
@@ -67,7 +67,7 @@ public class CaesarTest {
         Caesar caesar = new Caesar();
         long sum = 0;
         long start = System.nanoTime();
-        String decrypted = caesar.decrypt("Yjxyrjxxflj", 5);
+        String decrypted = caesar.decrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
         long end = System.nanoTime();
         System.out.println("Ensimmäinen dekryptaus: " + (end - start) + " ns");
         long min = Long.MAX_VALUE;
@@ -76,16 +76,16 @@ public class CaesarTest {
         int mini = -1;
         for (int i = 0; i < 1000; i++) {
             start = System.nanoTime();
-            decrypted = caesar.decrypt("Yjxyrjxxflj", 5);
+            decrypted = caesar.decrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
             end = System.nanoTime();
             sum += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                mini=i;
+                mini = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxi=i;
+                maxi = i;
             }
         }
 //        long start = System.nanoTime();
@@ -94,7 +94,7 @@ public class CaesarTest {
 //        System.out.println("aika \"Yjxyrjxxflj\"-viestin dekryptaukseen: "
 //                + (end - start) + " ns");
         System.out.println("Keskiarvoinen dekryptaus aika (\"Yjxyrjxxflj\", n=1000) : " + sum / 1000 + " ns");
-        System.out.println("max: " + max + " ns (i="+maxi+"), min: " + min + " ns (i="+mini+")");
+        System.out.println("max: " + max + " ns (i=" + maxi + "), min: " + min + " ns (i=" + mini + ")");
         assertEquals(decrypted, "Testmessage");
     }
 

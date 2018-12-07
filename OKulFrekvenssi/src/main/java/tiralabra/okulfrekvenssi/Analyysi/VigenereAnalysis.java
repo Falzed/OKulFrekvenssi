@@ -45,8 +45,8 @@ public class VigenereAnalysis {
      */
     public static String bestGuess(String ciphertext, char[] alphabet) {
         Vigenere vig = new Vigenere();
-        String abc = new String(Alphabet.SUOMI);
-        String ABC = new String(Alphabet.SUOMI_CAPS);
+        String abc = new String(alphabet);
+        String ABC = new String(alphabet).toUpperCase();
         String cipherPruned = Alphabet.removeAllBut(ciphertext, abc.concat(ABC));
 //        System.out.println(cipherPruned);
         int maxPassLength = (cipherPruned.length() > 50) ? 50 : cipherPruned.length();
@@ -65,7 +65,7 @@ public class VigenereAnalysis {
                 String uusi = Alphabet.SUOMI_INT_CHAR.get(bestGuesses[i - 1][j]).toString();
                 passphraseGuesses[i - 1] = passphraseGuesses[i - 1].concat(uusi);
                 avg += CaesarAnalysis.getNormalizedFrequenciesSum(cosets[j],
-                        bestGuesses[i - 1][j]);
+                        bestGuesses[i - 1][j], alphabet);
             }
 //            System.out.println("");
             avg = avg / i;
@@ -84,4 +84,6 @@ public class VigenereAnalysis {
                 : vig.decrypt(ciphertext, passphraseGuesses[bestLength - 1]);
 
     }
+    
+    
 }
