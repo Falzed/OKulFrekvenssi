@@ -8,7 +8,9 @@ package tiralabra.okulfrekvenssi.IO;
 import java.util.Scanner;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.KCaesarManualAnalysis;
+import tiralabra.okulfrekvenssi.Analyysi.KeyedCaesarAnalysis;
 import tiralabra.okulfrekvenssi.util.Alphabet;
+import tiralabra.okulfrekvenssi.util.OmaTuple;
 
 /**
  *
@@ -147,6 +149,8 @@ public class KeyedCaesarIO {
         System.out.println(k1.translate(cipher));
 
         printFreq(cipher, k1Abc);
+
+
     }
 
     public static void printFreq(String cipher, char[] abc) {
@@ -159,6 +163,33 @@ public class KeyedCaesarIO {
             System.out.print(abc[i] + ": "
                     + ((double) Math.round(normFreq[i] * 1000)) / 1000 + ", "
                     + ((double) Math.round(Analysis.ENGLISH_NORMALIZED_FREQUENCY[i] * 1000))
+                    / 1000);
+            System.out.print("; ");
+        }
+        System.out.println("");
+        
+        
+        OmaTuple[] engOrder = new OmaTuple[abc.length];
+        OmaTuple[] cipherOrder = new OmaTuple[abc.length];
+
+        for (int i = 0; i < abc.length; i++) {
+            engOrder[i] = new OmaTuple(Analysis.ENGLISH_NORMALIZED_FREQUENCY[i],
+                    Analysis.ALPHABET[i]);
+            cipherOrder[i] = new OmaTuple(normFreq[i], abc[i]);
+        }
+        engOrder = OmaTuple.omaMergeSort(engOrder);
+        cipherOrder = OmaTuple.omaMergeSort(cipherOrder);
+        
+        System.out.println("Frequencies in order (frequency in ciphertext, "
+                + "frequency in english)");
+        for (int i = 0; i < abc.length; i++) {
+            if (i % 4 == 0) {
+                System.out.println("");
+            }
+            System.out.print(cipherOrder[i].getMerkki() + ": "
+                    + ((double) Math.round(cipherOrder[i].getValue() * 1000)) / 1000 + ", "
+                    + engOrder[i].getMerkki() + ": "
+                    + ((double) Math.round(engOrder[i].getValue() * 1000))
                     / 1000);
             System.out.print("; ");
         }

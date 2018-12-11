@@ -75,7 +75,7 @@ public class KCaesarManualAnalysis {
 //                output[i] = '?';
 //            }
             output[i] = (reverseMapping.get(input[i]) != null)
-                    ? reverseMapping.get(input[i]) : ' ';
+                    ? reverseMapping.get(input[i]) : '?';
         }
         return new String(output);
     }

@@ -41,7 +41,7 @@ public class AnalysisTest {
         expResult[5] = 1;
         expResult[22] = 2;
         expResult[18] = 2;
-        int[] result = Analysis.calcFrequencies(crypted);
+        int[] result = Analysis.calcFrequencies(crypted, Analysis.ALPHABET);
         assertArrayEquals(expResult, result);
     }
 
@@ -64,7 +64,7 @@ public class AnalysisTest {
         for (int i = 2; i < 29; i++) {
             expResult[i] = -(double) 3 / (double) 29 / sigma;
         }
-        double[] result = Analysis.normalizedFrequencies(ciphertext);
+        double[] result = Analysis.normalizedFrequencies(ciphertext, Analysis.ALPHABET);
         assertArrayEquals(expResult, result, 0.001);
     }
 

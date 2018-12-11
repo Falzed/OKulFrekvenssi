@@ -135,12 +135,12 @@ public class KeyedCaesarAnalysis {
                 lCount[i] = new OmaTuple(letterCount.get(abc[i]), abc[i]);
             }
         }
-        lCount = omaMergeSort(lCount);
+        lCount = OmaTuple.omaMergeSort(lCount);
         OmaTuple[] engCount = new OmaTuple[abc.length];
         for (int i = 0; i < abc.length; i++) {
             engCount[i] = new OmaTuple(Analysis.ENGLISH_FREQUENCY[i], abc[i]);
         }
-        engCount = omaMergeSort(engCount);
+        engCount = OmaTuple.omaMergeSort(engCount);
         
         System.out.println(lCount[1].toString());
         System.out.println(engCount[1].toString());
@@ -164,67 +164,4 @@ public class KeyedCaesarAnalysis {
         KeyedCaesar kcaesar = new KeyedCaesar(new String(newAbc));
         return kcaesar.decrypt(cipher, 0);
     }
-
-    /**
-     *
-     * @param unsorted
-     * @return
-     */
-    public static OmaTuple[] omaMergeSort(OmaTuple[] unsorted) {
-        OmaTuple[] copy = unsorted.clone();
-        sort(copy, 0, unsorted.length - 1);
-        return copy;
-    }
-
-    private static void sort(OmaTuple[] unsorted, int left, int right) {
-        if (left < right) {
-            int middle = (left + right) / 2;
-            sort(unsorted, left, middle);
-            sort(unsorted, middle + 1, right);
-            merge(unsorted, left, middle, right);
-        }
-    }
-
-    private static void merge(OmaTuple[] arr, int left, int middle, int right) {
-        OmaTuple[] L = new OmaTuple[middle - left + 1];
-        OmaTuple[] R = new OmaTuple[right - middle];
-
-        for (int i = 0; i < middle - left + 1; i++) {
-            L[i] = arr[left + i];
-        }
-//        System.out.println(left + ", " + middle + ", " + right);
-        for (int i = 0; i < right - middle; i++) {
-            R[i] = arr[middle + i + 1];
-        }
-
-        int i = 0;
-        int j = 0;
-        int k = left;
-
-        while (i < middle - left + 1 && j < right - middle) {
-            if (L[i].getInt() >= R[j].getInt()) {
-                arr[k] = L[i];
-                i++;
-            } else {
-                arr[k] = R[j];
-                j++;
-            }
-            k++;
-        }
-
-        while (i < middle - left + 1) {
-            arr[k] = L[i];
-            i++;
-            k++;
-        }
-
-        while (j < right - middle) {
-            arr[k] = R[j];
-            j++;
-            k++;
-        }
-//        System.out.println(Arrays.toString(arr));
-
-    }
-
 }
