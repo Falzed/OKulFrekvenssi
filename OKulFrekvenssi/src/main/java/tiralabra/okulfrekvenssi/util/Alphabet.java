@@ -5,7 +5,6 @@
  */
 package tiralabra.okulfrekvenssi.util;
 
-import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
  *

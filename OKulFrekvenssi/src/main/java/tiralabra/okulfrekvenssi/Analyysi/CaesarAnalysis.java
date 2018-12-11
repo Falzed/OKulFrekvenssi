@@ -48,7 +48,7 @@ public class CaesarAnalysis {
         double[] normEnglish = Analysis.ENGLISH_NORMALIZED_FREQUENCY;
 
         double[] normalized = Analysis.normalizedFrequencies(
-                caesar.decrypt(ciphertext, offset, alphabet)
+                caesar.decrypt(ciphertext, offset, alphabet), alphabet
         );
 
         double sum = 0;

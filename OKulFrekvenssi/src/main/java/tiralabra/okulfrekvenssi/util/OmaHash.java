@@ -12,8 +12,7 @@ package tiralabra.okulfrekvenssi.util;
  * @param <V> arvojen luokka
  */
 public class OmaHash<K, V> {
-    private K key;
-    private V value;
+
     private V[] table;
 
     /**
@@ -24,7 +23,7 @@ public class OmaHash<K, V> {
         //silti minimaalinen
         this.table = (V[]) new Object[256];
     }
-    
+
     /**
      *
      * @param size määrää taulun koon
@@ -32,17 +31,15 @@ public class OmaHash<K, V> {
     public OmaHash(int size) {
         this.table = (V[]) new Object[size];
     }
-    
-    //sama algoritmi kuin normi hashmapin hash-funktio
 
+    //sama algoritmi kuin normi hashmapin hash-funktio
     /**
      *
      * @param key avain
      * @return hash
      */
-    
     public static final int hash(Object key) {
-        if(key == null) {
+        if (key == null) {
             return 0;
         } else {
             int h = key.hashCode();
@@ -67,7 +64,25 @@ public class OmaHash<K, V> {
     public V get(K k) {
         return this.table[OmaHash.hash(k)];
     }
-    
+
+    public void setTable(V[] newTable){
+        if (this.table.length != newTable.length) {
+            System.out.println("Array size mismatch");
+        } else {
+            this.table = newTable.clone();
+        }
+
+//        for(int i=0; i<newTable.length; i++) {
+//            this.table[i] = newTable[i];
+//        }
+    }
+
+    public OmaHash copy(){
+        OmaHash<K, V> ret = new OmaHash<>();
+        ret.setTable(table);
+        return ret;
+    }
+
 //    /**
 //     *
 //     * @return koko taulu

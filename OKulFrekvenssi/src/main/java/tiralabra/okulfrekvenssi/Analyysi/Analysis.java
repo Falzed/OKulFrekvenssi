@@ -50,12 +50,12 @@ public class Analysis {
      * @param crypted salattu teksti
      * @return frekvenssit
      */
-    public static int[] calcFrequencies(String crypted) {
+    public static int[] calcFrequencies(String crypted, char[] abc) {
         int[] freq = new int[29];
-        for (int i = 0; i < ALPHABET.length; i++) {
+        for (int i = 0; i < abc.length; i++) {
             int count = 0;
             for (char c : crypted.toCharArray()) {
-                if (c == ALPHABET[i]) {
+                if (c == abc[i]) {
                     count++;
                 }
             }
@@ -73,8 +73,8 @@ public class Analysis {
      * @return frekvenssien ero aritmeettisesta keskiarvosta keskihajonnan 
      * kertoimena
      */
-    public static double[] normalizedFrequencies(String ciphertext) {
-        int[] freq = calcFrequencies(ciphertext);
+    public static double[] normalizedFrequencies(String ciphertext, char[] abc) {
+        int[] freq = calcFrequencies(ciphertext, abc);
         int sum = 0;
         for (int i : freq) {
             sum += i;
