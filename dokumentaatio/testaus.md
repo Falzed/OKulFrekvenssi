@@ -12,18 +12,18 @@ Keyed-varianteilla avaimella key Caesar-salauksessa viestillä "testmessage" ja o
 
 Caesar-salauksen purku kesti keskiarvoisesti 1113 ns viestillä "Yjxyrjxxflj" (eli "testmessage" salattuna offsetillä 5), viestillä "YjxyrjxxfljYjxyrjxxflj" 2202 ns, ja konkatoituna viesti kolmannen kerran 3283 ns, jne.
 Caesar salaus ja sen purku
-![Caesar-salaus](/kuvat/caesarEncryptActual.png)
-![Caesar-salauksen purku](/kuvat/caesarDecryptActual.png)
+![Caesar-salaus](kuvat/caesarEncryptActual.png)
+![Caesar-salauksen purku](kuvat/caesarDecryptActual.png)
 
 Vigenere
-![Vigenere-salaus](/kuvat/vigEncryptActual.png)
-![Vigenere-salauksen purku](/kuvat/vigDecryptActual.png
+![Vigenere-salaus](kuvat/vigEncryptActual.png)
+![Vigenere-salauksen purku](kuvat/vigDecryptActual.png
 
 (Huom. keyed-varianteilla aika mikro eikä nanosekunteja)
 Keyed Caesar
-![Keyed Caesar-salaus](/kuvat/kCaesarEncryptActual.png)
-![Keyed Caesar-salauksen purku](/kuvat/kCaesarDecryptActual.png)
+![Keyed Caesar-salaus](kuvat/kCaesarEncryptActual.png)
+![Keyed Caesar-salauksen purku](kuvat/kCaesarDecryptActual.png)
 
 Keyed Vigerene
-![Keyed Vigerene-salaus](/kuvat/kVigEncryptActual.png)
-![Keyed Vigerene-salauksen purku](/kuvat/kVigDecryptActual.png)
+![Keyed Vigerene-salaus](kuvat/kVigEncryptActual.png)
+![Keyed Vigerene-salauksen purku](kuvat/kVigDecryptActual.png)
