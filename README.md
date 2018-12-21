@@ -9,7 +9,7 @@
 
 [Käyttöopas](./dokumentaatio/käyttöopas.md)
 
-[javadoc](./dokumentaatio/apidocs/index.html)
+[javadoc](https://htmlpreview.github.io/?https://github.com/Falzed/OKulFrekvenssi/blob/master/dokumentaatio/apidocs/index.html)
 
 ## Viikkoraportit
 [Viikko 1](./dokumentaatio/viikkoraportti1.md)
