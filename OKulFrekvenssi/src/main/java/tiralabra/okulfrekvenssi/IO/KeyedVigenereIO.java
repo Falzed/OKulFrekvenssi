@@ -82,7 +82,6 @@ public class KeyedVigenereIO {
             String cipher = scanner.nextLine();
 
 //            cipher = cipher.toLowerCase();
-
             System.out.println("enter password length");
             int cosets = Integer.parseInt(scanner.nextLine());
             boolean exit = false;
@@ -119,7 +118,7 @@ public class KeyedVigenereIO {
                         } else {
                             String key = command.substring(4);
                             manualAnalysis.setKey(key, currentCoset);
-                            
+
                             printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
                         }
                     } else if (command.equals("fill mapping")) {
@@ -234,16 +233,22 @@ public class KeyedVigenereIO {
      */
     public static void printFreq(String cipher, char[] abc, int currentCoset,
             int cosets) {
-        char[] cipherArray = cipher.toCharArray();
-        char[] coset = (cipherArray.length % cosets == 0)
-                ? new char[cipherArray.length / cosets]
-                : new char[cipherArray.length / cosets + 1];
+        char[] cipherArray = cipher.toLowerCase().toCharArray();
+        int j = 0;
+        char[] coset = new char[cipherArray.length];
         for (int i = 0; i < cipherArray.length; i++) {
-            if (i % cosets == currentCoset) {
-                coset[i / cosets] = cipherArray[i];
+            if (Alphabet.isLetter(cipherArray[i], abc)) {
+                if (j % cosets == 0) {
+                    coset[j / cosets] = cipherArray[i];
+                }
+                j++;
             }
         }
-        String cosetString = (new String(coset)).toLowerCase();
+        char[] cosetTrimmed = new char[j / cosets];
+        for (int k = 0; k < j / cosets; k++) {
+            cosetTrimmed[k] = coset[k];
+        }
+        String cosetString = (new String(cosetTrimmed)).toLowerCase();
         double[] normFreq = Analysis.normalizedFrequencies(cosetString, abc);
         System.out.println(
                 "Normalized frequencies (character, frequency in coset,"
@@ -272,7 +277,7 @@ public class KeyedVigenereIO {
         engOrder = OmaTuple.omaMergeSort(engOrder);
         cipherOrder = OmaTuple.omaMergeSort(cipherOrder);
 
-        System.out.println("Frequencies in order (frequency in ciphertext, "
+        System.out.println("Frequencies in order (frequency in coset, "
                 + "frequency in english)");
         for (int i = 0; i < abc.length; i++) {
             if (i % 4 == 0) {

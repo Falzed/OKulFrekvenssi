@@ -9,6 +9,7 @@ import java.util.Arrays;
 import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
 import tiralabra.okulfrekvenssi.Ciphers.*;
 import tiralabra.okulfrekvenssi.Analyysi.*;
+import tiralabra.okulfrekvenssi.IO.KeyedVigenereIO;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.*;
 
@@ -422,6 +423,9 @@ public class manualTesting {
         kvig = new KeyedVigenere("avin", Alphabet.ENGLISH);
         System.out.println(kvig.encrypt("this is a test message", "a"));
         System.out.println(Alphabet.removeDuplicates("avain", abc));
+        
+        KVigenereManualAnalysis manual = new KVigenereManualAnalysis(Alphabet.ENGLISH, 3);
+        KeyedVigenereIO.printFreq("fty, fty, fty, fty, fty, fty, fty", abc, 0, 3);
 
     }
 

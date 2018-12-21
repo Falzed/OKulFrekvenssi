@@ -77,9 +77,13 @@ public class KVigenereManualAnalysis {
         OmaHash<Character, Character>[] newMappings = new OmaHash[this.cosets];
         OmaHash<Character, Character>[] newReverseMappings = new OmaHash[this.cosets];
         for (int i = 0; i < cosets; i++) {
-            newMappings[i] = new OmaHash<>();
-            newReverseMappings[i] = new OmaHash<>();
+            if (i != coset) {
+                newMappings[i] = mappings[i].copy();
+                newReverseMappings[i] = reverseMappings[i].copy();
+            }
         }
+        newMappings[coset] = new OmaHash<>();
+        newReverseMappings[coset] = new OmaHash<>();
         for (int i = 0; i < this.abc.length; i++) {
             char c = this.mappings[coset].get(abc[((i + shift) % abc.length + abc.length) % abc.length]);
             newMappings[coset].put(abc[i], c);
@@ -172,7 +176,11 @@ public class KVigenereManualAnalysis {
         int notAlphabetical = 0;
 
         for (int i = 0; i < input.length; i++) {
-            char[] mappedAbc = getMappedAbc(i % cosets);
+
+            if (!Alphabet.isLetter(input[i], abc)) {
+                notAlphabetical++;
+            }
+            char[] mappedAbc = getMappedAbc((i-notAlphabetical) % cosets);
             char[] newMappedAbc = new char[mappedAbc.length];
             OmaHash<Character, Boolean> added = new OmaHash<>();
             for (char c : abc) {
@@ -191,6 +199,7 @@ public class KVigenereManualAnalysis {
                 }
             }
             mappedAbc = newMappedAbc;
+
             if (Alphabet.isLetter(input[i], abc)) {
                 int index = findFirst(new String(mappedAbc), input[i]);
                 if (index == -1) {
@@ -201,9 +210,8 @@ public class KVigenereManualAnalysis {
                 output[i] = this.keyedAbcs[(i - notAlphabetical) % cosets][index];
             } else if (Alphabet.isLetter(input[i], (new String(abc)).toUpperCase().toCharArray())) {
                 int index = findFirst((new String(mappedAbc)).toUpperCase(), input[i]);
-                output[i] = String.valueOf(this.keyedAbcs[(i - notAlphabetical) % cosets][index]).toUpperCase().toCharArray()[0];
+                output[i] = Character.toUpperCase(this.keyedAbcs[(i - notAlphabetical) % cosets][index]);
             } else {
-                notAlphabetical++;
                 output[i] = input[i];
             }
         }
@@ -223,15 +231,22 @@ public class KVigenereManualAnalysis {
 
     public void setKey(String newKey, int coset) {
         String key = Alphabet.removeDuplicates(newKey, abc);
-        this.keyedAbcs[coset] = key.concat(
-                Alphabet.removeAll(new String(abc), key)
-        ).toCharArray();
         resetMapping();
+        for (int j = 0; j < cosets; j++) {
+            this.keyedAbcs[j] = key.concat(
+                    Alphabet.removeAll(new String(abc), key)
+            ).toCharArray();
+        }
         for (int i = 0; i < key.length(); i++) {
             for (int j = 0; j < cosets; j++) {
                 map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
             }
         }
+    }
+
+    public void resetMapping(int coset) {
+        mappings[coset] = new OmaHash<>();
+        reverseMappings[coset] = new OmaHash<>();
     }
 
     public void resetMapping() {
