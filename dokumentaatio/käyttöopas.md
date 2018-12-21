@@ -41,4 +41,5 @@ Komennolla reset saa kaikki kuvaukset poistettua. Komennolla save i missä i on k
 ### Keyed Vigenere -analyysi
 Ennen silmukkaa ohjelma kysyy myös salasanan pituuden. Silmukka on hyvin samantapainen kuin Keyed Caesarissa. Map-komento tarvitsee kolmanneksi parametriksi sivuluokan jota kuvaus koskee, komennolla set coset i saa valittua sivuluokan jota ohjelma käsittelee (silmukan alussa 0). key- ja shift-komennot vaikuttavat vain valittuun sivuluokkaan.
 
-Esimerkiksi jos salattu viesti olisi "Hhuk rs s lxsl exsksze, gdxaka rgwffe", ja tiedettäisiin salasanan pituuden olevan 4, 
+## jar-tiedostot
+.jar-tiedostot löytyvät [täältä](../jar)

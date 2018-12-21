@@ -12,56 +12,60 @@ public class Caesar {
 
     /**
      * Salaa annetun tekstin
+     *
      * @param plain salattava teksti
      * @param offset kuinka monta merkkiä mennään aakkosia eteenpäin
      * @param alphabet käytetty aakkosto
      * @return salattu teksti
      */
     public String encrypt(String plain, int offset, char[] alphabet) {
-        String crypted = "";
+        char[] crypted = new char[plain.length()];
         char[] capsAlphabet = new String(alphabet).toUpperCase().toCharArray();
         OmaHash<Character, Integer> charInt = Alphabet.createCharIntHash(alphabet);
         OmaHash<Integer, Character> intChar = Alphabet.createIntCharHash(alphabet);
         OmaHash<Character, Integer> charIntCaps = Alphabet.createCharIntHash(capsAlphabet);
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
+        int i = 0;
         for (char c : plain.toCharArray()) {
             if (Alphabet.isLetter(c, alphabet)) {
-                crypted = crypted.concat(intChar.get((charInt.get(c) + offset) % alphabet.length).toString());
+                crypted[i] = intChar.get((charInt.get(c) + offset) % alphabet.length);
             } else if (Alphabet.isLetter(c, capsAlphabet)) {
-                crypted = crypted.concat(intCharCaps.get((charIntCaps.get(c) + offset) % alphabet.length).toString());
+                crypted[i] = intCharCaps.get((charIntCaps.get(c) + offset) % alphabet.length);
             } else {
-                crypted = crypted.concat(String.valueOf(c));
+                crypted[i] = c;
             }
+            i++;
         }
-        return crypted;
+        return new String (crypted);
     }
 
     /**
      * Purkaa annetun tekstin salauksen
+     *
      * @param crypted salattu teksti
      * @param offset kuinka monta merkkiä mennään aakkosia eteenpäin salatessa
      * @param alphabet käytetty aakkosto
      * @return salaamaton teksti
      */
     public String decrypt(String crypted, int offset, char[] alphabet) {
-        String plain = "";
+        char[] plain = new char[crypted.length()];
         char[] capsAlphabet = new String(alphabet).toUpperCase().toCharArray();
         OmaHash<Character, Integer> charInt = Alphabet.createCharIntHash(alphabet);
         OmaHash<Integer, Character> intChar = Alphabet.createIntCharHash(alphabet);
         OmaHash<Character, Integer> charIntCaps = Alphabet.createCharIntHash(capsAlphabet);
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
-        
+
+        int i=0;
         for (char c : crypted.toCharArray()) {
             if (Alphabet.isLetter(c, alphabet)) {
-//                System.out.println(c);
-                plain = plain.concat(intChar.get((charInt.get(c) - offset + alphabet.length) % alphabet.length).toString());
+                plain[i] = intChar.get((charInt.get(c) - offset + alphabet.length) % alphabet.length);
             } else if (Alphabet.isLetter(c, capsAlphabet)) {
-//                System.out.println(c);
-                plain = plain.concat(intCharCaps.get((charIntCaps.get(c) - offset + alphabet.length) % alphabet.length).toString());
+                plain[i] = intCharCaps.get((charIntCaps.get(c) - offset + alphabet.length) % alphabet.length);
             } else {
-                plain = plain.concat(String.valueOf(c));
+                plain[i] = c;
             }
+            i++;
         }
-        return plain;
+        return new String(plain);
     }
 }

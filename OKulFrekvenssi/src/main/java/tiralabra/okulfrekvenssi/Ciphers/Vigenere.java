@@ -59,11 +59,17 @@ public class Vigenere {
      */
     public String encrypt(String message, String passphrase) {
         passphrase = passphrase.toLowerCase();
-        String pass = passphrase;
-        while (pass.length() + passphrase.length() < message.length()) {
-            pass = pass + passphrase;
+        char[] passphraseArray = passphrase.toCharArray();
+        char[] passArray = new char[message.length()];
+        for(int i=0; i<message.length(); i++) {
+            passArray[i] = passphraseArray[i%passphraseArray.length];
         }
-        pass = pass + passphrase.substring(0, message.length() - pass.length());
+//        String pass = passphrase;
+//        while (pass.length() + passphrase.length() < message.length()) {
+//            pass = pass + passphrase;
+//        }
+//        pass = pass + passphrase.substring(0, message.length() - pass.length());
+        String pass = new String(passArray);
         char[] mess = message.toCharArray();
         char[] ciphertext = new char[mess.length];
         int notLetterCount = 0;
@@ -91,13 +97,21 @@ public class Vigenere {
      * @return paljas teksti
      */
     public String decrypt(String crypted, String passphrase) {
+        
         passphrase = passphrase.toLowerCase();
-        String pass = passphrase;
-        while (pass.length() + passphrase.length() < crypted.length()) {
-            pass = pass + passphrase;
+        char[] passphraseArray = passphrase.toCharArray();
+        char[] passArray = new char[crypted.length()];
+        for(int i=0; i<crypted.length(); i++) {
+            passArray[i] = passphraseArray[i%passphraseArray.length];
         }
-        pass = pass + passphrase.substring(0, crypted.length() - pass.length());
-
+        
+//        passphrase = passphrase.toLowerCase();
+//        String pass = passphrase;
+//        while (pass.length() + passphrase.length() < crypted.length()) {
+//            pass = pass + passphrase;
+//        }
+//        pass = pass + passphrase.substring(0, crypted.length() - pass.length());
+        String pass = new String(passArray);
         char[] crypt = crypted.toCharArray();
         char[] plaintext = new char[crypt.length];
 

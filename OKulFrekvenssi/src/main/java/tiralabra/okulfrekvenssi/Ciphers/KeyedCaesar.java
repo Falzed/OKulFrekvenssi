@@ -22,6 +22,7 @@ public class KeyedCaesar {
 
     /**
      * Alustaa luokan olion annetulla avaimella
+     *
      * @param key avain
      */
     public KeyedCaesar(String key) {
@@ -66,22 +67,21 @@ public class KeyedCaesar {
      * @return salattu teksti
      */
     public String encrypt(String plain, int offset) {
-        String crypted = "";
+        char[] crypted = new char[plain.length()];
+        int i = 0;
         for (char c : plain.toCharArray()) {
             if (Alphabet.isLetter(c, this.aakkosto.toCharArray())) {
-                crypted = crypted.concat(hashIntChar.get((Alphabet.ENGLISH_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
-//            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
-//            System.out.println(crypted);
+                crypted[i] = hashIntChar.get((Alphabet.ENGLISH_CHAR_INT.get(c) + offset) % aakkosto.length());
             } else if (Alphabet.isLetter(c, aakkosto.toUpperCase().toCharArray())) {
-                crypted = crypted.concat(Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
+                crypted[i] = Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
             } else {
-                crypted = crypted.concat(String.valueOf(c));
+                crypted[i] = c;
             }
-
+            i++;
         }
-        return crypted;
+        return new String(crypted);
     }
 
     /**
@@ -91,22 +91,24 @@ public class KeyedCaesar {
      * @return salaamaton teksti
      */
     public String decrypt(String crypted, int offset) {
-        String plain = "";
+        char[] plain = new char[crypted.length()];
+        int i = 0;
         for (char c : crypted.toCharArray()) {
             if (Alphabet.isLetter(c, aakkosto.toCharArray())) {
-                plain = plain.concat(
-                        Alphabet.ENGLISH_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
-                                % aakkosto.length()).toString());
-
+                plain[i] = Alphabet.ENGLISH_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
+                        % aakkosto.length());
             } else if (Alphabet.isLetter(c, aakkosto.toUpperCase().toCharArray())) {
-                plain = plain.concat(
-                        Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) - offset + aakkosto.length())
-                                % aakkosto.length()).toString());
+                plain[i]
+                        = Alphabet.ENGLISH_CAPS_INT_CHAR.get(
+                                (Alphabet.ENGLISH_CAPS_CHAR_INT.get(c)
+                                - offset + aakkosto.length())
+                                % aakkosto.length());
 
             } else {
-                plain = plain.concat(String.valueOf(c));
+                plain[i] = c;
             }
+            i++;
         }
-        return plain;
+        return new String(plain);
     }
 }
