@@ -61,7 +61,7 @@ public class KeyedVigenere {
             this.keytable[i] = abc.substring(i).concat(abc.substring(0, i))
                     .toCharArray();
             this.capsKeytable[i] = ABC.substring(i).concat(ABC.substring(0, i))
-                    .toCharArray(); 
+                    .toCharArray();
         }
     }
 
@@ -102,6 +102,7 @@ public class KeyedVigenere {
 
     /**
      * Salaa annetun viestin annetulla avaimella
+     *
      * @param message salattava viesti
      * @param passphrase avain
      * @return salattu teksti
@@ -116,16 +117,18 @@ public class KeyedVigenere {
 
         char[] mess = message.toCharArray();
         char[] ciphertext = new char[mess.length];
+        int notAlphabetical = 0;
         for (int i = 0; i < mess.length; i++) {
-            if (Alphabet.isFinnishLetter(mess[i])) {
+            if (Alphabet.isLetter(mess[i], this.alphabet)) {
                 int messCharIndex = this.hash2.get(mess[i]);
-                int row = this.hash2.get(pass.charAt(i));
+                int row = this.hash2.get(pass.charAt(i - notAlphabetical));
                 ciphertext[i] = this.keytable[row][messCharIndex];
-            } else if (Alphabet.isCapitalFinnishLetter(mess[i])) {
+            } else if (Alphabet.isLetter(mess[i], this.capsAlphabet)) {
                 int messCharIndex = this.capsHash2.get(mess[i]);
-                int row = hash2.get(pass.charAt(i));
+                int row = hash2.get(pass.charAt(i - notAlphabetical));
                 ciphertext[i] = this.capsKeytable[row][messCharIndex];
             } else {
+                notAlphabetical++;
                 ciphertext[i] = mess[i];
             }
 
@@ -136,6 +139,7 @@ public class KeyedVigenere {
 
     /**
      * Purkaa salauksen annetusta salatusta tekstistä annetulla avaimella
+     *
      * @param crypted salattu teksti
      * @param passphrase avain
      * @return paljas teksti
@@ -150,20 +154,22 @@ public class KeyedVigenere {
 
         char[] crypt = crypted.toCharArray();
         char[] plaintext = new char[crypt.length];
+        int notAlphabetical = 0;
 
         for (int i = 0; i < crypt.length; i++) {
-            char c = pass.charAt(i);
-            if (Alphabet.isFinnishLetter(crypt[i])) {
+            char c = pass.charAt(i-notAlphabetical);
+            if (Alphabet.isLetter(crypt[i], this.alphabet)) {
                 int row = hash2.get(c);
                 int indeksi = (hash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = alphabet[indeksi];
                 plaintext[i] = plain;
-            } else if (Alphabet.isCapitalFinnishLetter(crypt[i])) {
+            } else if (Alphabet.isLetter(crypt[i], this.capsAlphabet)) {
                 int row = hash2.get(c);
                 int indeksi = (capsHash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = capsAlphabet[indeksi];
                 plaintext[i] = plain;
             } else {
+                notAlphabetical++;
                 plaintext[i] = crypt[i];
             }
         }

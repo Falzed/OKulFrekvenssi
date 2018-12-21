@@ -42,7 +42,7 @@ public class KeyedVigenereIO {
             case "decrypt": {
                 System.out.println("enter ciphertext");
                 String cipher = scanner.nextLine();
-                System.out.println("enter offset");
+                System.out.println("enter password");
                 String password = scanner.nextLine();
                 System.out.println("enter key");
                 String key = scanner.nextLine();
@@ -112,6 +112,18 @@ public class KeyedVigenereIO {
                     }
                     printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
                 }
+            } else if (command.equals("fill mapping")) {
+                manualAnalysis.fillMappings(currentCoset);
+                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+
+            } else if (command.startsWith("shift")) {
+                try {
+                    int shift = Integer.parseInt(command.substring(6));
+                    manualAnalysis.setShift(shift, currentCoset);
+                    printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+                } catch (NumberFormatException e) {
+                    System.out.println("shift must be an integer");
+                }
             } else if (command.startsWith("save")) {
                 if (command.length() < 6) {
                     System.out.println("save command missing parameter");
@@ -156,6 +168,7 @@ public class KeyedVigenereIO {
     /**
      * Printtaa yhden sivuluokan kuvaukset ja frekvenssit sekä englannin
      * frekvenssit
+     *
      * @param k1 käytetty analyysi
      * @param cipher salattu teksti
      * @param currentCoset sivuluokka
@@ -192,6 +205,7 @@ public class KeyedVigenereIO {
 
     /**
      * Printtaa annetun sivuluokan ja englannin frekvenssit
+     *
      * @param cipher salattu teksti
      * @param abc käytetty aakkosto
      * @param currentCoset sivuluokka

@@ -80,13 +80,13 @@ public class Alphabet {
     public final static OmaHash<Integer, Character> ENGLISH_CAPS_INT_CHAR = new OmaHash<>();
 
     /**
-     * Tarkistaa onko annettu merkki pieni suomalainen aakkonen
+     * Tarkistaa kuuluuko annettu merkki annettuihin aakkosiin
      *
      * @param c merkki
-     * @return onko suomalainen pieni kirjain
+     * @return onko merkki annetuissa aakkosissa
      */
-    public static boolean isFinnishLetter(char c) {
-        for (char a : SUOMI) {
+    public static boolean isLetter(char c, char[] abc) {
+        for (char a : abc) {
             if (a == c) {
                 return true;
             }
@@ -94,20 +94,20 @@ public class Alphabet {
         return false;
     }
 
-    /**
-     * Tarkistaa onko annettu merkki iso suomalainen aakkonen
-     *
-     * @param c annettu merkki
-     * @return onko suomalainen aakkonen
-     */
-    public static boolean isCapitalFinnishLetter(char c) {
-        for (char a : SUOMI_CAPS) {
-            if (a == c) {
-                return true;
-            }
-        }
-        return false;
-    }
+//    /**
+//     * Tarkistaa onko annettu merkki iso suomalainen aakkonen
+//     *
+//     * @param c annettu merkki
+//     * @return onko suomalainen aakkonen
+//     */
+//    public static boolean isCapitalFinnishLetter(char c) {
+//        for (char a : SUOMI_CAPS) {
+//            if (a == c) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
 
     /**
      * Poistaa annetusta merkkijonosta kaikki merkit jotka ovat toisessa

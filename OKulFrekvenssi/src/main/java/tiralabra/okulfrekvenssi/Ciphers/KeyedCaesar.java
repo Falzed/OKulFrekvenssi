@@ -68,11 +68,11 @@ public class KeyedCaesar {
     public String encrypt(String plain, int offset) {
         String crypted = "";
         for (char c : plain.toCharArray()) {
-            if (Alphabet.isFinnishLetter(c)) {
+            if (Alphabet.isLetter(c, this.aakkosto.toCharArray())) {
                 crypted = crypted.concat(hashIntChar.get((Alphabet.ENGLISH_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
-            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+            } else if (Alphabet.isLetter(c, aakkosto.toUpperCase().toCharArray())) {
                 crypted = crypted.concat(Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
@@ -93,12 +93,12 @@ public class KeyedCaesar {
     public String decrypt(String crypted, int offset) {
         String plain = "";
         for (char c : crypted.toCharArray()) {
-            if (Alphabet.isFinnishLetter(c)) {
+            if (Alphabet.isLetter(c, aakkosto.toCharArray())) {
                 plain = plain.concat(
                         Alphabet.ENGLISH_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
                                 % aakkosto.length()).toString());
 
-            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+            } else if (Alphabet.isLetter(c, aakkosto.toUpperCase().toCharArray())) {
                 plain = plain.concat(
                         Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) - offset + aakkosto.length())
                                 % aakkosto.length()).toString());

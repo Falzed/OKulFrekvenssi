@@ -16,7 +16,9 @@ public class KCaesarManualAnalysis {
 
     private OmaHash<Character, Character> mapping;
     private OmaHash<Character, Character> reverseMapping;
+
     private char[] abc;
+    private String key;
 
     /**
      *
@@ -26,11 +28,12 @@ public class KCaesarManualAnalysis {
         mapping = new OmaHash<>();
         reverseMapping = new OmaHash<>();
         this.abc = abc;
+        this.key = "";
     }
 
-    
     /**
      * Asettaa kuvauksen a-b (salaamaton-salattu)
+     *
      * @param a salaamaton merkki
      * @param b salattu merkki
      */
@@ -39,8 +42,32 @@ public class KCaesarManualAnalysis {
         this.reverseMapping.put(b, a);
     }
 
+    public void setKey(String newKey) {
+        for (int i = 0; i < newKey.length(); i++) {
+            map(abc[i], newKey.toCharArray()[i]);
+        }
+        this.key = newKey;
+    }
+
+    public void setShift(int newShift) {
+        OmaHash<Character, Character> newMapping = new OmaHash<>();
+        OmaHash<Character, Character> newReverseMapping = new OmaHash<>();
+        for (int i = 0; i < this.abc.length; i++) {
+            //javan % voi palauttaa negatiivisen luvun joten vähän 
+            //monimutkaisempi lasku
+            char c = this.mapping.get(
+                    abc[((i + newShift) % abc.length + abc.length)
+                            % abc.length]);
+            newMapping.put(abc[i], c);
+            newReverseMapping.put(c, abc[i]);
+        }
+        this.mapping = newMapping;
+        this.reverseMapping = newReverseMapping;
+    }
+
     /**
      * Kopioi olion
+     *
      * @return kopio
      */
     public KCaesarManualAnalysis copy() {
@@ -51,6 +78,7 @@ public class KCaesarManualAnalysis {
 
     /**
      * Asettaa annetut kuvaukset
+     *
      * @param newMap salaamaton-salattu
      * @param newRev salattu-salaamaton
      */
@@ -60,7 +88,7 @@ public class KCaesarManualAnalysis {
     }
 
     /**
-     * 
+     *
      * @return käytetty aakkosto
      */
     public char[] getAbc() {
@@ -68,7 +96,7 @@ public class KCaesarManualAnalysis {
     }
 
     /**
-     * 
+     *
      * @return salattu aakkosto
      */
     public char[] getMappedAbc() {
@@ -83,6 +111,7 @@ public class KCaesarManualAnalysis {
 
     /**
      * Purkaa annetun merkkijonon salauksen
+     *
      * @param cipher salattu teksti
      * @return salaamaton teksti
      */
@@ -112,7 +141,7 @@ public class KCaesarManualAnalysis {
         for (char c : abc) {
             added.put(c, Boolean.FALSE);
         }
-        
+
         for (int i = 0; i < abc.length; i++) {
             if (mapping.get(abc[i]) != null) {
 //                System.out.println("found existing mapping: " + abc[i] + "->" + mapping.get(abc[i]));
@@ -127,7 +156,6 @@ public class KCaesarManualAnalysis {
                 revMapped.put(charToAdd, abc[i]);
 
 //                System.out.println("new mapping: " + abc[i] + "->" + charToAdd);
-
             }
         }
         setMapping(mapped, revMapped);
@@ -136,13 +164,14 @@ public class KCaesarManualAnalysis {
     /**
      * Etsii annetuista merkeistä ensimmäisen, joka ei ole annetussa OmaHashissä
      * arvolla TRUE
+     *
      * @param abc aakkosto
      * @param added mitkä merkit on lisätty jo (ja mitkä eivät ole)
      * @return ensimmäinen merkki jonka arvo on FALSE
      */
     public char firstNotAdded(char[] abc, OmaHash<Character, Boolean> added) {
         for (char c : abc) {
-            System.out.println(c+": "+added.get(c));
+            System.out.println(c + ": " + added.get(c));
             if (!added.get(c)) {
                 return c;
             }

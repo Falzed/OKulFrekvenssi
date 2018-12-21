@@ -25,9 +25,9 @@ public class Caesar {
         OmaHash<Character, Integer> charIntCaps = Alphabet.createCharIntHash(capsAlphabet);
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
         for (char c : plain.toCharArray()) {
-            if (Alphabet.isFinnishLetter(c)) {
+            if (Alphabet.isLetter(c, alphabet)) {
                 crypted = crypted.concat(intChar.get((charInt.get(c) + offset) % alphabet.length).toString());
-            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+            } else if (Alphabet.isLetter(c, capsAlphabet)) {
                 crypted = crypted.concat(intCharCaps.get((charIntCaps.get(c) + offset) % alphabet.length).toString());
             } else {
                 crypted = crypted.concat(String.valueOf(c));
@@ -52,10 +52,10 @@ public class Caesar {
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
         
         for (char c : crypted.toCharArray()) {
-            if (Alphabet.isFinnishLetter(c)) {
+            if (Alphabet.isLetter(c, alphabet)) {
 //                System.out.println(c);
                 plain = plain.concat(intChar.get((charInt.get(c) - offset + alphabet.length) % alphabet.length).toString());
-            } else if (Alphabet.isCapitalFinnishLetter(c)) {
+            } else if (Alphabet.isLetter(c, capsAlphabet)) {
 //                System.out.println(c);
                 plain = plain.concat(intCharCaps.get((charIntCaps.get(c) - offset + alphabet.length) % alphabet.length).toString());
             } else {

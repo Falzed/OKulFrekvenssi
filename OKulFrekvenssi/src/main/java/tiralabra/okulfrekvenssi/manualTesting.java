@@ -416,6 +416,8 @@ public class manualTesting {
         System.out.println(testHash.get('k')!=null);
 
         System.out.println('\u0000');
+        
+        System.out.println(-15 % 26);
 
     }
 

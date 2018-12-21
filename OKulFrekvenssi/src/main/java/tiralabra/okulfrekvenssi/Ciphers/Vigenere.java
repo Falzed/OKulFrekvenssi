@@ -68,11 +68,11 @@ public class Vigenere {
         char[] ciphertext = new char[mess.length];
         int notLetterCount = 0;
         for (int i = 0; i < mess.length; i++) {
-            if (Alphabet.isFinnishLetter(mess[i])) {
+            if (Alphabet.isLetter(mess[i], this.alphabet)) {
                 int messCharIndex = this.hash2.get(mess[i]);
                 int row = this.hash2.get(pass.charAt(i - notLetterCount));
                 ciphertext[i] = this.keytable[row][messCharIndex];
-            } else if (Alphabet.isCapitalFinnishLetter(mess[i])) {
+            } else if (Alphabet.isLetter(mess[i], this.capsAlphabet)) {
                 int messCharIndex = Alphabet.ENGLISH_CAPS_CHAR_INT.get(mess[i]);
                 int row = hash2.get(pass.charAt(i - notLetterCount));
                 ciphertext[i] = this.capsKeytable[row][messCharIndex];
@@ -104,12 +104,12 @@ public class Vigenere {
         int notLetterCount = 0;
         for (int i = 0; i < crypt.length; i++) {
             char c = pass.charAt(i - notLetterCount);
-            if (Alphabet.isFinnishLetter(crypt[i])) {
+            if (Alphabet.isLetter(crypt[i], this.alphabet)) {
                 int row = hash2.get(c);
                 int indeksi = (hash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = alphabet[indeksi];
                 plaintext[i] = plain;
-            } else if (Alphabet.isCapitalFinnishLetter(crypt[i])) {
+            } else if (Alphabet.isLetter(crypt[i], this.capsAlphabet)) {
                 int row = hash2.get(c);
                 int indeksi = (capsHash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = capsAlphabet[indeksi];

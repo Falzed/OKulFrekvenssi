@@ -105,11 +105,18 @@ public class KeyedCaesarIO {
                     System.out.println("key command missing parameter");
                 } else {
                     String key = command.substring(4);
-                    for (int i = 0; i < key.length(); i++) {
-                        manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i]);
-                    }
+
+                    manualAnalysis.setKey(key);
                     manualAnalysis.fillMappings();
                     printAnalysis(manualAnalysis, cipher);
+                }
+            } else if (command.startsWith("shift")) {
+                try {
+                    int shift = Integer.parseInt(command.substring(6));
+                    manualAnalysis.setShift(shift);
+                    printAnalysis(manualAnalysis, cipher);
+                } catch (NumberFormatException e) {
+                    System.out.println("shift must be an integer");
                 }
             } else if (command.startsWith("save")) {
                 if (command.length() < 6) {
@@ -152,6 +159,7 @@ public class KeyedCaesarIO {
     /**
      * Printtaa kuvaukset ja niillä puretun tekstin sekä salatun tekstin ja
      * englannin frekvenssit
+     *
      * @param k1 käytetty analyysi
      * @param cipher salattu teksti
      */
@@ -185,6 +193,7 @@ public class KeyedCaesarIO {
 
     /**
      * Printtaa salatun tekstin ja englannin frekvenssit
+     *
      * @param cipher salattu teksti
      * @param abc käytetty aakkosto
      */

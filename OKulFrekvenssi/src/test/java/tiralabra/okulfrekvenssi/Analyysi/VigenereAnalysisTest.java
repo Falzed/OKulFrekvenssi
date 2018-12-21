@@ -58,4 +58,11 @@ public class VigenereAnalysisTest {
         System.out.println(result);
         assertEquals(expectedResult, result);
     }
+    
+    @Test
+    public void testEnglish() {
+        Vigenere vig = new Vigenere(Alphabet.ENGLISH);
+        String res = VigenereAnalysis.bestGuess("Ihak xs s ltsl etsksve, hdtakw xgfgge", Alphabet.ENGLISH);
+        assertEquals("This is a test message, please ignore", res);
+    }
 }

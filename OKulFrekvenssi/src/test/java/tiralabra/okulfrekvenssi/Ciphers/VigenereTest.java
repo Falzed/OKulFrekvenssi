@@ -124,5 +124,12 @@ public class VigenereTest {
         assertEquals("gåwy hxevr.xal", encryptResult2);
         assertEquals(message2, vig.decrypt(encryptResult2, passphrase2));
     }
+    
+    @Test
+    public void testEnglish() {
+        Vigenere vig = new Vigenere(Alphabet.ENGLISH);
+        String res = vig.decrypt("Ihak xs s ltsl etsksve, hdtakw xgfgge", "pass");
+        assertEquals("This is a test message, please ignore", res);
+    }
 
 }

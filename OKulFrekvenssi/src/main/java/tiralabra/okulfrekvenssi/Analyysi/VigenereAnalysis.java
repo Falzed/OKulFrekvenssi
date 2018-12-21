@@ -7,6 +7,7 @@ package tiralabra.okulfrekvenssi.Analyysi;
 
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
+import tiralabra.okulfrekvenssi.util.OmaHash;
 
 /**
  *
@@ -48,6 +49,7 @@ public class VigenereAnalysis {
         String abc = new String(alphabet);
         String ABC = new String(alphabet).toUpperCase();
         String cipherPruned = Alphabet.removeAllBut(ciphertext, abc.concat(ABC));
+        OmaHash<Integer, Character> hashIntChar = Alphabet.createIntCharHash(alphabet);
         int maxPassLength = (cipherPruned.length() > 50) ? 50 : cipherPruned.length();
 //        double[] normFrequencyAvgs = new double[maxPassLength];
         int[][] bestGuesses = new int[maxPassLength][maxPassLength];
@@ -55,12 +57,12 @@ public class VigenereAnalysis {
         double min = Double.MAX_VALUE;
         int bestLength = -1;
         for (int i = 1; i < maxPassLength + 1; i++) {
-            String[] cosets = getCosets(cipherPruned, i);
+            String[] cosets = getCosets(cipherPruned.toLowerCase(), i);
             passphraseGuesses[i - 1] = "";
             double avg = 0;
             for (int j = 0; j < i; j++) {
                 bestGuesses[i - 1][j] = CaesarAnalysis.bestGuess(cosets[j], alphabet);
-                String uusi = Alphabet.SUOMI_INT_CHAR.get(bestGuesses[i - 1][j]).toString();
+                String uusi = hashIntChar.get(bestGuesses[i - 1][j]).toString();
                 passphraseGuesses[i - 1] = passphraseGuesses[i - 1].concat(uusi);
                 avg += CaesarAnalysis.getNormalizedFrequenciesSum(cosets[j],
                         bestGuesses[i - 1][j], alphabet);
