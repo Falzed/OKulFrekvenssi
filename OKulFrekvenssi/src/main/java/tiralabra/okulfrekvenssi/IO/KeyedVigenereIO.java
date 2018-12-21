@@ -81,7 +81,7 @@ public class KeyedVigenereIO {
             System.out.println("enter ciphertext");
             String cipher = scanner.nextLine();
 
-            cipher = cipher.toLowerCase();
+//            cipher = cipher.toLowerCase();
 
             System.out.println("enter password length");
             int cosets = Integer.parseInt(scanner.nextLine());
@@ -248,7 +248,7 @@ public class KeyedVigenereIO {
                 coset[i / cosets] = cipherArray[i];
             }
         }
-        String cosetString = new String(coset);
+        String cosetString = (new String(coset)).toLowerCase();
         double[] normFreq = Analysis.normalizedFrequencies(cosetString, abc);
         System.out.println(
                 "Normalized frequencies (character, frequency in coset,"

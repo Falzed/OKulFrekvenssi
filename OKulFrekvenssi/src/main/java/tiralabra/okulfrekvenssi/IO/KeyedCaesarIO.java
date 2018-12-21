@@ -10,6 +10,7 @@ import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.KCaesarManualAnalysis;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaTuple;
+import tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar;
 
 /**
  *
@@ -33,7 +34,7 @@ public class KeyedCaesarIO {
                     int offset = Integer.parseInt(scanner.nextLine());
                     System.out.println("enter key");
                     String key = scanner.nextLine();
-                    tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar kcaesar = new tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar(key);
+                    KeyedCaesar kcaesar = new KeyedCaesar(key);
                     System.out.println(kcaesar.encrypt(plain, offset));
                 } catch (NumberFormatException e) {
                     System.out.println("malformed command");
@@ -71,88 +72,101 @@ public class KeyedCaesarIO {
      * @param scanner käytetty Scanner
      */
     public static void kCaesarAnalysis(Scanner scanner) {
-        System.out.println("enter ciphertext");
-        String cipher = scanner.nextLine();
+        try {
+            System.out.println("enter ciphertext");
+            String cipher = scanner.nextLine();
 
-        cipher = cipher.toLowerCase();
+//            cipher = cipher.toLowerCase();
 
-        boolean exit = false;
-        KCaesarManualAnalysis manualAnalysis = new KCaesarManualAnalysis(Alphabet.ENGLISH);
-        KCaesarManualAnalysis[] saved = new KCaesarManualAnalysis[256];
-        for (int i = 0; i < 256; i++) {
-            saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
-        }
-        while (!exit) {
-            System.out.println("enter command (map a b, try a b, shift x, "
-                    + "fill mapping, exit)");
-            String command = scanner.nextLine();
-            if (command.equals("exit")) {
-                exit = true;
-            } else if (command.startsWith("map")) {
-                if (command.length() < 7) {
-                    System.out.println("command \"" + command + "\" too short");
-                }
-
-                char a = command.toCharArray()[4];
-                char b = command.toCharArray()[6];
-                manualAnalysis.map(a, b);
-                printAnalysis(manualAnalysis, cipher);
-            } else if (command.equals("fill mapping")) {
-                manualAnalysis.fillMappings();
-                printAnalysis(manualAnalysis, cipher);
-            } else if (command.startsWith("key")) {
-                if (command.length() < 5) {
-                    System.out.println("key command missing parameter");
-                } else {
-                    String key = command.substring(4);
-
-                    manualAnalysis.setKey(key);
-                    manualAnalysis.fillMappings();
-                    printAnalysis(manualAnalysis, cipher);
-                }
-            } else if (command.startsWith("shift")) {
-                try {
-                    int shift = Integer.parseInt(command.substring(6));
-                    manualAnalysis.setShift(shift);
-                    printAnalysis(manualAnalysis, cipher);
-                } catch (NumberFormatException e) {
-                    System.out.println("shift must be an integer");
-                }
-            } else if (command.startsWith("save")) {
-                if (command.length() < 6) {
-                    System.out.println("save command missing parameter");
-                } else {
-                    try {
-                        int index = Integer.parseInt(command.substring(5));
-                        saved[index] = manualAnalysis.copy();
-                        System.out.println("saved to slot " + index);
-                    } catch (NumberFormatException e) {
-                        System.out.println("malformed command");
-                    }
-
-                }
-            } else if (command.startsWith("load")) {
-                if (command.length() < 6) {
-                    System.out.println("load command missing parameter");
-                } else {
-                    try {
-                        int index = Integer.parseInt(command.substring(5));
-                        manualAnalysis = saved[index].copy();
-                        System.out.println("loaded from slot " + index);
-                        printAnalysis(manualAnalysis, cipher);
-                    } catch (NumberFormatException e) {
-                        System.out.println("malformed command");
-                    }
-                }
-            } else if (command.equals("reset")) {
-                manualAnalysis = new KCaesarManualAnalysis(Alphabet.ENGLISH);
-                for (int i = 0; i < 256; i++) {
-                    saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
-                }
-                System.out.println("Mapping reset");
-            } else {
-                System.out.println("command \"" + command + "\" unrecognized");
+            boolean exit = false;
+            KCaesarManualAnalysis manualAnalysis
+                    = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+            KCaesarManualAnalysis[] saved = new KCaesarManualAnalysis[256];
+            for (int i = 0; i < 256; i++) {
+                saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
             }
+
+            while (!exit) {
+                try {
+                    System.out.println("enter command (map a b, shift x, "
+                            + "fill mapping, key foo, exit, reset)");
+                    String command = scanner.nextLine();
+                    if (command.equals("exit")) {
+                        exit = true;
+                    } else if (command.startsWith("map")) {
+                        if (command.length() < 7) {
+                            System.out.println("command \"" + command
+                                    + "\" too short");
+                        }
+
+                        char a = command.toCharArray()[4];
+                        char b = command.toCharArray()[6];
+                        manualAnalysis.map(a, b);
+                        printAnalysis(manualAnalysis, cipher);
+                    } else if (command.equals("fill mapping")) {
+                        manualAnalysis.fillMappings();
+                        printAnalysis(manualAnalysis, cipher);
+                    } else if (command.startsWith("key")) {
+                        if (command.length() < 5) {
+                            System.out.println("key command missing parameter");
+                        } else {
+                            String key = command.substring(4);
+
+                            manualAnalysis.setKey(key);
+                            manualAnalysis.fillMappings();
+                            printAnalysis(manualAnalysis, cipher);
+                        }
+                    } else if (command.startsWith("shift")) {
+                        try {
+                            int shift = Integer.parseInt(command.substring(6));
+                            manualAnalysis.setShift(shift);
+                            printAnalysis(manualAnalysis, cipher);
+                        } catch (NumberFormatException e) {
+                            System.out.println("shift must be an integer");
+                        }
+                    } else if (command.startsWith("save")) {
+                        if (command.length() < 6) {
+                            System.out.println("save command missing parameter");
+                        } else {
+                            try {
+                                int index = Integer.parseInt(command.substring(5));
+                                saved[index] = manualAnalysis.copy();
+                                System.out.println("saved to slot " + index);
+                            } catch (NumberFormatException e) {
+                                System.out.println("malformed command");
+                            }
+
+                        }
+                    } else if (command.startsWith("load")) {
+                        if (command.length() < 6) {
+                            System.out.println("load command missing parameter");
+                        } else {
+                            try {
+                                int index = Integer.parseInt(command.substring(5));
+                                manualAnalysis = saved[index].copy();
+                                System.out.println("loaded from slot " + index);
+                                printAnalysis(manualAnalysis, cipher);
+                            } catch (NumberFormatException e) {
+                                System.out.println("malformed command");
+                            }
+                        }
+                    } else if (command.equals("reset")) {
+                        manualAnalysis = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+                        for (int i = 0; i < 256; i++) {
+                            saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+                        }
+                        System.out.println("Mapping reset");
+                    } else if (command.equals("print")) {
+                        printAnalysis(manualAnalysis, cipher);
+                    } else {
+                        System.out.println("command \"" + command + "\" unrecognized");
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
         }
     }
 
@@ -198,7 +212,7 @@ public class KeyedCaesarIO {
      * @param abc käytetty aakkosto
      */
     public static void printFreq(String cipher, char[] abc) {
-        double[] normFreq = Analysis.normalizedFrequencies(cipher, abc);
+        double[] normFreq = Analysis.normalizedFrequencies(cipher.toLowerCase(), abc);
         System.out.println("Normalized frequencies (character, frequency in ciphertext, frequency in English): ");
         for (int i = 0; i < abc.length; i++) {
             if (i % 5 == 0) {

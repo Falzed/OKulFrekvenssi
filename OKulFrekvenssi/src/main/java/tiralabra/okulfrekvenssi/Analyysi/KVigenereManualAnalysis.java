@@ -204,7 +204,7 @@ public class KVigenereManualAnalysis {
                 output[i] = String.valueOf(this.keyedAbcs[(i - notAlphabetical) % cosets][index]).toUpperCase().toCharArray()[0];
             } else {
                 notAlphabetical++;
-                output[i] = '?';
+                output[i] = input[i];
             }
         }
         return new String(output);

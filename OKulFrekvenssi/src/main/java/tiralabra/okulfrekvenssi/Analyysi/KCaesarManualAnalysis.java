@@ -57,7 +57,7 @@ public class KCaesarManualAnalysis {
             //monimutkaisempi lasku
             char c = this.mapping.get(
                     abc[((i + newShift) % abc.length + abc.length)
-                            % abc.length]);
+                    % abc.length]);
             newMapping.put(abc[i], c);
             newReverseMapping.put(c, abc[i]);
         }
@@ -124,8 +124,21 @@ public class KCaesarManualAnalysis {
 //            } else {
 //                output[i] = '?';
 //            }
-            output[i] = (reverseMapping.get(input[i]) != null)
-                    ? reverseMapping.get(input[i]) : '?';
+            if (Alphabet.isLetter(input[i], this.abc)) {
+                output[i] = (reverseMapping.get(input[i]) != null)
+                        ? reverseMapping.get(input[i]) : '?';
+//                System.out.println(input[i]);
+            } else if (Alphabet.isLetter(input[i],
+                    (new String(abc)).toUpperCase().toCharArray())) {
+//                System.out.println(input[i]);
+                output[i] = (reverseMapping.get(Character.toLowerCase(input[i]))
+                        != null)
+                                ? Character.toUpperCase(reverseMapping
+                                        .get(Character.toLowerCase(input[i])))
+                                : '?';
+            } else {
+                output[i] = input[i];
+            }
         }
         return new String(output);
     }
@@ -144,7 +157,6 @@ public class KCaesarManualAnalysis {
 
         for (int i = 0; i < abc.length; i++) {
             if (mapping.get(abc[i]) != null) {
-//                System.out.println("found existing mapping: " + abc[i] + "->" + mapping.get(abc[i]));
                 mapped.put(abc[i], mapping.get(abc[i]));
                 revMapped.put(mapping.get(abc[i]), abc[i]);
 
@@ -155,7 +167,6 @@ public class KCaesarManualAnalysis {
                 mapped.put(abc[i], charToAdd);
                 revMapped.put(charToAdd, abc[i]);
 
-//                System.out.println("new mapping: " + abc[i] + "->" + charToAdd);
             }
         }
         setMapping(mapped, revMapped);
@@ -171,7 +182,6 @@ public class KCaesarManualAnalysis {
      */
     public char firstNotAdded(char[] abc, OmaHash<Character, Boolean> added) {
         for (char c : abc) {
-            System.out.println(c + ": " + added.get(c));
             if (!added.get(c)) {
                 return c;
             }

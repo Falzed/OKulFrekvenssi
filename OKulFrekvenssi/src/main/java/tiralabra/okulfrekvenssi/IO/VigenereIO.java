@@ -54,40 +54,4 @@ public class VigenereIO {
                 break;
         }
     }
-
-    /**
-     *
-     * @param scanner käytetty Scanner
-     */
-    public static void keyedVigenere(Scanner scanner) {
-        System.out.println("encrypt or decrypt");
-        String line4 = scanner.nextLine();
-        switch (line4) {
-            case "encrypt": {
-                System.out.println("enter plaintext");
-                String plain = scanner.nextLine();
-                System.out.println("enter passphrase");
-                String passphrase = scanner.nextLine();
-                System.out.println("enter key");
-                String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
-                System.out.println(kvig.encrypt(plain, passphrase));
-                break;
-            }
-            case "decrypt": {
-                System.out.println("enter ciphertext");
-                String cipher = scanner.nextLine();
-                System.out.println("enter passphrase");
-                String passphrase = scanner.nextLine();
-                System.out.println("enter key");
-                String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
-                System.out.println(kvig.decrypt(cipher, passphrase));
-                break;
-            }
-            default:
-                System.out.println("command unrecognized");
-                break;
-        }
-    }
 }
