@@ -89,7 +89,7 @@ public class KeyedCaesarIO {
             while (!exit) {
                 try {
                     System.out.println("enter command (map a b, shift x, "
-                            + "fill mapping, key foo, exit, reset)");
+                            + "fill mapping, key foo, exit, reset, save i, load i, reset)");
                     String command = scanner.nextLine();
                     if (command.equals("exit")) {
                         exit = true;

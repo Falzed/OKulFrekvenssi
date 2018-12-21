@@ -47,8 +47,6 @@ public class KeyedCaesar {
             hashCharInt.put(abc.charAt(i), i);
         }
         this.aakkosto = abc;
-        System.out.println(Arrays.toString(Alphabet.ENGLISH));
-        System.out.println(Arrays.toString(aakkosto.toCharArray()));
     }
 
     /**
@@ -74,8 +72,6 @@ public class KeyedCaesar {
                 crypted[i] = hashIntChar.get((Alphabet.ENGLISH_CHAR_INT.get(c) + offset) % aakkosto.length());
             } else if (Alphabet.isLetter(c, aakkosto.toUpperCase().toCharArray())) {
                 crypted[i] = Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length());
-//            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
-//            System.out.println(crypted);
             } else {
                 crypted[i] = c;
             }

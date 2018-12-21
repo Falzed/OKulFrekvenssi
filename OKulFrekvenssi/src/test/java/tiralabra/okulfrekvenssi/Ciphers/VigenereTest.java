@@ -68,7 +68,7 @@ public class VigenereTest {
         String passphrase = "test";
         Vigenere vig = new Vigenere(Alphabet.SUOMI);
         String expResult = "Jihjcihitkw";
-        
+
         long start = System.nanoTime();
         String encrypted = vig.encrypt(message, passphrase);
         long end = System.nanoTime();
@@ -95,11 +95,11 @@ public class VigenereTest {
             sum += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                mini=i;
+                mini = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxi=i;
+                maxi = i;
             }
         }
         for (int i = 0; i < 1000; i++) {
@@ -109,22 +109,70 @@ public class VigenereTest {
             sumDec += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                miniDec=i;
+                miniDec = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxiDec=i;
+                maxiDec = i;
             }
         }
-        System.out.println("avg encrypt time: "+(sum/1000)+", avg decrypt time: "+(sumDec/1000));
-        System.out.println((end-start)+", "+(end2-start2));
+        System.out.println("avg encrypt time: " + (sum / 1000) + ", avg decrypt time: " + (sumDec / 1000));
+        System.out.println((end - start) + ", " + (end2 - start2));
         String message2 = "test bound.ary";
         String passphrase2 = "qwefgjnioxm";
         String encryptResult2 = vig.encrypt(message2, passphrase2);
         assertEquals("gåwy hxevr.xal", encryptResult2);
         assertEquals(message2, vig.decrypt(encryptResult2, passphrase2));
     }
-    
+//
+//    @Test
+//    public void testEncryptDecryptMillion() {
+//        System.out.println("encrypt");
+//        String message = "Testmessage";
+//        String passphrase = "test";
+//        Vigenere vig = new Vigenere(Alphabet.ENGLISH);
+//
+//        long start = 0;
+//        long end = 0;
+//        long sum = 0;
+//        long sumDec = 0;
+//        String plain = "";
+//        String encrypted = "";
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            plain = plain.concat("Testmessage");
+//            for (int i = 0; i < 1000000; i++) {
+//                start = System.nanoTime();
+//                encrypted = vig.encrypt(plain, "test");
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//        String crypt = "";
+//        String decrypted = "";
+//        for (int j = 1; j < 21; j++) {
+//            crypt = crypt.concat("Mikmfikltkw");
+//            sumDec = 0;
+//            for (int i = 0; i < 1000000; i++) {
+//                start = System.nanoTime();
+//                decrypted = vig.decrypt("Mikmfikltkw", "test");
+//                end = System.nanoTime();
+//                sumDec += end - start;
+//            }
+//
+//            if (j != 20) {
+//                System.out.print(sumDec / 1000000 + ",");
+//            } else {
+//                System.out.println(sumDec / 1000000);
+//            }
+//        }
+//    }
+
     @Test
     public void testEnglish() {
         Vigenere vig = new Vigenere(Alphabet.ENGLISH);

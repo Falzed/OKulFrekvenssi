@@ -95,7 +95,7 @@ public class KeyedVigenereIO {
             while (!exit) {
                 try {
                     System.out.println("enter command (map a b i, try a b, shift x, "
-                            + "fill mapping, exit)");
+                            + "fill mapping, exit, save i, load i, reset)");
                     String command = scanner.nextLine();
                     if (command.equals("exit")) {
                         exit = true;

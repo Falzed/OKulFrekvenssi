@@ -21,6 +21,7 @@ public class Vigenere {
 
     /**
      * Alustaa luokan olion
+     *
      * @param alphabet käytetty aakkosto
      */
     public Vigenere(char[] alphabet) {
@@ -53,6 +54,7 @@ public class Vigenere {
 
     /**
      * Salaa annetun tekstin
+     *
      * @param message salattava viesti
      * @param passphrase avain
      * @return salattu teksti
@@ -61,8 +63,8 @@ public class Vigenere {
         passphrase = passphrase.toLowerCase();
         char[] passphraseArray = passphrase.toCharArray();
         char[] passArray = new char[message.length()];
-        for(int i=0; i<message.length(); i++) {
-            passArray[i] = passphraseArray[i%passphraseArray.length];
+        for (int i = 0; i < message.length(); i++) {
+            passArray[i] = passphraseArray[i % passphraseArray.length];
         }
 //        String pass = passphrase;
 //        while (pass.length() + passphrase.length() < message.length()) {
@@ -97,21 +99,21 @@ public class Vigenere {
      * @return paljas teksti
      */
     public String decrypt(String crypted, String passphrase) {
-        
+
         passphrase = passphrase.toLowerCase();
         char[] passphraseArray = passphrase.toCharArray();
         char[] passArray = new char[crypted.length()];
-        for(int i=0; i<crypted.length(); i++) {
-            passArray[i] = passphraseArray[i%passphraseArray.length];
+        for (int i = 0; i < crypted.length(); i++) {
+            passArray[i] = passphraseArray[i % passphraseArray.length];
         }
-        
+        String pass = new String(passArray);
+
 //        passphrase = passphrase.toLowerCase();
 //        String pass = passphrase;
 //        while (pass.length() + passphrase.length() < crypted.length()) {
 //            pass = pass + passphrase;
 //        }
 //        pass = pass + passphrase.substring(0, crypted.length() - pass.length());
-        String pass = new String(passArray);
         char[] crypt = crypted.toCharArray();
         char[] plaintext = new char[crypt.length];
 

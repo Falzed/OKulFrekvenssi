@@ -89,4 +89,55 @@ public class KeyedCaesarTest {
 
         assertEquals("testmessage", decrypted);
     }
+
+//    @Test
+//    public void testEncryptDecryptKCaesarThousand() {
+//        String decrypted = kcaesar.decrypt("cdefghjklm", 5);
+//        assertEquals("abcdefghij", decrypted);
+//
+//        long start = System.nanoTime();
+//        long end = System.nanoTime();
+//        long sum = 0;
+//        String plain = "";
+//        String encrypted;
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            for (int i = 0; i < 1000; i++) {
+//                plain = plain.concat("abcdefghij");
+//                start = System.nanoTime();
+//                kcaesar = new KeyedCaesar("avain");
+//                encrypted = kcaesar.decrypt(plain, 5);
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//
+//            String crypt = "";
+//            for (int i = 0; i < 1000; i++) {
+//                crypt = crypt.concat("cdefghjklm");
+//                start = System.nanoTime();
+//                kcaesar = new KeyedCaesar("avain");
+//                decrypted = kcaesar.decrypt(crypt, 5);
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//
+//        decrypted = kcaesar.decrypt("ygxyqgxxcjg", 5);
+//
+//    }
 }

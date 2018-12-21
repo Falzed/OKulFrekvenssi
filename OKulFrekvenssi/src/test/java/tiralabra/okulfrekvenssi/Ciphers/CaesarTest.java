@@ -61,6 +61,34 @@ public class CaesarTest {
                 + (sum) / 1000 + " ns");
         assertEquals(encrypted, "Yjxyrjxxflj");
     }
+//
+//    @Test
+//    public void testEncryptMillion() {
+//        Caesar caesar = new Caesar();
+//        long sum = 0;
+//        long start = System.nanoTime();
+//        String encrypted = caesar.encrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
+//        long end = System.nanoTime();
+//        System.out.println("Ensimmäinen enkryptaus: " + (end - start) + " ns");
+//        String message = "";
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            message=message.concat("testmessage");
+//            for (int i = 0; i < 1000000; i++) {
+//                start = System.nanoTime();
+//                encrypted = caesar.encrypt(message, 5, Alphabet.SUOMI);
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//        System.out.println("aika \"Testmessage\"-viestin salaukseen keskimäärin: "
+//                + (sum) / 1000000 + " ns");
+//    }
 
     @Test
     public void testDecrypt() {
@@ -97,5 +125,34 @@ public class CaesarTest {
         System.out.println("max: " + max + " ns (i=" + maxi + "), min: " + min + " ns (i=" + mini + ")");
         assertEquals(decrypted, "Testmessage");
     }
+
+//    @Test
+//    public void testDecryptMillion() {
+//        Caesar caesar = new Caesar();
+//        long sum = 0;
+//        long start = System.nanoTime();
+//        String decrypted = caesar.decrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
+//        long end = System.nanoTime();
+//        System.out.println("Ensimmäinen dekryptaus: " + (end - start) + " ns");
+//        String crypted = "";
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            crypted = crypted.concat("Yjxyrjxxflj");
+//            
+//            for (int i = 0; i < 1000000; i++) {
+//                start = System.nanoTime();
+//                decrypted = caesar.decrypt("Yjxyrjxxflj", 5, Alphabet.SUOMI);
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+////            System.out.println("Keskiarvoinen dekryptaus aika (\"Yjxyrjxxflj\"*"+j+", n=1000000"+") : " + sum / 1000000 + " ns");
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//
+//    }
 
 }

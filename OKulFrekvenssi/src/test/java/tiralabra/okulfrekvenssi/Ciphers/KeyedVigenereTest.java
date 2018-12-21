@@ -17,14 +17,14 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
  * @author Oskari
  */
 public class KeyedVigenereTest {
-    
+
     public KeyedVigenereTest() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -38,8 +38,8 @@ public class KeyedVigenereTest {
         KeyedVigenere instance = new KeyedVigenere("key", Alphabet.SUOMI);
         char[][] expResult = new char[29][29];
         String abc = "keyabcdfghijlmnopqrstuvwxzåäö";
-        for(int i=0; i<29; i++) {
-            expResult[i]=abc.substring(i).concat(abc.substring(0, i)).toCharArray();
+        for (int i = 0; i < 29; i++) {
+            expResult[i] = abc.substring(i).concat(abc.substring(0, i)).toCharArray();
         }
         char[][] result = instance.getKeytable();
         assertArrayEquals(expResult, result);
@@ -50,20 +50,20 @@ public class KeyedVigenereTest {
      */
     @Test
     public void testEncrypt() {
-              
+
         System.out.println("encrypt");
         String message = "Books";
         String passphrase = "auto";
         KeyedVigenere instance = new KeyedVigenere("key", Alphabet.SUOMI);
-        
-        for(char[] array:instance.getKeytable()) {
+
+        for (char[] array : instance.getKeytable()) {
             System.out.println(new String(array));
         }
-        
+
         String expResult = "Ffdov";
         String result = instance.encrypt(message, passphrase);
         assertEquals(expResult, result);
-        
+
         long end;
         long start;
         long min = Long.MAX_VALUE;
@@ -79,15 +79,15 @@ public class KeyedVigenereTest {
             sum += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                mini=i;
+                mini = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxi=i;
+                maxi = i;
             }
         }
 //        System.out.println(crypted);
-        System.out.println("avg encrypt time: "+(sum/1000));
+        System.out.println("avg encrypt time: " + (sum / 1000));
     }
 
     /**
@@ -102,7 +102,7 @@ public class KeyedVigenereTest {
         String expResult = "books";
         String result = instance.decrypt(crypted, passphrase);
         assertEquals(expResult, result);
-        
+
         long end;
         long start;
         long min = Long.MAX_VALUE;
@@ -117,14 +117,59 @@ public class KeyedVigenereTest {
             sum += end - start;
             if (min > (end - start)) {
                 min = end - start;
-                mini=i;
+                mini = i;
             }
             if (max < (end - start)) {
                 max = end - start;
-                maxi=i;
+                maxi = i;
             }
         }
-        System.out.println("avg decrypt time: "+(sum/1000));
+        System.out.println("avg decrypt time: " + (sum / 1000));
     }
-    
+//
+//    @Test
+//    public void testDecryptMillion() {
+//        long end;
+//        long start;
+//        long sum = 0;
+//        String plain = "";
+//        String crypted;
+//        KeyedVigenere instance = new KeyedVigenere("key", Alphabet.ENGLISH);
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            for (int i = 0; i < 1000; i++) {
+//                plain = plain.concat("Testmessage");
+//                start = System.nanoTime();
+//                instance = new KeyedVigenere("keyavin", Alphabet.ENGLISH);
+//                crypted = instance.encrypt(plain, "test");
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//        sum = 0;
+//        String crypt = "";
+//        String decrypted;
+//        for (int j = 1; j < 21; j++) {
+//            sum = 0;
+//            for (int i = 0; i < 1000; i++) {
+//                start = System.nanoTime();
+//                crypt = crypt.concat("Oylofylmxht");
+//                instance = new KeyedVigenere("keyavin", Alphabet.ENGLISH);
+//                decrypted = instance.decrypt(crypt, "test");
+//                end = System.nanoTime();
+//                sum += end - start;
+//            }
+//            if (j != 20) {
+//                System.out.print(sum / 1000000 + ",");
+//            } else {
+//                System.out.println(sum / 1000000);
+//            }
+//        }
+//    }
+
 }
