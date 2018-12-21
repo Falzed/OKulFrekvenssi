@@ -22,6 +22,7 @@ Vigenere
 ![Vigenere-salauksen purku](kuvat/vigDecryptActual.png)
 
 (Huom. keyed-varianteilla aika mikro eikä nanosekunteja)
+
 Keyed Caesar
 
 ![Keyed Caesar-salaus](kuvat/kCaesarEncryptActual.png)
