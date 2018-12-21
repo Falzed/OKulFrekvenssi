@@ -421,6 +421,7 @@ public class manualTesting {
         
         kvig = new KeyedVigenere("avin", Alphabet.ENGLISH);
         System.out.println(kvig.encrypt("this is a test message", "a"));
+        System.out.println(Alphabet.removeDuplicates("avain", abc));
 
     }
 

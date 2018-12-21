@@ -111,7 +111,6 @@ public class KeyedCaesarIO {
                             System.out.println("key command missing parameter");
                         } else {
                             String key = command.substring(4);
-
                             manualAnalysis.setKey(key);
                             manualAnalysis.fillMappings();
                             printAnalysis(manualAnalysis, cipher);

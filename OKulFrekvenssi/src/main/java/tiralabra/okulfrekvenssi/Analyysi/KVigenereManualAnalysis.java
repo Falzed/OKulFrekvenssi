@@ -100,7 +100,7 @@ public class KVigenereManualAnalysis {
         newAnalysis.setKeyedAbcs(keyedAbcs);
         return newAnalysis;
     }
-    
+
     public void setKeyedAbcs(char[][] newKeyed) {
         this.keyedAbcs = newKeyed;
     }
@@ -172,7 +172,7 @@ public class KVigenereManualAnalysis {
         int notAlphabetical = 0;
 
         for (int i = 0; i < input.length; i++) {
-            char[] mappedAbc = getMappedAbc(i%cosets);
+            char[] mappedAbc = getMappedAbc(i % cosets);
             char[] newMappedAbc = new char[mappedAbc.length];
             OmaHash<Character, Boolean> added = new OmaHash<>();
             for (char c : abc) {
@@ -193,7 +193,7 @@ public class KVigenereManualAnalysis {
             mappedAbc = newMappedAbc;
             if (Alphabet.isLetter(input[i], abc)) {
                 int index = findFirst(new String(mappedAbc), input[i]);
-                if(index == -1) {
+                if (index == -1) {
                     System.out.println("Error in findFirst");
                     System.out.println(new String(mappedAbc));
                     break;
@@ -222,11 +222,18 @@ public class KVigenereManualAnalysis {
     }
 
     public void setKey(String newKey, int coset) {
-        this.keyedAbcs[coset] = newKey.concat(
-                Alphabet.removeAll(new String(abc), newKey)
+        String key = Alphabet.removeDuplicates(newKey, abc);
+        this.keyedAbcs[coset] = key.concat(
+                Alphabet.removeAll(new String(abc), key)
         ).toCharArray();
+        resetMapping();
+        for (int i = 0; i < key.length(); i++) {
+            for (int j = 0; j < cosets; j++) {
+                map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
+            }
+        }
     }
-    
+
     public void resetMapping() {
         for (int i = 0; i < cosets; i++) {
             mappings[i] = new OmaHash<>();

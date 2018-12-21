@@ -43,6 +43,7 @@ public class KCaesarManualAnalysis {
     }
 
     public void setKey(String newKey) {
+        newKey = Alphabet.removeDuplicates(newKey, abc);
         for (int i = 0; i < newKey.length(); i++) {
             map(abc[i], newKey.toCharArray()[i]);
         }

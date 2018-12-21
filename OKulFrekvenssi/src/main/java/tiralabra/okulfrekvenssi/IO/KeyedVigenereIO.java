@@ -119,12 +119,7 @@ public class KeyedVigenereIO {
                         } else {
                             String key = command.substring(4);
                             manualAnalysis.setKey(key, currentCoset);
-                            manualAnalysis.resetMapping();
-                            for (int i = 0; i < key.length(); i++) {
-                                for (int j = 0; j < cosets; j++) {
-                                    manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
-                                }
-                            }
+                            
                             printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
                         }
                     } else if (command.equals("fill mapping")) {

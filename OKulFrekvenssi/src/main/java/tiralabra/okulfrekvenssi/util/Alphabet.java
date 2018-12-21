@@ -152,6 +152,28 @@ public class Alphabet {
         }
         return removed;
     }
+    
+    public static String removeDuplicates(String mjono, char[] abc) {
+        char[] arr = mjono.toCharArray();
+        OmaHash<Character, Boolean> added = new OmaHash<>();
+        for(char c:abc) {
+            added.put(c, Boolean.FALSE);
+        }
+        char[] removed = new char[arr.length];
+        int j=0;
+        for(int i=0; i<arr.length; i++) {
+            if(!added.get(arr[i])) {
+                removed[j] = arr[i];
+                j++;
+                added.put(arr[i], Boolean.TRUE);
+            }
+        }
+        char[] res = new char[j]; 
+        for(int i=0; i<j; i++) {
+            res[i] = removed[i];
+        }
+        return new String(res);
+    }
 
     static {
         int i = 0;
