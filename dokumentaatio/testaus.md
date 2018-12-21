@@ -16,14 +16,20 @@ Caesar salaus ja sen purku
 ![Caesar-salauksen purku](kuvat/caesarDecryptActual.png)
 
 Vigenere
+
 ![Vigenere-salaus](kuvat/vigEncryptActual.png)
-![Vigenere-salauksen purku](kuvat/vigDecryptActual.png
+
+![Vigenere-salauksen purku](kuvat/vigDecryptActual.png)
 
 (Huom. keyed-varianteilla aika mikro eikä nanosekunteja)
 Keyed Caesar
+
 ![Keyed Caesar-salaus](kuvat/kCaesarEncryptActual.png)
+
 ![Keyed Caesar-salauksen purku](kuvat/kCaesarDecryptActual.png)
 
 Keyed Vigerene
+
 ![Keyed Vigerene-salaus](kuvat/kVigEncryptActual.png)
+
 ![Keyed Vigerene-salauksen purku](kuvat/kVigDecryptActual.png)
