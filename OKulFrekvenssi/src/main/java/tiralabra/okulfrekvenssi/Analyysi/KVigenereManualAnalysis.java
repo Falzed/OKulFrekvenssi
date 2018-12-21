@@ -70,6 +70,11 @@ public class KVigenereManualAnalysis {
         this.reverseMappings[coset].put(b, a);
     }
 
+    /**
+     * Shiftaa annettua sivuluokkaa
+     * @param shift kuinka paljon shiftataan
+     * @param coset sivuluokka
+     */
     public void setShift(int shift, int coset) {
 //        System.out.println(shift);
 //        System.out.println(coset);
@@ -105,6 +110,10 @@ public class KVigenereManualAnalysis {
         return newAnalysis;
     }
 
+    /**
+     * Asettaa aakkoston
+     * @param newKeyed uusi aakkosto
+     */
     public void setKeyedAbcs(char[][] newKeyed) {
         this.keyedAbcs = newKeyed;
     }
@@ -122,6 +131,12 @@ public class KVigenereManualAnalysis {
         }
     }
 
+    /**
+     * Asettaa yhden sivuluokan kuvaukset
+     * @param newMap uudet kuvaukset
+     * @param newRev uudet käänteiskuvaukset
+     * @param coset sivuluokka
+     */
     public void setMapping(OmaHash newMap, OmaHash newRev, int coset) {
         this.mappings[coset] = newMap.copy();
         this.reverseMappings[coset] = newRev.copy();
@@ -229,6 +244,11 @@ public class KVigenereManualAnalysis {
         return -1;
     }
 
+    /**
+     * Asettaa avaimen
+     * @param newKey uusi avain
+     * @param coset sivuluokka
+     */
     public void setKey(String newKey, int coset) {
         String key = Alphabet.removeDuplicates(newKey, abc);
         resetMapping();
@@ -244,11 +264,18 @@ public class KVigenereManualAnalysis {
         }
     }
 
+    /**
+     * Resettaa sivuluokan kuvaukset
+     * @param coset sivuluokka
+     */
     public void resetMapping(int coset) {
         mappings[coset] = new OmaHash<>();
         reverseMappings[coset] = new OmaHash<>();
     }
 
+    /**
+     * Resettaa kaikkien sivuluokkien kuvaukset
+     */
     public void resetMapping() {
         for (int i = 0; i < cosets; i++) {
             mappings[i] = new OmaHash<>();
@@ -256,10 +283,19 @@ public class KVigenereManualAnalysis {
         }
     }
 
+    /**
+     * Palauttaa aakkoset
+     * @param coset sivuluokka
+     * @return aakkosto
+     */
     public char[] getKeyedAbc(int coset) {
         return this.keyedAbcs[coset];
     }
 
+    /**
+     * Täydentää yhden sivuluokan kuvaukset
+     * @param coset sivuluokka
+     */
     public void fillMappings(int coset) {
         OmaHash<Character, Character> mapped = new OmaHash<>();
         OmaHash<Character, Character> revMapped = new OmaHash<>();
@@ -287,9 +323,9 @@ public class KVigenereManualAnalysis {
     }
 
     /**
-     *
-     * @param abc
-     * @param added
+     * Etsii ensimmäisen aakkosen, joka ei annetussa hashissä TRUE
+     * @param abc aakkoset
+     * @param added jo lisätyt
      * @return
      */
     public char firstNotAdded(char[] abc, OmaHash<Character, Boolean> added) {

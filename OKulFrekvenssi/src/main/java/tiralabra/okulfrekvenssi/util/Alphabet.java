@@ -83,6 +83,7 @@ public class Alphabet {
      * Tarkistaa kuuluuko annettu merkki annettuihin aakkosiin
      *
      * @param c merkki
+     * @param abc aakkoset
      * @return onko merkki annetuissa aakkosissa
      */
     public static boolean isLetter(char c, char[] abc) {
@@ -153,6 +154,12 @@ public class Alphabet {
         return removed;
     }
     
+    /**
+     * Poistaa merkkijonosta duplikaattikirjaimet, esim avain-avin
+     * @param mjono alkuperäinen merkkijono
+     * @param abc aakkoset
+     * @return merkkijono ilman duplikaatteja
+     */
     public static String removeDuplicates(String mjono, char[] abc) {
         char[] arr = mjono.toCharArray();
         OmaHash<Character, Boolean> added = new OmaHash<>();

@@ -9,6 +9,8 @@
 
 [Käyttöopas](./dokumentaatio/käyttöopas.md)
 
+[javadoc](./dokumentaatio/apidocs/index.html)
+
 ## Viikkoraportit
 [Viikko 1](./dokumentaatio/viikkoraportti1.md)
  

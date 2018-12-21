@@ -42,6 +42,10 @@ public class KCaesarManualAnalysis {
         this.reverseMapping.put(b, a);
     }
 
+    /**
+     * Asettaa avaimen
+     * @param newKey uusi avain
+     */
     public void setKey(String newKey) {
         newKey = Alphabet.removeDuplicates(newKey, abc);
         for (int i = 0; i < newKey.length(); i++) {
@@ -50,14 +54,18 @@ public class KCaesarManualAnalysis {
         this.key = newKey;
     }
 
-    public void setShift(int newShift) {
+    /**
+     * Shiftaa kuvauksia
+     * @param shift kuinka paljon shiftataan
+     */
+    public void setShift(int shift) {
         OmaHash<Character, Character> newMapping = new OmaHash<>();
         OmaHash<Character, Character> newReverseMapping = new OmaHash<>();
         for (int i = 0; i < this.abc.length; i++) {
             //javan % voi palauttaa negatiivisen luvun joten vähän 
             //monimutkaisempi lasku
             char c = this.mapping.get(
-                    abc[((i + newShift) % abc.length + abc.length)
+                    abc[((i + shift) % abc.length + abc.length)
                     % abc.length]);
             newMapping.put(abc[i], c);
             newReverseMapping.put(c, abc[i]);
@@ -145,7 +153,7 @@ public class KCaesarManualAnalysis {
     }
 
     /**
-     *
+     * Täyttää kuvaukset
      */
     public void fillMappings() {
         OmaHash<Character, Character> mapped = new OmaHash<>();
