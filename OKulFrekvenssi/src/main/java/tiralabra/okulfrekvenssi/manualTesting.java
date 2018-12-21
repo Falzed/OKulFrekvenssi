@@ -6,7 +6,6 @@ import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
 import tiralabra.okulfrekvenssi.Analyysi.CaesarAnalysis;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import java.util.Arrays;
-import static tiralabra.okulfrekvenssi.Analyysi.KeyedVigenereAnalysis.getCosets;
 import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
 import tiralabra.okulfrekvenssi.Ciphers.*;
 import tiralabra.okulfrekvenssi.Analyysi.*;

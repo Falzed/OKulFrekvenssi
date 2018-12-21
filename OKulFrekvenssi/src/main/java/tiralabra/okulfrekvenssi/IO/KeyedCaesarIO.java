@@ -8,7 +8,6 @@ package tiralabra.okulfrekvenssi.IO;
 import java.util.Scanner;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.KCaesarManualAnalysis;
-import tiralabra.okulfrekvenssi.Analyysi.KeyedCaesarAnalysis;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaTuple;
 
@@ -18,6 +17,10 @@ import tiralabra.okulfrekvenssi.util.OmaTuple;
  */
 public class KeyedCaesarIO {
 
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void keyedCaesar(Scanner scanner) {
         System.out.println("encrypt/decrypt/analysis");
         String lineKeyedC = scanner.nextLine();
@@ -63,6 +66,10 @@ public class KeyedCaesarIO {
         }
     }
 
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void kCaesarAnalysis(Scanner scanner) {
         System.out.println("enter ciphertext");
         String cipher = scanner.nextLine();
@@ -142,6 +149,12 @@ public class KeyedCaesarIO {
         }
     }
 
+    /**
+     * Printtaa kuvaukset ja niillä puretun tekstin sekä salatun tekstin ja
+     * englannin frekvenssit
+     * @param k1 käytetty analyysi
+     * @param cipher salattu teksti
+     */
     public static void printAnalysis(KCaesarManualAnalysis k1, String cipher) {
         System.out.println("mapping");
         System.out.println(k1.getAbc());
@@ -170,6 +183,11 @@ public class KeyedCaesarIO {
 
     }
 
+    /**
+     * Printtaa salatun tekstin ja englannin frekvenssit
+     * @param cipher salattu teksti
+     * @param abc käytetty aakkosto
+     */
     public static void printFreq(String cipher, char[] abc) {
         double[] normFreq = Analysis.normalizedFrequencies(cipher, abc);
         System.out.println("Normalized frequencies (character, frequency in ciphertext, frequency in English): ");

@@ -65,6 +65,10 @@ public class OmaHash<K, V> {
         return this.table[OmaHash.hash(k)];
     }
 
+    /**
+     *
+     * @param newTable uusi taulukko
+     */
     public void setTable(V[] newTable){
         if (this.table.length != newTable.length) {
             System.out.println("Array size mismatch");
@@ -72,22 +76,23 @@ public class OmaHash<K, V> {
             this.table = newTable.clone();
         }
 
-//        for(int i=0; i<newTable.length; i++) {
-//            this.table[i] = newTable[i];
-//        }
     }
 
+    /**
+     *
+     * @return kopio
+     */
     public OmaHash copy(){
         OmaHash<K, V> ret = new OmaHash<>();
         ret.setTable(table);
         return ret;
     }
 
-//    /**
-//     *
-//     * @return koko taulu
-//     */
-//    public V[] getTable() {
-//        return this.table;
-//    }
+    /**
+     *
+     * @return koko taulu
+     */
+    public V[] getTable() {
+        return this.table;
+    }
 }

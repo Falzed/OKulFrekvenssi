@@ -6,19 +6,35 @@
 package tiralabra.okulfrekvenssi.util;
 
 /**
- *
+ * Olio jolla merkki ja desimaaliluku
  * @author Oskari
  */
 public class OmaTuple {
     private final double luku;
     private final char merkki;
+
+    /**
+     *
+     * @param a luku
+     * @param c merkki
+     */
     public OmaTuple(double a, char c) {
         this.luku=a;
         this.merkki=c;
     }
+
+    /**
+     *
+     * @return olion desimaaliluku
+     */
     public double getValue() {
         return this.luku;
     }
+
+    /**
+     *
+     * @return olion merkki
+     */
     public char getMerkki() {
         return this.merkki;
     }
@@ -28,9 +44,9 @@ public class OmaTuple {
     }
     
     /**
-     *
-     * @param unsorted
-     * @return
+     * Mergesort
+     * @param unsorted järjestettävä taulu
+     * @return järjestetty taulu
      */
     public static OmaTuple[] omaMergeSort(OmaTuple[] unsorted) {
         OmaTuple[] copy = unsorted.clone();
@@ -54,7 +70,6 @@ public class OmaTuple {
         for (int i = 0; i < middle - left + 1; i++) {
             L[i] = arr[left + i];
         }
-//        System.out.println(left + ", " + middle + ", " + right);
         for (int i = 0; i < right - middle; i++) {
             R[i] = arr[middle + i + 1];
         }
@@ -85,7 +100,5 @@ public class OmaTuple {
             j++;
             k++;
         }
-//        System.out.println(Arrays.toString(arr));
-
     }
 }

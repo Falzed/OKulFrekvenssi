@@ -14,12 +14,12 @@ import tiralabra.okulfrekvenssi.Ciphers.Caesar;
 public class CaesarAnalysis {
 
     /**
-     * 
+     * Laskee offsetin jolla kirjainten frekvenssit poikkeavat vähiten 
+     * englannista
      * @param ciphertext salattu teksti jota analysoidaan
      * @param alphabet käytettävä aakkosto (käytännössä ääkkösten kanssa vai
      * ilman)
-     * @return paras arvaus mikä salauksen offset on (millä kirjainten
-     * frekvenssit poikkeavat vähiten englannista)
+     * @return paras arvaus mikä salauksen offset on 
      */
     public static int bestGuess(String ciphertext, char[] alphabet) {
         double min = Double.MAX_VALUE;
@@ -30,7 +30,6 @@ public class CaesarAnalysis {
                 min = sum;
                 a = i;
             }
-//            System.out.println("i="+i+", sum="+sum);
         }
         return a;
     }
@@ -40,6 +39,7 @@ public class CaesarAnalysis {
      * englannista (normalisoituna).
      * @param ciphertext salattu teksti
      * @param offset kuinka paljon shiftataan merkkejä
+     * @param alphabet käytetty aakkosto
      * @return frekvenssien normalisoitu poikkeama englannista
      */
     public static double getNormalizedFrequenciesSum(String ciphertext,

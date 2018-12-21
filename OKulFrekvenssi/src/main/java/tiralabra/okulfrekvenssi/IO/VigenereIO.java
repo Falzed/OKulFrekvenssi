@@ -17,6 +17,11 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
  * @author Oskari
  */
 public class VigenereIO {
+
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void vigenere(Scanner scanner) {
         System.out.println("encrypt or decrypt");
         String line3 = scanner.nextLine();
@@ -50,6 +55,10 @@ public class VigenereIO {
         }
     }
 
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void keyedVigenere(Scanner scanner) {
         System.out.println("encrypt or decrypt");
         String line4 = scanner.nextLine();

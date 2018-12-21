@@ -22,6 +22,7 @@ public class KeyedVigenere {
     /**
      *
      * @param key avain
+     * @param aakkosto käytetty aakkosto
      */
     public KeyedVigenere(String key, char[] aakkosto) {
 
@@ -39,15 +40,9 @@ public class KeyedVigenere {
         }
         String uusiAvainString = (new String(newKey)).substring(0, n);
         abc = Alphabet.removeAll(abc, uusiAvainString);
-//        System.out.println(abc);
         ABC = Alphabet.removeAll(ABC, uusiAvainString.toUpperCase());
-//        for (int i = 0; i < uusiAvainString.length(); i++) {
-//            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
-//            ABC = ABC.replaceAll(uusiAvainString.toUpperCase().substring(i, i + 1), "");
-//        }
         abc = uusiAvainString.concat(abc);
         ABC = uusiAvainString.toUpperCase().concat(ABC);
-//        System.out.println(abc);
         this.hash = new OmaHash<>();
         this.hash2 = new OmaHash<>();
         this.capsHash = new OmaHash<>();
@@ -119,30 +114,17 @@ public class KeyedVigenere {
         }
         pass = pass + passphrase.substring(0, message.length() - pass.length());
 
-//        System.out.println(pass);
         char[] mess = message.toCharArray();
         char[] ciphertext = new char[mess.length];
         for (int i = 0; i < mess.length; i++) {
             if (Alphabet.isFinnishLetter(mess[i])) {
                 int messCharIndex = this.hash2.get(mess[i]);
-//            int messCharIndex = indexOf(mess[i], this.alphabet);
-//            System.out.println(mess[i]);
-//            System.out.println(this.hash2.get(mess[i]));
-//            System.out.println(indexOf(mess[i], this.alphabet));
-//            System.out.println(this.hash2.get(mess[i])==indexOf(mess[i], this.alphabet));
                 int row = this.hash2.get(pass.charAt(i));
-//            System.out.println(this.hash2.get(pass.charAt(i)));
-//            System.out.println(indexOf(pass.charAt(i), this.alphabet));
-//            System.out.println(this.hash2.get(pass.charAt(i))==indexOf(pass.charAt(i), this.alphabet));
-//            int row = indexOf(pass.charAt(i), this.alphabet);
-//            System.out.println(row+", "+messCharIndex);
                 ciphertext[i] = this.keytable[row][messCharIndex];
             } else if (Alphabet.isCapitalFinnishLetter(mess[i])) {
-//                System.out.println(mess[i]);
                 int messCharIndex = this.capsHash2.get(mess[i]);
                 int row = hash2.get(pass.charAt(i));
                 ciphertext[i] = this.capsKeytable[row][messCharIndex];
-//                System.out.println(ciphertext[i]);
             } else {
                 ciphertext[i] = mess[i];
             }
@@ -164,19 +146,15 @@ public class KeyedVigenere {
         while (pass.length() + passphrase.length() < crypted.length()) {
             pass = pass + passphrase;
         }
-//        System.out.println(crypted);
-//        System.out.println(pass);
         pass = pass + passphrase.substring(0, crypted.length() - pass.length());
 
         char[] crypt = crypted.toCharArray();
         char[] plaintext = new char[crypt.length];
 
         for (int i = 0; i < crypt.length; i++) {
-//            int row = indexOf(pass.charAt(i), this.alphabet);
             char c = pass.charAt(i);
             if (Alphabet.isFinnishLetter(crypt[i])) {
                 int row = hash2.get(c);
-//                System.out.println(crypt[i]);
                 int indeksi = (hash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = alphabet[indeksi];
                 plaintext[i] = plain;

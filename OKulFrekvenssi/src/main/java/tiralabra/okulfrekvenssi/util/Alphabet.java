@@ -5,7 +5,6 @@
  */
 package tiralabra.okulfrekvenssi.util;
 
-
 /**
  *
  * @author Oskari
@@ -81,12 +80,6 @@ public class Alphabet {
     public final static OmaHash<Integer, Character> ENGLISH_CAPS_INT_CHAR = new OmaHash<>();
 
     /**
-     * tällä hetkellä ei käytössä
-     */
-    public final static char[] PUNCTUATION = new char[]{',', '.', '!', '?', '-',
-        ':', ';', '(', ')'};
-
-    /**
      * Tarkistaa onko annettu merkki pieni suomalainen aakkonen
      *
      * @param c merkki
@@ -98,22 +91,16 @@ public class Alphabet {
                 return true;
             }
         }
-//        for(char a:SUOMI_CAPS) {
-//            if(a==c) {return true;}
-//        }
         return false;
     }
 
     /**
      * Tarkistaa onko annettu merkki iso suomalainen aakkonen
      *
-     * @param c
-     * @return
+     * @param c annettu merkki
+     * @return onko suomalainen aakkonen
      */
     public static boolean isCapitalFinnishLetter(char c) {
-//        for(char a:SUOMI) {
-//            if(a==c) {return true;}
-//        }
         for (char a : SUOMI_CAPS) {
             if (a == c) {
                 return true;
@@ -122,15 +109,6 @@ public class Alphabet {
         return false;
     }
 
-    //Turha
-//    public static boolean isPunctuation(char c) {
-//        for (char a : PUNCTUATION) {
-//            if (a == c) {
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
     /**
      * Poistaa annetusta merkkijonosta kaikki merkit jotka ovat toisessa
      * merkkijonossa
@@ -163,10 +141,6 @@ public class Alphabet {
      */
     public static String removeAllBut(String mjono, String charactersToNotRemove) {
         String removed = "";
-//        System.out.println("mjono:");
-//        System.out.println(mjono);
-//        System.out.println("charactersToNotRemove:");
-//        System.out.println(charactersToNotRemove);
         for (char c : mjono.toCharArray()) {
             boolean remove = true;
             for (char d : charactersToNotRemove.toCharArray()) {
@@ -205,16 +179,32 @@ public class Alphabet {
             i++;
         }
     }
+
+    /**
+     * Luo OmaHashin annetun aakkoston perusteella, avaimina merkit ja arvoina
+     * järjestysluku, esim a-0, b-1 jne
+     *
+     * @param abc käytetty aakkosto
+     * @return OmaHash jossa avaimina merkit ja arvoina järjestysluvut
+     */
     public static OmaHash<Character, Integer> createCharIntHash(char[] abc) {
         OmaHash<Character, Integer> hash = new OmaHash<>();
-        for(int i=0; i<abc.length; i++) {
+        for (int i = 0; i < abc.length; i++) {
             hash.put(abc[i], i);
         }
         return hash;
     }
+
+    /**
+     * Luo OmaHashin annetun aakkoston perusteella, avaimina järjestysluku ja 
+     * arvoina merkit, esim 0-a, 1-b jne
+     *
+     * @param abc käytetty aakkosto
+     * @return OmaHash jossa avaimina järjestysluvut ja arvoina merkit 
+     */
     public static OmaHash<Integer, Character> createIntCharHash(char[] abc) {
         OmaHash<Integer, Character> hash = new OmaHash<>();
-        for(int i=0; i<abc.length; i++) {
+        for (int i = 0; i < abc.length; i++) {
             hash.put(i, abc[i]);
         }
         return hash;

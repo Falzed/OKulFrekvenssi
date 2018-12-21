@@ -9,15 +9,7 @@ package tiralabra.okulfrekvenssi.Analyysi;
  *
  * @author Oskari
  */
-public class Analysis {
-
-//    /**
-//     * suomalaiset aakkoset
-//     */
-//    public final static char[] ALPHABET = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-//        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-//        'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
-    
+public class Analysis {    
 
     /**
      * Englanninkielisen korpuksen merkkien määrät, lähteenä
@@ -46,8 +38,9 @@ public class Analysis {
             };
 
     /**
-     *
+     * Laskee annetun tekstin kirjainfrekvenssit
      * @param crypted salattu teksti
+     * @param abc käytettävä aakkosto
      * @return frekvenssit
      */
     public static int[] calcFrequencies(String crypted, char[] abc) {
@@ -64,12 +57,12 @@ public class Analysis {
         return freq;
     }
 
-    //laskee merkkien frekvenssin 
-    //poikkeaman keskiarvosta keskihajonnan kertoimena syötteessä
-    //varmaan menee turhan monimutkaiseksi, mutta saattaa olla hyödyllinen
+    
     /**
-     *
+     * laskee merkkien frekvenssin 
+     * poikkeaman keskiarvosta keskihajonnan kertoimena syötteessä
      * @param ciphertext salattu teksti
+     * @param abc käytettävä aakkosto
      * @return frekvenssien ero aritmeettisesta keskiarvosta keskihajonnan 
      * kertoimena
      */
@@ -79,19 +72,15 @@ public class Analysis {
         for (int i : freq) {
             sum += i;
         }
-//        System.out.println(sum);
         double sigma = 0;
         int n = freq.length;
         double avg = ((double) sum / (double) n);
-//        System.out.println(avg);
         for (int i : freq) {
             sigma += Math.pow((double) i - avg, 2);
-//            System.out.println(Math.pow((double) i - avg, 2));
         }
         sigma = sigma / (n - 1);
         sigma = Math.sqrt(sigma);
 
-//        System.out.println("sigma: "+sigma);
         double[] normalized = new double[freq.length];
         for (int i = 0; i < freq.length; i++) {
             normalized[i] = ((double) freq[i] - avg) / sigma;

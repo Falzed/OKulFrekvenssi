@@ -48,7 +48,6 @@ public class VigenereAnalysis {
         String abc = new String(alphabet);
         String ABC = new String(alphabet).toUpperCase();
         String cipherPruned = Alphabet.removeAllBut(ciphertext, abc.concat(ABC));
-//        System.out.println(cipherPruned);
         int maxPassLength = (cipherPruned.length() > 50) ? 50 : cipherPruned.length();
 //        double[] normFrequencyAvgs = new double[maxPassLength];
         int[][] bestGuesses = new int[maxPassLength][maxPassLength];
@@ -61,25 +60,19 @@ public class VigenereAnalysis {
             double avg = 0;
             for (int j = 0; j < i; j++) {
                 bestGuesses[i - 1][j] = CaesarAnalysis.bestGuess(cosets[j], alphabet);
-//                System.out.print((j == 0) ? bestGuesses[i - 1][j] : (", " + bestGuesses[i - 1][j]));
                 String uusi = Alphabet.SUOMI_INT_CHAR.get(bestGuesses[i - 1][j]).toString();
                 passphraseGuesses[i - 1] = passphraseGuesses[i - 1].concat(uusi);
                 avg += CaesarAnalysis.getNormalizedFrequenciesSum(cosets[j],
                         bestGuesses[i - 1][j], alphabet);
             }
-//            System.out.println("");
             avg = avg / i;
 //            normFrequencyAvgs[i - 1] = avg;
             if (avg < min) {
                 min = avg;
                 bestLength = i;
             }
-//            System.out.println(avg);            
         }
 
-//        for(String guess:passphraseGuesses) {
-//            System.out.println(guess);
-//        }
         return (bestLength == -1) ? "Some kind of error occured in analysis"
                 : vig.decrypt(ciphertext, passphraseGuesses[bestLength - 1]);
 

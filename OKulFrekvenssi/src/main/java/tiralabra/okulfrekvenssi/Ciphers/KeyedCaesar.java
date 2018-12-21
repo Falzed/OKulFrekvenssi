@@ -38,11 +38,7 @@ public class KeyedCaesar {
         }
         String uusiAvainString = (new String(newKey)).substring(0, n);
         abc = Alphabet.removeAll(abc, uusiAvainString);
-//        for (int i = 0; i < uusiAvainString.length(); i++) {
-//            abc = abc.replaceAll(uusiAvainString.substring(i, i + 1), "");
-//        }
         abc = uusiAvainString.concat(abc);
-//        System.out.println(abc);
         this.hashCharInt = new OmaHash<>();
         this.hashIntChar = new OmaHash<>();
         for (int i = 0; i < abc.length(); i++) {

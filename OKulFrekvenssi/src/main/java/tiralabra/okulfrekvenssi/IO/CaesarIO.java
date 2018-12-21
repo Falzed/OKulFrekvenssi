@@ -6,7 +6,6 @@
 package tiralabra.okulfrekvenssi.IO;
 
 import java.util.Scanner;
-import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.CaesarAnalysis;
 import tiralabra.okulfrekvenssi.Ciphers.Caesar;
 import tiralabra.okulfrekvenssi.util.Alphabet;
@@ -16,6 +15,11 @@ import tiralabra.okulfrekvenssi.util.Alphabet;
  * @author Oskari
  */
 public class CaesarIO {
+
+    /**
+     *
+     * @param scanner käytetty skanneri
+     */
     public static void Caesar(Scanner scanner) {
         System.out.println("encrypt or decrypt");
         String line2 = scanner.nextLine();

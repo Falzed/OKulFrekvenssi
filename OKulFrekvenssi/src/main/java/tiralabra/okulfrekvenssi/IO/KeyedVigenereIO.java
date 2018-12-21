@@ -8,7 +8,6 @@ package tiralabra.okulfrekvenssi.IO;
 import java.util.Scanner;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.KVigenereManualAnalysis;
-import tiralabra.okulfrekvenssi.Analyysi.KeyedVigenereAnalysis;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaTuple;
 import tiralabra.okulfrekvenssi.Ciphers.KeyedVigenere;
@@ -19,6 +18,10 @@ import tiralabra.okulfrekvenssi.Ciphers.KeyedVigenere;
  */
 public class KeyedVigenereIO {
 
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void keyedVigenere(Scanner scanner) {
         System.out.println("encrypt/decrypt/analysis");
         String lineKeyedV = scanner.nextLine();
@@ -59,6 +62,10 @@ public class KeyedVigenereIO {
         }
     }
 
+    /**
+     *
+     * @param scanner käytetty Scanner
+     */
     public static void kVigenereAnalysis(Scanner scanner) {
         System.out.println("enter ciphertext");
         String cipher = scanner.nextLine();
@@ -146,6 +153,14 @@ public class KeyedVigenereIO {
         }
     }
 
+    /**
+     * Printtaa yhden sivuluokan kuvaukset ja frekvenssit sekä englannin
+     * frekvenssit
+     * @param k1 käytetty analyysi
+     * @param cipher salattu teksti
+     * @param currentCoset sivuluokka
+     * @param cosets sivuluokkien määrä (salasanan pituus)
+     */
     public static void printAnalysis(KVigenereManualAnalysis k1, String cipher,
             int currentCoset, int cosets) {
         System.out.println("mapping");
@@ -175,6 +190,13 @@ public class KeyedVigenereIO {
 
     }
 
+    /**
+     * Printtaa annetun sivuluokan ja englannin frekvenssit
+     * @param cipher salattu teksti
+     * @param abc käytetty aakkosto
+     * @param currentCoset sivuluokka
+     * @param cosets sivuluokkien määrä
+     */
     public static void printFreq(String cipher, char[] abc, int currentCoset,
             int cosets) {
         char[] cipherArray = cipher.toCharArray();

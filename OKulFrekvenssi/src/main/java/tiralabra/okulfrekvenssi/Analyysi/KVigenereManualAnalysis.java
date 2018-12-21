@@ -7,23 +7,23 @@ package tiralabra.okulfrekvenssi.Analyysi;
 
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaHash;
-import tiralabra.okulfrekvenssi.util.OmaJono;
 
 /**
  *
  * @author Oskari
  */
 public class KVigenereManualAnalysis {
-//    private OmaHash<Character, Integer> charInt;
-//    private OmaHash<Integer, Character> intChar;
-//    private OmaHash<Character, Integer> charIntRev;
-//    private OmaHash<Integer, Character> IntCharRev;
 
     private OmaHash<Character, Character>[] mappings;
     private OmaHash<Character, Character>[] reverseMappings;
     private char[] abc;
     private int cosets;
 
+    /**
+     *
+     * @param abc käytetty aakkosto
+     * @param cosets sivuluokkien määrä, eli salasanan pituus
+     */
     public KVigenereManualAnalysis(char[] abc, int cosets) {
         mappings = new OmaHash[cosets];
         reverseMappings = new OmaHash[cosets];
@@ -35,33 +35,50 @@ public class KVigenereManualAnalysis {
         this.cosets = cosets;
     }
 
+    /**
+     *
+     * @return sivuluokkien määrä (salasanan pituus)
+     */
     public int getCosets() {
         return cosets;
     }
 
+    /**
+     *
+     * @param cosets sivuluokkien määrä (salasanan pituus)
+     */
     public void setCosets(int cosets) {
         this.cosets = cosets;
         mappings = new OmaHash[cosets];
         reverseMappings = new OmaHash[cosets];
     }
 
-    public KVigenereManualAnalysis testMapping(char a, char b, int coset) {
-        KVigenereManualAnalysis newAnalysis = this.copy();
-        newAnalysis.map(a, b, coset);
-        return newAnalysis;
-    }
-
+    /**
+     * Asettaa kuvauksen a-b (salaamaton-salattu) annetulle sivuluokalle
+     * @param a salaamaton merkki
+     * @param b salattu merkki
+     * @param coset sivuluokka
+     */
     public void map(char a, char b, int coset) {
         this.mappings[coset].put(a, b);
         this.reverseMappings[coset].put(b, a);
     }
 
+    /**
+     * Kopioi olion
+     * @return kopio
+     */
     public KVigenereManualAnalysis copy() {
         KVigenereManualAnalysis newAnalysis = new KVigenereManualAnalysis(this.abc, this.cosets);
         newAnalysis.setMappings(mappings, reverseMappings);
         return newAnalysis;
     }
 
+    /**
+     * Asettaa annetut kuvaukset (kaikille sivuluokille uudet)
+     * @param newMaps salaamaton-salattu
+     * @param newRevs salattu-salaamaton
+     */
     public void setMappings(OmaHash[] newMaps, OmaHash[] newRevs) {
         for (int i = 0; i < mappings.length; i++) {
             this.mappings[i] = newMaps[i].copy();
@@ -69,10 +86,19 @@ public class KVigenereManualAnalysis {
         }
     }
 
+    /**
+     *
+     * @return käytetty aakkosto
+     */
     public char[] getAbc() {
         return abc;
     }
 
+    /**
+     * 
+     * @param coset sivuluokka
+     * @return käännetty aakkosto (sivuluokan kuvauksilla)
+     */
     public char[] getMappedAbc(int coset) {
         char[] mapped = new char[abc.length];
         for (int i = 0; i < abc.length; i++) {
@@ -83,6 +109,11 @@ public class KVigenereManualAnalysis {
         return mapped;
     }
 
+    /**
+     * Purkaa annetun tekstin salauksen
+     * @param cipher salattu teksti
+     * @return salaamaton teksti
+     */
     public String translate(String cipher) {
         char[] output = new char[cipher.length()];
         char input[] = cipher.toCharArray();
@@ -128,14 +159,20 @@ public class KVigenereManualAnalysis {
 //        setMapping(mapped, revMapped);
 //    }
 
-    public char firstNotAdded(char[] abc, OmaHash<Character, Boolean> added) {
-        for (char c : abc) {
-            System.out.println(c + ": " + added.get(c));
-            if (!added.get(c)) {
-                return c;
-            }
-        }
-        return '\u0000';
-    }
+//    /**
+//     *
+//     * @param abc
+//     * @param added
+//     * @return
+//     */
+//    public char firstNotAdded(char[] abc, OmaHash<Character, Boolean> added) {
+//        for (char c : abc) {
+//            System.out.println(c + ": " + added.get(c));
+//            if (!added.get(c)) {
+//                return c;
+//            }
+//        }
+//        return '\u0000';
+//    }
 
 }

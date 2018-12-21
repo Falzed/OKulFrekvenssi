@@ -11,9 +11,10 @@ import tiralabra.okulfrekvenssi.util.OmaHash;
 public class Caesar {
 
     /**
-     *
+     * Salaa annetun tekstin
      * @param plain salattava teksti
      * @param offset kuinka monta merkkiä mennään aakkosia eteenpäin
+     * @param alphabet käytetty aakkosto
      * @return salattu teksti
      */
     public String encrypt(String plain, int offset, char[] alphabet) {
@@ -36,9 +37,10 @@ public class Caesar {
     }
 
     /**
-     *
+     * Purkaa annetun tekstin salauksen
      * @param crypted salattu teksti
      * @param offset kuinka monta merkkiä mennään aakkosia eteenpäin salatessa
+     * @param alphabet käytetty aakkosto
      * @return salaamaton teksti
      */
     public String decrypt(String crypted, int offset, char[] alphabet) {
