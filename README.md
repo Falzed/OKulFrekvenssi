@@ -1,4 +1,14 @@
 # OKulFrekvenssi
+
+## Dokumentaatio
+[Määrittely](./dokumentaatio/määrittely.md)
+
+[Toteutus](./dokumentaatio/toteutus.md)
+
+[Testaus](./dokumentaatio/testaus.md)
+
+[Käyttöopas](./dokumentaatio/käyttöopas.md)
+
 ## Viikkoraportit
 [Viikko 1](./dokumentaatio/viikkoraportti1.md)
  
