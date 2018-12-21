@@ -11,12 +11,12 @@ package tiralabra.okulfrekvenssi.Analyysi;
  */
 public class Analysis {
 
-    /**
-     * suomalaiset aakkoset
-     */
-    public final static char[] ALPHABET = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-        'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
+//    /**
+//     * suomalaiset aakkoset
+//     */
+//    public final static char[] ALPHABET = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+//        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+//        'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
     
 
     /**
@@ -51,7 +51,7 @@ public class Analysis {
      * @return frekvenssit
      */
     public static int[] calcFrequencies(String crypted, char[] abc) {
-        int[] freq = new int[29];
+        int[] freq = new int[abc.length];
         for (int i = 0; i < abc.length; i++) {
             int count = 0;
             for (char c : crypted.toCharArray()) {

@@ -44,7 +44,7 @@ public class VigenereAnalysis {
      * @return (toivottavasti oikein) dekryptattu teksti
      */
     public static String bestGuess(String ciphertext, char[] alphabet) {
-        Vigenere vig = new Vigenere();
+        Vigenere vig = new Vigenere(alphabet);
         String abc = new String(alphabet);
         String ABC = new String(alphabet).toUpperCase();
         String cipherPruned = Alphabet.removeAllBut(ciphertext, abc.concat(ABC));

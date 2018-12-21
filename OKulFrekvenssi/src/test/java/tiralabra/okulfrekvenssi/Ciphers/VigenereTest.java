@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 public class VigenereTest {
 
@@ -25,7 +26,7 @@ public class VigenereTest {
     @Test
     public void testGetKeytable() {
         System.out.println("getKeytable");
-        Vigenere instance = new Vigenere();
+        Vigenere instance = new Vigenere(Alphabet.SUOMI);
         char[][] expResult = new char[29][29];
         expResult[0] = "abcdefghijklmnopqrstuvwxyzåäö".toCharArray();
         expResult[1] = "bcdefghijklmnopqrstuvwxyzåäöa".toCharArray();
@@ -65,7 +66,7 @@ public class VigenereTest {
         System.out.println("encrypt");
         String message = "Testmessage";
         String passphrase = "test";
-        Vigenere vig = new Vigenere();
+        Vigenere vig = new Vigenere(Alphabet.SUOMI);
         String expResult = "Jihjcihitkw";
         
         long start = System.nanoTime();

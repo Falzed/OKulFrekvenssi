@@ -23,10 +23,10 @@ public class KeyedVigenere {
      *
      * @param key avain
      */
-    public KeyedVigenere(String key) {
+    public KeyedVigenere(String key, char[] aakkosto) {
 
-        String abc = new String(Alphabet.SUOMI);
-        String ABC = new String(Alphabet.SUOMI_CAPS);
+        String abc = new String(aakkosto);
+        String ABC = abc.toUpperCase();
         char[] newKey = new char[key.length()];
         int n = 0;
         OmaHash<Character, Integer> apuhash = new OmaHash<>();
@@ -74,10 +74,10 @@ public class KeyedVigenere {
      * Alustaa luokan olion avaimena tyhjä merkkijono
      */
     public KeyedVigenere() {
-        this.hash = Alphabet.SUOMI_INT_CHAR;
-        this.hash2 = Alphabet.SUOMI_CHAR_INT;
-        this.capsHash = Alphabet.SUOMI_CAPS_INT_CHAR;
-        this.capsHash2 = Alphabet.SUOMI_CAPS_CHAR_INT;
+        this.hash = Alphabet.ENGLISH_INT_CHAR;
+        this.hash2 = Alphabet.ENGLISH_CHAR_INT;
+        this.capsHash = Alphabet.ENGLISH_CAPS_INT_CHAR;
+        this.capsHash2 = Alphabet.ENGLISH_CAPS_CHAR_INT;
         this.alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
             'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
             'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
@@ -177,12 +177,12 @@ public class KeyedVigenere {
             if (Alphabet.isFinnishLetter(crypt[i])) {
                 int row = hash2.get(c);
 //                System.out.println(crypt[i]);
-                int indeksi = (hash2.get(crypt[i]) - row + 29) % alphabet.length;
+                int indeksi = (hash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = alphabet[indeksi];
                 plaintext[i] = plain;
             } else if (Alphabet.isCapitalFinnishLetter(crypt[i])) {
                 int row = hash2.get(c);
-                int indeksi = (capsHash2.get(crypt[i]) - row + 29) % alphabet.length;
+                int indeksi = (capsHash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = capsAlphabet[indeksi];
                 plaintext[i] = plain;
             } else {

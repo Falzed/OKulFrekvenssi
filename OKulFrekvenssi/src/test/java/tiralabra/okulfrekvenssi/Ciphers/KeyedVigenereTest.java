@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 /**
  *
@@ -34,7 +35,7 @@ public class KeyedVigenereTest {
     @Test
     public void testGetKeytable() {
         System.out.println("getKeytable");
-        KeyedVigenere instance = new KeyedVigenere("key");
+        KeyedVigenere instance = new KeyedVigenere("key", Alphabet.SUOMI);
         char[][] expResult = new char[29][29];
         String abc = "keyabcdfghijlmnopqrstuvwxzåäö";
         for(int i=0; i<29; i++) {
@@ -53,7 +54,7 @@ public class KeyedVigenereTest {
         System.out.println("encrypt");
         String message = "Books";
         String passphrase = "auto";
-        KeyedVigenere instance = new KeyedVigenere("key");
+        KeyedVigenere instance = new KeyedVigenere("key", Alphabet.SUOMI);
         
         for(char[] array:instance.getKeytable()) {
             System.out.println(new String(array));
@@ -97,7 +98,7 @@ public class KeyedVigenereTest {
         System.out.println("decrypt");
         String crypted = "ffdov";
         String passphrase = "auto";
-        KeyedVigenere instance = new KeyedVigenere("key");
+        KeyedVigenere instance = new KeyedVigenere("key", Alphabet.SUOMI);
         String expResult = "books";
         String result = instance.decrypt(crypted, passphrase);
         assertEquals(expResult, result);

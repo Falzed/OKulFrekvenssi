@@ -10,6 +10,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 /**
  *
@@ -41,7 +42,7 @@ public class AnalysisTest {
         expResult[5] = 1;
         expResult[22] = 2;
         expResult[18] = 2;
-        int[] result = Analysis.calcFrequencies(crypted, Analysis.ALPHABET);
+        int[] result = Analysis.calcFrequencies(crypted, Alphabet.SUOMI);
         assertArrayEquals(expResult, result);
     }
 
@@ -64,7 +65,7 @@ public class AnalysisTest {
         for (int i = 2; i < 29; i++) {
             expResult[i] = -(double) 3 / (double) 29 / sigma;
         }
-        double[] result = Analysis.normalizedFrequencies(ciphertext, Analysis.ALPHABET);
+        double[] result = Analysis.normalizedFrequencies(ciphertext, Alphabet.SUOMI);
         assertArrayEquals(expResult, result, 0.001);
     }
 

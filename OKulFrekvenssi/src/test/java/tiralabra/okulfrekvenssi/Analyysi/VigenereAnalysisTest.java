@@ -41,7 +41,7 @@ public class VigenereAnalysisTest {
 
     @Test
     public void testGuess() {
-        Vigenere vig = new Vigenere();
+        Vigenere vig = new Vigenere(Alphabet.SUOMI);
         String plaintext = "Bring upon sixth all yielding waters firmament, own third days fill he deep lights called life unto meat every land were. Seas also rule.\n"
                 + "\n"
                 + "For won't day female fowl set his herb created spirit greater, his beast day land itself you're third evening created whose, dry firmament together multiply light gathering all replenish he creature.\n"

@@ -26,7 +26,7 @@ public class CaesarIO {
                 System.out.println("enter offset");
                 int offset = Integer.parseInt(scanner.nextLine());
                 Caesar caesar = new Caesar();
-                System.out.println(caesar.encrypt(plain, offset, Alphabet.SUOMI));
+                System.out.println(caesar.encrypt(plain, offset, Alphabet.ENGLISH));
                 break;
             }
             case "decrypt": {
@@ -37,23 +37,23 @@ public class CaesarIO {
                 Caesar caesar = new Caesar();
                 if (offset == -1) {
                     int guess = CaesarAnalysis
-                            .bestGuess(cipher, Analysis.ALPHABET);
-                    System.out.println(caesar.decrypt(cipher, guess, Analysis.ALPHABET));
+                            .bestGuess(cipher, Alphabet.ENGLISH);
+                    System.out.println(caesar.decrypt(cipher, guess, Alphabet.ENGLISH));
                     System.out.println("is this correct y/n?");
                     String yn = scanner.nextLine();
                     if (yn.toLowerCase().equals("y")) {
                         break;
                     } else {
                         System.out.println("Other possibilities:");
-                        for (int i = 0; i < Analysis.ALPHABET.length; i++) {
-                            System.out.println(caesar.decrypt(cipher, i, Analysis.ALPHABET));
+                        for (int i = 0; i < Alphabet.ENGLISH.length; i++) {
+                            System.out.println(caesar.decrypt(cipher, i, Alphabet.ENGLISH));
                             System.out.println("----------------------------------------------------------");
                         }
                         break;
                     }
                 }
 
-                System.out.println(caesar.decrypt(cipher, offset, Analysis.ALPHABET));
+                System.out.println(caesar.decrypt(cipher, offset, Alphabet.ENGLISH));
                 break;
             }
             default:

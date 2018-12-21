@@ -10,6 +10,7 @@ import tiralabra.okulfrekvenssi.Analyysi.Analysis;
 import tiralabra.okulfrekvenssi.Analyysi.VigenereAnalysis;
 import tiralabra.okulfrekvenssi.Ciphers.KeyedVigenere;
 import tiralabra.okulfrekvenssi.Ciphers.Vigenere;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 /**
  *
@@ -25,7 +26,7 @@ public class VigenereIO {
                 String plain = scanner.nextLine();
                 System.out.println("enter passphrase");
                 String passphrase = scanner.nextLine();
-                Vigenere vigenere = new Vigenere();
+                Vigenere vigenere = new Vigenere(Alphabet.ENGLISH);
                 System.out.println(vigenere.encrypt(plain, passphrase));
                 break;
             }
@@ -35,10 +36,10 @@ public class VigenereIO {
                 System.out.println("enter passphrase (empty string for unknown)");
                 String passphrase = scanner.nextLine();
                 if (passphrase.equals("")) {
-                    String guess = VigenereAnalysis.bestGuess(cipher, Analysis.ALPHABET);
+                    String guess = VigenereAnalysis.bestGuess(cipher, Alphabet.ENGLISH);
                     System.out.println(guess);
                 } else {
-                    Vigenere vigenere = new Vigenere();
+                    Vigenere vigenere = new Vigenere(Alphabet.ENGLISH);
                     System.out.println(vigenere.decrypt(cipher, passphrase));
                 }
                 break;
@@ -60,7 +61,7 @@ public class VigenereIO {
                 String passphrase = scanner.nextLine();
                 System.out.println("enter key");
                 String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key);
+                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
                 System.out.println(kvig.encrypt(plain, passphrase));
                 break;
             }
@@ -71,7 +72,7 @@ public class VigenereIO {
                 String passphrase = scanner.nextLine();
                 System.out.println("enter key");
                 String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key);
+                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
                 System.out.println(kvig.decrypt(cipher, passphrase));
                 break;
             }

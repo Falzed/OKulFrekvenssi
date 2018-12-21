@@ -36,7 +36,7 @@ public class Main {
                     VigenereIO.vigenere(scanner);
                     break;
                 case "keyed vigenere":
-                    VigenereIO.keyedVigenere(scanner);
+                    KeyedVigenereIO.keyedVigenere(scanner);
                     break;
 
                 default:

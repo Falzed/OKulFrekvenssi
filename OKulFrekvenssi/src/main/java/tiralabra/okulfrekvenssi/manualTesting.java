@@ -18,7 +18,7 @@ public class manualTesting {
     private static final OmaHash<Character, Integer> capsHash2 = Alphabet.SUOMI_CHAR_INT;
 
     public static void main(String[] args) {
-        Vigenere vig = new Vigenere();
+        Vigenere vig = new Vigenere(Alphabet.ENGLISH);
 //        char[][] kt = vig.getKeytable();
 //        System.out.println(vig.encrypt("Thisisatestmessagetobreak", "abc"));
 
@@ -87,7 +87,7 @@ public class manualTesting {
 //        System.out.println(testmessage.equals(caesar.decrypt(testmessage, 0)));
 //        System.out.println(VigenereAnalysis.bestGuess(vig.encrypt(testmessage, "test"), Analysis.ALPHABET));
         KeyedCaesar kcaesar = new KeyedCaesar("avain");
-        KeyedVigenere kvig = new KeyedVigenere("avain");
+        KeyedVigenere kvig = new KeyedVigenere("avain", Alphabet.SUOMI);
 //        System.out.println(kcaesar.encrypt(testmessage, 6));
 //        for(char[] array:kvig.getKeytable()) {
 //            System.out.println(Arrays.toString(array));

@@ -7,54 +7,50 @@ package tiralabra.okulfrekvenssi.IO;
 
 import java.util.Scanner;
 import tiralabra.okulfrekvenssi.Analyysi.Analysis;
-import tiralabra.okulfrekvenssi.Analyysi.KCaesarManualAnalysis;
-import tiralabra.okulfrekvenssi.Analyysi.KeyedCaesarAnalysis;
+import tiralabra.okulfrekvenssi.Analyysi.KVigenereManualAnalysis;
+import tiralabra.okulfrekvenssi.Analyysi.KeyedVigenereAnalysis;
 import tiralabra.okulfrekvenssi.util.Alphabet;
 import tiralabra.okulfrekvenssi.util.OmaTuple;
+import tiralabra.okulfrekvenssi.Ciphers.KeyedVigenere;
 
 /**
  *
  * @author Oskari
  */
-public class KeyedCaesarIO {
+public class KeyedVigenereIO {
 
-    public static void keyedCaesar(Scanner scanner) {
+    public static void keyedVigenere(Scanner scanner) {
         System.out.println("encrypt/decrypt/analysis");
-        String lineKeyedC = scanner.nextLine();
-        switch (lineKeyedC) {
+        String lineKeyedV = scanner.nextLine();
+        switch (lineKeyedV) {
             case "encrypt": {
                 System.out.println("enter plaintext");
                 String plain = scanner.nextLine();
-                System.out.println("enter offset");
-                try {
-                    int offset = Integer.parseInt(scanner.nextLine());
-                    System.out.println("enter key");
-                    String key = scanner.nextLine();
-                    tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar kcaesar = new tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar(key);
-                    System.out.println(kcaesar.encrypt(plain, offset));
-                } catch (NumberFormatException e) {
-                    System.out.println("malformed command");
-                }
+                System.out.println("enter password");
+
+                String password = scanner.nextLine();
+                System.out.println("enter key");
+                String key = scanner.nextLine();
+                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
+                System.out.println(kvig.encrypt(plain, password));
+
                 break;
             }
             case "decrypt": {
                 System.out.println("enter ciphertext");
                 String cipher = scanner.nextLine();
                 System.out.println("enter offset");
-                try {
-                    int offset = Integer.parseInt(scanner.nextLine());
-                    System.out.println("enter key");
-                    String key = scanner.nextLine();
-                    tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar kcaesar = new tiralabra.okulfrekvenssi.Ciphers.KeyedCaesar(key);
-                    System.out.println(kcaesar.decrypt(cipher, offset));
-                } catch (NumberFormatException e) {
-                    System.out.println("malformed command");
-                }
+                String password = scanner.nextLine();
+                System.out.println("enter key");
+                String key = scanner.nextLine();
+                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
+
+                System.out.println(kvig.decrypt(cipher, password));
 
                 break;
             }
             case "analysis": {
-                kCaesarAnalysis(scanner);
+                kVigenereAnalysis(scanner);
                 break;
             }
             default:
@@ -63,46 +59,51 @@ public class KeyedCaesarIO {
         }
     }
 
-    public static void kCaesarAnalysis(Scanner scanner) {
+    public static void kVigenereAnalysis(Scanner scanner) {
         System.out.println("enter ciphertext");
         String cipher = scanner.nextLine();
 
         cipher = cipher.toLowerCase();
 
+        System.out.println("enter password length");
+        int cosets = Integer.parseInt(scanner.nextLine());
         boolean exit = false;
-        KCaesarManualAnalysis manualAnalysis = new KCaesarManualAnalysis(Alphabet.ENGLISH);
-        KCaesarManualAnalysis[] saved = new KCaesarManualAnalysis[256];
+        KVigenereManualAnalysis manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
+        KVigenereManualAnalysis[] saved = new KVigenereManualAnalysis[256];
         for (int i = 0; i < 256; i++) {
-            saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+            saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
         }
+        int currentCoset = 0;
         while (!exit) {
-            System.out.println("enter command (map a b, try a b, shift x, "
+            System.out.println("enter command (map a b i, try a b, shift x, "
                     + "fill mapping, exit)");
             String command = scanner.nextLine();
             if (command.equals("exit")) {
                 exit = true;
+            } else if (command.startsWith("set coset")) {
+                currentCoset = Integer.parseInt(command.substring(10));
+                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
             } else if (command.startsWith("map")) {
-                if (command.length() < 7) {
+                if (command.length() < 9) {
                     System.out.println("command \"" + command + "\" too short");
                 }
 
                 char a = command.toCharArray()[4];
                 char b = command.toCharArray()[6];
-                manualAnalysis.map(a, b);
-                printAnalysis(manualAnalysis, cipher);
-            } else if (command.equals("fill mapping")) {
-                manualAnalysis.fillMappings();
-                printAnalysis(manualAnalysis, cipher);
+                int i = Integer.parseInt(command.substring(8));
+                manualAnalysis.map(a, b, i);
+                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
             } else if (command.startsWith("key")) {
                 if (command.length() < 5) {
                     System.out.println("key command missing parameter");
                 } else {
                     String key = command.substring(4);
                     for (int i = 0; i < key.length(); i++) {
-                        manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i]);
+                        for (int j = 0; j < cosets; j++) {
+                            manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
+                        }
                     }
-                    manualAnalysis.fillMappings();
-                    printAnalysis(manualAnalysis, cipher);
+                    printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
                 }
             } else if (command.startsWith("save")) {
                 if (command.length() < 6) {
@@ -125,15 +126,18 @@ public class KeyedCaesarIO {
                         int index = Integer.parseInt(command.substring(5));
                         manualAnalysis = saved[index].copy();
                         System.out.println("loaded from slot " + index);
-                        printAnalysis(manualAnalysis, cipher);
+                        printAnalysis(manualAnalysis, cipher, currentCoset,
+                                cosets);
                     } catch (NumberFormatException e) {
                         System.out.println("malformed command");
                     }
                 }
             } else if (command.equals("reset")) {
-                manualAnalysis = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+                manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH,
+                        cosets);
                 for (int i = 0; i < 256; i++) {
-                    saved[i] = new KCaesarManualAnalysis(Alphabet.ENGLISH);
+                    saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH,
+                            cosets);
                 }
                 System.out.println("Mapping reset");
             } else {
@@ -142,7 +146,8 @@ public class KeyedCaesarIO {
         }
     }
 
-    public static void printAnalysis(KCaesarManualAnalysis k1, String cipher) {
+    public static void printAnalysis(KVigenereManualAnalysis k1, String cipher,
+            int currentCoset, int cosets) {
         System.out.println("mapping");
         System.out.println(k1.getAbc());
         for (char c : k1.getAbc()) {
@@ -154,7 +159,7 @@ public class KeyedCaesarIO {
             System.out.print("v");
         }
         System.out.println("");
-        char[] mappedAbc = k1.getMappedAbc();
+        char[] mappedAbc = k1.getMappedAbc(currentCoset);
         for (int i = 0; i < mappedAbc.length; i++) {
             if (mappedAbc[i] != '\u0000') {
                 System.out.print(mappedAbc[i]);
@@ -166,20 +171,34 @@ public class KeyedCaesarIO {
 
         System.out.println(k1.translate(cipher));
 
-        printFreq(cipher, k1Abc);
+        printFreq(cipher, k1Abc, currentCoset, cosets);
 
     }
 
-    public static void printFreq(String cipher, char[] abc) {
-        double[] normFreq = Analysis.normalizedFrequencies(cipher, abc);
-        System.out.println("Normalized frequencies (character, frequency in ciphertext, frequency in English): ");
+    public static void printFreq(String cipher, char[] abc, int currentCoset,
+            int cosets) {
+        char[] cipherArray = cipher.toCharArray();
+        char[] coset = (cipherArray.length % cosets == 0)
+                ? new char[cipherArray.length / cosets]
+                : new char[cipherArray.length / cosets + 1];
+        for (int i = 0; i < cipherArray.length; i++) {
+            if (i % cosets == currentCoset) {
+                coset[i / cosets] = cipherArray[i];
+            }
+        }
+        String cosetString = new String(coset);
+        double[] normFreq = Analysis.normalizedFrequencies(cosetString, abc);
+        System.out.println(
+                "Normalized frequencies (character, frequency in coset,"
+                + " frequency in English): ");
         for (int i = 0; i < abc.length; i++) {
             if (i % 5 == 0) {
                 System.out.println("");
             }
             System.out.print(abc[i] + ": "
                     + ((double) Math.round(normFreq[i] * 1000)) / 1000 + ", "
-                    + ((double) Math.round(Analysis.ENGLISH_NORMALIZED_FREQUENCY[i] * 1000))
+                    + ((double) Math.round(
+                            Analysis.ENGLISH_NORMALIZED_FREQUENCY[i] * 1000))
                     / 1000);
             System.out.print("; ");
         }
@@ -203,7 +222,8 @@ public class KeyedCaesarIO {
                 System.out.println("");
             }
             System.out.print(cipherOrder[i].getMerkki() + ": "
-                    + ((double) Math.round(cipherOrder[i].getValue() * 1000)) / 1000 + ", "
+                    + ((double) Math.round(cipherOrder[i].getValue() * 1000))
+                    / 1000 + ", "
                     + engOrder[i].getMerkki() + ": "
                     + ((double) Math.round(engOrder[i].getValue() * 1000))
                     / 1000);

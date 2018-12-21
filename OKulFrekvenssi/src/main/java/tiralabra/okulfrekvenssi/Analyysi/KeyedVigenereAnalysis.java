@@ -52,7 +52,7 @@ public class KeyedVigenereAnalysis {
      * @return (toivottavasti oikein) dekryptattu teksti
      */
     public static String bestGuess(String ciphertext, char[] alphabet) {
-        Vigenere vig = new Vigenere();
+        Vigenere vig = new Vigenere(alphabet);
         int maxPassLength = (ciphertext.length() > 50) ? 50 : ciphertext.length();
         int maxKeyLength = 10;
 //        double[] normFrequencyAvgs = new double[maxPassLength];
@@ -68,7 +68,7 @@ public class KeyedVigenereAnalysis {
                 double minKey = Double.MAX_VALUE;
                 char bestKey = '#';
                 char[] modAbc = Alphabet.SUOMI;
-                for (int k = 0; k < 29; k++) {
+                for (int k = 0; k < alphabet.length; k++) {
                     String keyGuess2 = keyGuess.concat(String.valueOf(abc[k]));
                     int apu = find(abc[k], modAbc);
 

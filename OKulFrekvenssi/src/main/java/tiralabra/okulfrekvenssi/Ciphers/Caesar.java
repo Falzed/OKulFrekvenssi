@@ -24,11 +24,10 @@ public class Caesar {
         OmaHash<Character, Integer> charIntCaps = Alphabet.createCharIntHash(capsAlphabet);
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
         for (char c : plain.toCharArray()) {
-//            System.out.println(hash.get((hash2.get(c)+offset)%29));
             if (Alphabet.isFinnishLetter(c)) {
-                crypted = crypted.concat(intChar.get((charInt.get(c) + offset) % 29).toString());
+                crypted = crypted.concat(intChar.get((charInt.get(c) + offset) % alphabet.length).toString());
             } else if (Alphabet.isCapitalFinnishLetter(c)) {
-                crypted = crypted.concat(intCharCaps.get((charIntCaps.get(c) + offset) % 29).toString());
+                crypted = crypted.concat(intCharCaps.get((charIntCaps.get(c) + offset) % alphabet.length).toString());
             } else {
                 crypted = crypted.concat(String.valueOf(c));
             }
@@ -51,18 +50,12 @@ public class Caesar {
         OmaHash<Integer, Character> intCharCaps = Alphabet.createIntCharHash(capsAlphabet);
         
         for (char c : crypted.toCharArray()) {
-//            System.out.println(c);
-//            System.out.println(hash2.get(c));
-//            System.out.println(hash.get(hash2.get(c)));
-//            System.out.println(c+", "+hash2.get(c)+", "+hash.get(hash2.get(c))+", "+(hash2.get(c)-offset+29)%29);
             if (Alphabet.isFinnishLetter(c)) {
 //                System.out.println(c);
-                plain = plain.concat(intChar.get((charInt.get(c) - offset + 29) % 29).toString());
+                plain = plain.concat(intChar.get((charInt.get(c) - offset + alphabet.length) % alphabet.length).toString());
             } else if (Alphabet.isCapitalFinnishLetter(c)) {
 //                System.out.println(c);
-//                System.out.println(Alphabet.SUOMI_CAPS_CHAR_INT.get(c));
-//                System.out.println(Alphabet.SUOMI_CAPS_CHAR_INT.get(c));
-                plain = plain.concat(intCharCaps.get((charIntCaps.get(c) - offset + 29) % 29).toString());
+                plain = plain.concat(intCharCaps.get((charIntCaps.get(c) - offset + alphabet.length) % alphabet.length).toString());
             } else {
                 plain = plain.concat(String.valueOf(c));
             }

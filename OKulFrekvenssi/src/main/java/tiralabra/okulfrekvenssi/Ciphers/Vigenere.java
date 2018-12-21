@@ -14,35 +14,46 @@ public class Vigenere {
     private final char[][] capsKeytable;
     private final char[] alphabet;
     private final char[] capsAlphabet;
-    private final OmaHash<Integer, Character> hash = Alphabet.SUOMI_INT_CHAR;
-    private final OmaHash<Character, Integer> hash2 = Alphabet.SUOMI_CHAR_INT;
-    private final OmaHash<Character, Integer> capsHash2 = Alphabet.SUOMI_CAPS_CHAR_INT;
+//    private final OmaHash<Integer, Character> hash = Alphabet.ENGLISH_INT_CHAR;
+//    private final OmaHash<Character, Integer> hash2 = Alphabet.ENGLISH_CHAR_INT;
+//    private final OmaHash<Character, Integer> capsHash2 = Alphabet.ENGLISH_CAPS_CHAR_INT;
+
+    private final OmaHash<Integer, Character> hash;
+    private final OmaHash<Character, Integer> hash2;
+    private final OmaHash<Character, Integer> capsHash2;
 
     /**
      * Alustaa luokan olion
      */
-    public Vigenere() {
+    public Vigenere(char[] alphabet) {
 //        String passphrase = pass.toLowerCase();
-        //Korvaa kotitekoisella hashmapilla myöhemmin
-        this.alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
-            'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-            'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
-        this.capsAlphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
-            'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-            'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö'};
+//        this.alphabet = new char[]{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i',
+//            'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+//            'w', 'x', 'y', 'z', 'å', 'ä', 'ö'};
+//        this.capsAlphabet = new char[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I',
+//            'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
+//            'W', 'X', 'Y', 'Z', 'Å', 'Ä', 'Ö'};
 //        this.alphabet = "abcdefghijklmnopqrstuvwxyzåäö";
 
 //        this.keytable = new char[alphabet.length][passphrase.length()];
-        String abc = "abcdefghijklmnopqrstuvwxyzåäö";
-        String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+//        String abc = "abcdefghijklmnopqrstuvwxyzåäö";
+//        String ABC = "ABCDEFGHIJKLMNOPQRSTUVWXYZÅÄÖ";
+        this.alphabet = alphabet;
+        this.capsAlphabet = new String(alphabet).toUpperCase().toCharArray();
         this.keytable = new char[alphabet.length][alphabet.length];
         this.capsKeytable = new char[alphabet.length][alphabet.length];
+        String abc = new String(alphabet);
+        String ABC = new String(this.capsAlphabet);
         for (int i = 0; i < alphabet.length; i++) {
             this.keytable[i] = abc.substring(i).concat(abc.substring(0, i))
                     .toCharArray();
             this.capsKeytable[i] = ABC.substring(i).concat(ABC.substring(0, i))
                     .toCharArray();
         }
+
+        this.hash = Alphabet.createIntCharHash(this.alphabet);
+        this.hash2 = Alphabet.createCharIntHash(this.alphabet);
+        this.capsHash2 = Alphabet.createCharIntHash(capsAlphabet);
 
 //        for (int i = 0; i < alphabet.length; i++) {
 //            for (int j = 0; j < passphrase.length(); j++) {
@@ -85,7 +96,7 @@ public class Vigenere {
                 int row = this.hash2.get(pass.charAt(i - notLetterCount));
                 ciphertext[i] = this.keytable[row][messCharIndex];
             } else if (Alphabet.isCapitalFinnishLetter(mess[i])) {
-                int messCharIndex = Alphabet.SUOMI_CAPS_CHAR_INT.get(mess[i]);
+                int messCharIndex = Alphabet.ENGLISH_CAPS_CHAR_INT.get(mess[i]);
                 int row = hash2.get(pass.charAt(i - notLetterCount));
                 ciphertext[i] = this.capsKeytable[row][messCharIndex];
             } else {
@@ -118,16 +129,16 @@ public class Vigenere {
         int notLetterCount = 0;
         for (int i = 0; i < crypt.length; i++) {
 //            int row = indexOf(pass.charAt(i), this.alphabet);
-            char c = pass.charAt(i-notLetterCount);
+            char c = pass.charAt(i - notLetterCount);
             if (Alphabet.isFinnishLetter(crypt[i])) {
                 int row = hash2.get(c);
 //                System.out.println(crypt[i]);
-                int indeksi = (hash2.get(crypt[i]) - row + 29) % alphabet.length;
+                int indeksi = (hash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = alphabet[indeksi];
                 plaintext[i] = plain;
             } else if (Alphabet.isCapitalFinnishLetter(crypt[i])) {
                 int row = hash2.get(c);
-                int indeksi = (capsHash2.get(crypt[i]) - row + 29) % alphabet.length;
+                int indeksi = (capsHash2.get(crypt[i]) - row + alphabet.length) % alphabet.length;
                 char plain = capsAlphabet[indeksi];
                 plaintext[i] = plain;
             } else {

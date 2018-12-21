@@ -25,7 +25,7 @@ public class KeyedCaesar {
      * @param key avain
      */
     public KeyedCaesar(String key) {
-        String abc = new String(Alphabet.SUOMI);
+        String abc = new String(Alphabet.ENGLISH);
         char[] newKey = new char[key.length()];
         int n = 0;
         OmaHash<Character, Integer> apuhash = new OmaHash<>();
@@ -50,7 +50,7 @@ public class KeyedCaesar {
             hashCharInt.put(abc.charAt(i), i);
         }
         this.aakkosto = abc;
-        System.out.println(Arrays.toString(Alphabet.SUOMI));
+        System.out.println(Arrays.toString(Alphabet.ENGLISH));
         System.out.println(Arrays.toString(aakkosto.toCharArray()));
     }
 
@@ -58,9 +58,9 @@ public class KeyedCaesar {
      * Alustaa luokan olion avaimena tyhjä merkkijono
      */
     public KeyedCaesar() {
-        this.hashIntChar = Alphabet.SUOMI_INT_CHAR;
-        this.hashCharInt = Alphabet.SUOMI_CHAR_INT;
-        this.aakkosto = new String(Alphabet.SUOMI);
+        this.hashIntChar = Alphabet.ENGLISH_INT_CHAR;
+        this.hashCharInt = Alphabet.ENGLISH_CHAR_INT;
+        this.aakkosto = new String(Alphabet.ENGLISH);
     }
 
     /**
@@ -73,11 +73,11 @@ public class KeyedCaesar {
         String crypted = "";
         for (char c : plain.toCharArray()) {
             if (Alphabet.isFinnishLetter(c)) {
-                crypted = crypted.concat(hashIntChar.get((Alphabet.SUOMI_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
+                crypted = crypted.concat(hashIntChar.get((Alphabet.ENGLISH_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
             } else if (Alphabet.isCapitalFinnishLetter(c)) {
-                crypted = crypted.concat(Alphabet.SUOMI_CAPS_INT_CHAR.get((Alphabet.SUOMI_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
+                crypted = crypted.concat(Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) + offset) % aakkosto.length()).toString());
 //            System.out.println("c:"+c+", hash2.get(c):"+hash2.get(c)+", hash.get((hash2.get(c) + offset):"+hash.get((hash2.get(c) + offset)));
 //            System.out.println(crypted);
             } else {
@@ -98,15 +98,13 @@ public class KeyedCaesar {
         String plain = "";
         for (char c : crypted.toCharArray()) {
             if (Alphabet.isFinnishLetter(c)) {
-//            System.out.println(c+", "+hashCharInt.get(c)+", "+Alphabet.SUOMI_INT_CHAR.get(hashCharInt.get(c))+", "+(hashCharInt.get(c)-offset+29)%29);
                 plain = plain.concat(
-                        Alphabet.SUOMI_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
+                        Alphabet.ENGLISH_INT_CHAR.get((hashCharInt.get(c) - offset + aakkosto.length())
                                 % aakkosto.length()).toString());
 
             } else if (Alphabet.isCapitalFinnishLetter(c)) {
-                //            System.out.println(c+", "+hashCharInt.get(c)+", "+Alphabet.SUOMI_INT_CHAR.get(hashCharInt.get(c))+", "+(hashCharInt.get(c)-offset+29)%29);
                 plain = plain.concat(
-                        Alphabet.SUOMI_CAPS_INT_CHAR.get((Alphabet.SUOMI_CAPS_CHAR_INT.get(c) - offset + aakkosto.length())
+                        Alphabet.ENGLISH_CAPS_INT_CHAR.get((Alphabet.ENGLISH_CAPS_CHAR_INT.get(c) - offset + aakkosto.length())
                                 % aakkosto.length()).toString());
 
             } else {

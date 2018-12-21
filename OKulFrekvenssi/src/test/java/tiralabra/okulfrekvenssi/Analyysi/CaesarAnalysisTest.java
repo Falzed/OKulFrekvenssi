@@ -11,6 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import tiralabra.okulfrekvenssi.util.Alphabet;
 
 /**
  *
@@ -40,7 +41,7 @@ public class CaesarAnalysisTest {
                 + "For won't day female fowl set his herb created spirit greater, his beast day land itself you're third evening created whose, dry firmament together multiply light gathering all replenish he creature.\n"
                 + "\n"
                 + "Fly herb let given sea she'd i gathering seed place meat seas after air, to. Made. It replenish. Unto. Fill together. Male void. Own a saying fill upon lesser appear very made is that. To let you. Whose lights image. Grass can't. Whose multiply after.";
-        char[] alphabet = Analysis.ALPHABET;
+        char[] alphabet = Alphabet.SUOMI;
         int expResult = 0;
         int result = CaesarAnalysis.bestGuess(ciphertext, alphabet);
         assertEquals(expResult, result);

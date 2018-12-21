@@ -81,7 +81,6 @@ public class KCaesarManualAnalysis {
     }
 
     public void fillMappings() {
-        System.out.println("fillMappings called");
         OmaHash<Character, Character> mapped = new OmaHash<>();
         OmaHash<Character, Character> revMapped = new OmaHash<>();
         OmaHash<Character, Boolean> added = new OmaHash<>();
