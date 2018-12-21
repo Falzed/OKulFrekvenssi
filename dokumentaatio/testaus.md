@@ -34,3 +34,8 @@ Keyed Vigerene
 ![Keyed Vigerene-salaus](kuvat/kVigEncryptActual.png)
 
 ![Keyed Vigerene-salauksen purku](kuvat/kVigDecryptActual.png)
+
+### Analyysi
+Caesar
+
+![Caesar](kuvat/caesarAnalysis.png)
