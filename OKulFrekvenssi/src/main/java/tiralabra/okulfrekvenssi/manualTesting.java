@@ -86,7 +86,7 @@ public class manualTesting {
 //        System.out.println(testmessage.equals(caesar.decrypt(testmessage, 0)));
 //        System.out.println(VigenereAnalysis.bestGuess(vig.encrypt(testmessage, "test"), Analysis.ALPHABET));
         KeyedCaesar kcaesar = new KeyedCaesar("avain");
-        KeyedVigenere kvig = new KeyedVigenere("avain", Alphabet.SUOMI);
+        KeyedVigenere kvig = new KeyedVigenere("avain", Alphabet.ENGLISH);
 //        System.out.println(kcaesar.encrypt(testmessage, 6));
 //        for(char[] array:kvig.getKeytable()) {
 //            System.out.println(Arrays.toString(array));
@@ -418,6 +418,9 @@ public class manualTesting {
         System.out.println('\u0000');
         
         System.out.println(-15 % 26);
+        
+        kvig = new KeyedVigenere("avin", Alphabet.ENGLISH);
+        System.out.println(kvig.encrypt("this is a test message", "a"));
 
     }
 

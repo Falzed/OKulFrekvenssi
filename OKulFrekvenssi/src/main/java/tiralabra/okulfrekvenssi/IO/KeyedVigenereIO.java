@@ -27,30 +27,40 @@ public class KeyedVigenereIO {
         String lineKeyedV = scanner.nextLine();
         switch (lineKeyedV) {
             case "encrypt": {
-                System.out.println("enter plaintext");
-                String plain = scanner.nextLine();
-                System.out.println("enter password");
+                try {
+                    System.out.println("enter plaintext");
+                    String plain = scanner.nextLine();
+                    System.out.println("enter password");
 
-                String password = scanner.nextLine();
-                System.out.println("enter key");
-                String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
-                System.out.println(kvig.encrypt(plain, password));
+                    String password = scanner.nextLine();
+                    System.out.println("enter key");
+                    String key = scanner.nextLine();
+                    KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
+                    System.out.println(kvig.encrypt(plain, password));
 
-                break;
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Malformed command");
+                    System.out.println(e.toString());
+                }
             }
             case "decrypt": {
-                System.out.println("enter ciphertext");
-                String cipher = scanner.nextLine();
-                System.out.println("enter password");
-                String password = scanner.nextLine();
-                System.out.println("enter key");
-                String key = scanner.nextLine();
-                KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
+                try {
+                    System.out.println("enter ciphertext");
+                    String cipher = scanner.nextLine();
+                    System.out.println("enter password");
+                    String password = scanner.nextLine();
+                    System.out.println("enter key");
+                    String key = scanner.nextLine();
+                    KeyedVigenere kvig = new KeyedVigenere(key, Alphabet.ENGLISH);
 
-                System.out.println(kvig.decrypt(cipher, password));
+                    System.out.println(kvig.decrypt(cipher, password));
 
-                break;
+                    break;
+                } catch (Exception e) {
+                    System.out.println("Malformed command");
+                    System.out.println(e.toString());
+                }
             }
             case "analysis": {
                 kVigenereAnalysis(scanner);
@@ -67,102 +77,118 @@ public class KeyedVigenereIO {
      * @param scanner käytetty Scanner
      */
     public static void kVigenereAnalysis(Scanner scanner) {
-        System.out.println("enter ciphertext");
-        String cipher = scanner.nextLine();
+        try {
+            System.out.println("enter ciphertext");
+            String cipher = scanner.nextLine();
 
-        cipher = cipher.toLowerCase();
+            cipher = cipher.toLowerCase();
 
-        System.out.println("enter password length");
-        int cosets = Integer.parseInt(scanner.nextLine());
-        boolean exit = false;
-        KVigenereManualAnalysis manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
-        KVigenereManualAnalysis[] saved = new KVigenereManualAnalysis[256];
-        for (int i = 0; i < 256; i++) {
-            saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
-        }
-        int currentCoset = 0;
-        while (!exit) {
-            System.out.println("enter command (map a b i, try a b, shift x, "
-                    + "fill mapping, exit)");
-            String command = scanner.nextLine();
-            if (command.equals("exit")) {
-                exit = true;
-            } else if (command.startsWith("set coset")) {
-                currentCoset = Integer.parseInt(command.substring(10));
-                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
-            } else if (command.startsWith("map")) {
-                if (command.length() < 9) {
-                    System.out.println("command \"" + command + "\" too short");
-                }
+            System.out.println("enter password length");
+            int cosets = Integer.parseInt(scanner.nextLine());
+            boolean exit = false;
+            KVigenereManualAnalysis manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
+            KVigenereManualAnalysis[] saved = new KVigenereManualAnalysis[256];
+            for (int i = 0; i < 256; i++) {
+                saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH, cosets);
+            }
+            int currentCoset = 0;
 
-                char a = command.toCharArray()[4];
-                char b = command.toCharArray()[6];
-                int i = Integer.parseInt(command.substring(8));
-                manualAnalysis.map(a, b, i);
-                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
-            } else if (command.startsWith("key")) {
-                if (command.length() < 5) {
-                    System.out.println("key command missing parameter");
-                } else {
-                    String key = command.substring(4);
-                    for (int i = 0; i < key.length(); i++) {
-                        for (int j = 0; j < cosets; j++) {
-                            manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
-                        }
-                    }
-                    printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
-                }
-            } else if (command.equals("fill mapping")) {
-                manualAnalysis.fillMappings(currentCoset);
-                printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
-
-            } else if (command.startsWith("shift")) {
+            while (!exit) {
                 try {
-                    int shift = Integer.parseInt(command.substring(6));
-                    manualAnalysis.setShift(shift, currentCoset);
-                    printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
-                } catch (NumberFormatException e) {
-                    System.out.println("shift must be an integer");
-                }
-            } else if (command.startsWith("save")) {
-                if (command.length() < 6) {
-                    System.out.println("save command missing parameter");
-                } else {
-                    try {
-                        int index = Integer.parseInt(command.substring(5));
-                        saved[index] = manualAnalysis.copy();
-                        System.out.println("saved to slot " + index);
-                    } catch (NumberFormatException e) {
-                        System.out.println("malformed command");
-                    }
+                    System.out.println("enter command (map a b i, try a b, shift x, "
+                            + "fill mapping, exit)");
+                    String command = scanner.nextLine();
+                    if (command.equals("exit")) {
+                        exit = true;
+                    } else if (command.startsWith("set coset")) {
+                        currentCoset = Integer.parseInt(command.substring(10));
+                        printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+                    } else if (command.startsWith("map")) {
+                        if (command.length() < 9) {
+                            System.out.println("command \"" + command + "\" too short");
+                        }
 
-                }
-            } else if (command.startsWith("load")) {
-                if (command.length() < 6) {
-                    System.out.println("load command missing parameter");
-                } else {
-                    try {
-                        int index = Integer.parseInt(command.substring(5));
-                        manualAnalysis = saved[index].copy();
-                        System.out.println("loaded from slot " + index);
+                        char a = command.toCharArray()[4];
+                        char b = command.toCharArray()[6];
+                        int i = Integer.parseInt(command.substring(8));
+                        manualAnalysis.map(a, b, i);
+                        printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+                    } else if (command.startsWith("key")) {
+                        if (command.length() < 5) {
+                            System.out.println("key command missing parameter");
+                        } else {
+                            String key = command.substring(4);
+                            manualAnalysis.setKey(key, currentCoset);
+                            manualAnalysis.resetMapping();
+                            for (int i = 0; i < key.length(); i++) {
+                                for (int j = 0; j < cosets; j++) {
+                                    manualAnalysis.map(Alphabet.ENGLISH[i], key.toCharArray()[i], j);
+                                }
+                            }
+                            printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+                        }
+                    } else if (command.equals("fill mapping")) {
+                        manualAnalysis.fillMappings(currentCoset);
+                        printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+
+                    } else if (command.startsWith("shift")) {
+                        try {
+                            int shift = Integer.parseInt(command.substring(6));
+                            manualAnalysis.setShift(shift, currentCoset);
+                            printAnalysis(manualAnalysis, cipher, currentCoset, cosets);
+                        } catch (NumberFormatException e) {
+                            System.out.println("shift must be an integer");
+                        }
+                    } else if (command.startsWith("save")) {
+                        if (command.length() < 6) {
+                            System.out.println("save command missing parameter");
+                        } else {
+                            try {
+                                int index = Integer.parseInt(command.substring(5));
+                                saved[index] = manualAnalysis.copy();
+                                System.out.println("saved to slot " + index);
+                            } catch (NumberFormatException e) {
+                                System.out.println("malformed command");
+                            }
+
+                        }
+                    } else if (command.startsWith("load")) {
+                        if (command.length() < 6) {
+                            System.out.println("load command missing parameter");
+                        } else {
+                            try {
+                                int index = Integer.parseInt(command.substring(5));
+                                manualAnalysis = saved[index].copy();
+                                System.out.println("loaded from slot " + index);
+                                printAnalysis(manualAnalysis, cipher, currentCoset,
+                                        cosets);
+                            } catch (NumberFormatException e) {
+                                System.out.println("malformed command");
+                            }
+                        }
+                    } else if (command.equals("reset")) {
+                        manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH,
+                                cosets);
+                        for (int i = 0; i < 256; i++) {
+                            saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH,
+                                    cosets);
+                        }
+                        System.out.println("Mapping reset");
+                    } else if (command.equals("print")) {
                         printAnalysis(manualAnalysis, cipher, currentCoset,
                                 cosets);
-                    } catch (NumberFormatException e) {
-                        System.out.println("malformed command");
+                    } else {
+                        System.out.println("command \"" + command + "\" unrecognized");
                     }
+                } catch (Exception e) {
+                    System.out.println("Malformed command");
+                    System.out.println(e.toString());
                 }
-            } else if (command.equals("reset")) {
-                manualAnalysis = new KVigenereManualAnalysis(Alphabet.ENGLISH,
-                        cosets);
-                for (int i = 0; i < 256; i++) {
-                    saved[i] = new KVigenereManualAnalysis(Alphabet.ENGLISH,
-                            cosets);
-                }
-                System.out.println("Mapping reset");
-            } else {
-                System.out.println("command \"" + command + "\" unrecognized");
             }
+        } catch (Exception e) {
+            System.out.println("malformed command");
         }
+
     }
 
     /**
@@ -177,8 +203,8 @@ public class KeyedVigenereIO {
     public static void printAnalysis(KVigenereManualAnalysis k1, String cipher,
             int currentCoset, int cosets) {
         System.out.println("mapping");
-        System.out.println(k1.getAbc());
-        for (char c : k1.getAbc()) {
+        System.out.println(k1.getKeyedAbc(currentCoset));
+        for (char c : k1.getKeyedAbc(currentCoset)) {
             System.out.print("|");
         }
         System.out.println("");

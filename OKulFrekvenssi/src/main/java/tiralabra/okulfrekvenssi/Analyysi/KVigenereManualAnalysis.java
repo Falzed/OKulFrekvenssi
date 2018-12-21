@@ -18,6 +18,7 @@ public class KVigenereManualAnalysis {
     private OmaHash<Character, Character>[] reverseMappings;
     private char[] abc;
     private int cosets;
+    private char[][] keyedAbcs;
 
     /**
      *
@@ -33,6 +34,10 @@ public class KVigenereManualAnalysis {
         }
         this.abc = abc;
         this.cosets = cosets;
+        keyedAbcs = new char[cosets][abc.length];
+        for (int i = 0; i < cosets; i++) {
+            keyedAbcs[i] = abc;
+        }
     }
 
     /**
@@ -68,6 +73,7 @@ public class KVigenereManualAnalysis {
     public void setShift(int shift, int coset) {
 //        System.out.println(shift);
 //        System.out.println(coset);
+        fillMappings(coset);
         OmaHash<Character, Character>[] newMappings = new OmaHash[this.cosets];
         OmaHash<Character, Character>[] newReverseMappings = new OmaHash[this.cosets];
         for (int i = 0; i < cosets; i++) {
@@ -75,8 +81,7 @@ public class KVigenereManualAnalysis {
             newReverseMappings[i] = new OmaHash<>();
         }
         for (int i = 0; i < this.abc.length; i++) {
-            char c = this.mappings[coset].get(abc[
-                    ((i + shift) % abc.length + abc.length) % abc.length]);
+            char c = this.mappings[coset].get(abc[((i + shift) % abc.length + abc.length) % abc.length]);
             newMappings[coset].put(abc[i], c);
             newReverseMappings[coset].put(c, abc[i]);
         }
@@ -92,7 +97,12 @@ public class KVigenereManualAnalysis {
     public KVigenereManualAnalysis copy() {
         KVigenereManualAnalysis newAnalysis = new KVigenereManualAnalysis(this.abc, this.cosets);
         newAnalysis.setMappings(mappings, reverseMappings);
+        newAnalysis.setKeyedAbcs(keyedAbcs);
         return newAnalysis;
+    }
+    
+    public void setKeyedAbcs(char[][] newKeyed) {
+        this.keyedAbcs = newKeyed;
     }
 
     /**
@@ -145,20 +155,87 @@ public class KVigenereManualAnalysis {
     public String translate(String cipher) {
         char[] output = new char[cipher.length()];
         char input[] = cipher.toCharArray();
+//        int notAlphabetical = 0;
+//        for (int i = 0; i < cipher.length(); i++) {
+////            if (mapping.get(input[i]) != null) {
+////                output[i] = mapping.get(input[i]);
+////            } else {
+////                output[i] = '?';
+////            
+//            if (!Alphabet.isLetter(input[i], abc)) {
+//                notAlphabetical++;
+//            }
+//            output[i] = (reverseMappings[(i - notAlphabetical) % this.cosets].get(input[i]) != null)
+//                    ? reverseMappings[(i - notAlphabetical) % this.cosets].get(input[i]) : '?';
+//        }
+
         int notAlphabetical = 0;
-        for (int i = 0; i < cipher.length(); i++) {
-//            if (mapping.get(input[i]) != null) {
-//                output[i] = mapping.get(input[i]);
-//            } else {
-//                output[i] = '?';
-//            
-            if(!Alphabet.isLetter(input[i], abc)) {
-                notAlphabetical++;
+
+        for (int i = 0; i < input.length; i++) {
+            char[] mappedAbc = getMappedAbc(i%cosets);
+            char[] newMappedAbc = new char[mappedAbc.length];
+            OmaHash<Character, Boolean> added = new OmaHash<>();
+            for (char c : abc) {
+                added.put(c, Boolean.FALSE);
             }
-            output[i] = (reverseMappings[(i-notAlphabetical) % this.cosets].get(input[i]) != null)
-                    ? reverseMappings[(i-notAlphabetical) % this.cosets].get(input[i]) : '?';
+
+            int k = 0;
+            for (int j = 0; j < mappedAbc.length; j++) {
+                if (mappedAbc[j] == '\u0000') {
+                    char toAdd = firstNotAdded(abc, added);
+                    newMappedAbc[j] = toAdd;
+                    added.put(toAdd, Boolean.TRUE);
+                } else {
+                    newMappedAbc[j] = mappedAbc[j];
+                    added.put(mappedAbc[j], Boolean.TRUE);
+                }
+            }
+            mappedAbc = newMappedAbc;
+            if (Alphabet.isLetter(input[i], abc)) {
+                int index = findFirst(new String(mappedAbc), input[i]);
+                if(index == -1) {
+                    System.out.println("Error in findFirst");
+                    System.out.println(new String(mappedAbc));
+                    break;
+                }
+                output[i] = this.keyedAbcs[(i - notAlphabetical) % cosets][index];
+            } else if (Alphabet.isLetter(input[i], (new String(abc)).toUpperCase().toCharArray())) {
+                int index = findFirst((new String(mappedAbc)).toUpperCase(), input[i]);
+                output[i] = String.valueOf(this.keyedAbcs[(i - notAlphabetical) % cosets][index]).toUpperCase().toCharArray()[0];
+            } else {
+                notAlphabetical++;
+                output[i] = '?';
+            }
         }
         return new String(output);
+    }
+
+    private int findFirst(String text, char c) {
+        int i = 0;
+        for (char merkki : text.toCharArray()) {
+            if (c == merkki) {
+                return i;
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    public void setKey(String newKey, int coset) {
+        this.keyedAbcs[coset] = newKey.concat(
+                Alphabet.removeAll(new String(abc), newKey)
+        ).toCharArray();
+    }
+    
+    public void resetMapping() {
+        for (int i = 0; i < cosets; i++) {
+            mappings[i] = new OmaHash<>();
+            reverseMappings[i] = new OmaHash<>();
+        }
+    }
+
+    public char[] getKeyedAbc(int coset) {
+        return this.keyedAbcs[coset];
     }
 
     public void fillMappings(int coset) {
